@@ -13,7 +13,7 @@ class Connector
 
     public function __construct()
     {
-        $dotenv = Dotenv::createImmutable(__DIR__);
+        $dotenv = Dotenv::createImmutable(__DIR__ . '/../../');
         $dotenv->load();
 
         $this->host = $_ENV['SQL_SERVER'];
