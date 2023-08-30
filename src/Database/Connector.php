@@ -3,9 +3,9 @@
 class Connector
 {
     private $host = "localhost";
-    private $dbname = "demo_login";
+    private $dbname = "shopdb";
     private $user = "root";
-    private $pass = "1234";
+    private $pass = "";
 
     public function getConnection()
     {

@@ -9,7 +9,7 @@ class ProductService
 
     public function __construct()
     {
-        $this->connection = (new DatabaseConnection())->getConnection();
+        $this->connection = (new Connector())->getConnection();
     }
 
     public function createProduct(Product $product)
