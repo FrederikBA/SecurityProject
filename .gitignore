@@ -16,4 +16,4 @@ client/.pnp.js
 .DS_Store
 
 #composer
-vendor
+vendor/
