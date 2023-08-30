@@ -1,16 +1,19 @@
 <?php
 
-require_once 'src/DB_Connector/DatabaseConnection.php';
+require_once 'src/Database/Connector.php';
 require_once 'src/Model/Product.php';
 
-class ProductService {
+class ProductService
+{
     private $connection;
 
-    public function __construct() {
+    public function __construct()
+    {
         $this->connection = (new DatabaseConnection())->getConnection();
     }
 
-    public function createProduct(Product $product) {
+    public function createProduct(Product $product)
+    {
         $stmt = $this->connection->prepare("INSERT INTO product (product_name, product_price, product_img) VALUES (:name, :price, :img)");
         $stmt->bindParam(':name', $product->name);
         $stmt->bindParam(':price', $product->price);

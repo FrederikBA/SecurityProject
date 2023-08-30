@@ -12,4 +12,3 @@ if (isset($_POST['name'], $_POST['price'], $_POST['img'])) {
     echo "Failed to create product!";
 }
 #}
-

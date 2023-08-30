@@ -1,12 +1,14 @@
 <?php
 
-class DatabaseConnection {
+class Connector
+{
     private $host = "localhost";
-    private $dbname = "shopdb";
+    private $dbname = "demo_login";
     private $user = "root";
-    private $pass = "";
+    private $pass = "1234";
 
-    public function getConnection() {
+    public function getConnection()
+    {
         $connection = new PDO("mysql:host=$this->host;dbname=$this->dbname", $this->user, $this->pass);
         $connection->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
         return $connection;

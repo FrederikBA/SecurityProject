@@ -1,8 +1,8 @@
 <?php
 
 require_once __DIR__ . '/router.php';
-require_once 'src/Controller/ProductController.php';
 
 get('/security', '/public/index.php');
-post('/product/create', 'src/Controller/ProductController.php');
+post('/security/product/create', 'src/Endpoints/CreateProduct.php');
+post('/security/test', 'src/Endpoints/TestEndpoint.php');    
 #any('/404', 'views/404.php');
