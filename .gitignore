@@ -14,3 +14,6 @@ client/.pnp.js
 #misc
 .env
 .DS_Store
+
+#composer
+vendor
