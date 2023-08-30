@@ -6,3 +6,5 @@ get('/security', '/public/index.php');
 post('/security/product/create', 'src/Endpoints/CreateProduct.php');
 post('/security/test', 'src/Endpoints/TestEndpoint.php');    
 #any('/404', 'views/404.php');
+
+get('/security/products', 'src/Endpoints/GetAllProducts.php');
