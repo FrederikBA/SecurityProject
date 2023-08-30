@@ -1,11 +1,28 @@
 <?php
 
+require 'vendor/autoload.php'; // Load Composer's autoloader
+
+use Dotenv\Dotenv;
+
 class Connector
 {
-    private $host = "localhost";
-    private $dbname = "shopdb";
-    private $user = "root";
-    private $pass = "";
+
+    private $host;
+    private $dbname;
+    private $user;
+    private $pass;
+
+    public function __construct()
+    {
+        $dotenv = Dotenv::createImmutable(__DIR__ . '/../../');
+        $dotenv->load();
+
+        $this->host = $_ENV['SQL_SERVER'];
+        $this->dbname = $_ENV['SQL_DB'];
+        $this->user = $_ENV['SQL_USERNAME'];
+        $this->pass = $_ENV['SQL_PASSWORD'];
+    }
+
 
     public function getConnection()
     {
