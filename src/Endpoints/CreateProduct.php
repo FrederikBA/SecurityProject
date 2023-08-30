@@ -1,5 +1,6 @@
 <?php
 
+require 'init.php';
 require_once 'src/Service/ProductService.php';
 
 #public function create() {
