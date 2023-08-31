@@ -3,22 +3,22 @@
 require_once 'src/Database/Connector.php';
 require_once 'src/Model/Product.php';
 require_once 'src/Model/Dto/UpdateProductDto.php';
+require_once 'src/Model/Dto/CreateProductDto.php';
 
 /* "bindParam" - Binding Parameters: You're using parameter binding to safely insert the values into the query. This helps prevent SQL injection. */
 
 class ProductService extends Connector
 {
 
-    public function createProduct(Product $product)
+    public function createProduct(CreateProductDto $createProductDto)
     {
-        $stmt = $this->getConnection()->prepare("INSERT INTO product (product_name, product_price, product_img) VALUES (:name, :price, :img)");
-        $stmt->bindParam(':name', $product->name);
-        $stmt->bindParam(':price', $product->price);
-        $stmt->bindParam(':img', $product->img);
+        $stmt = $this->getConnection()->prepare("INSERT INTO product (product_name, product_price) VALUES (:name, :price)");
+        $stmt->bindParam(':name', $createProductDto->name);
+        $stmt->bindParam(':price', $createProductDto->price);
         $stmt->execute();
     }
 
-    public function updateProductPriceByID( UpdateProductDto $productDto) {
+    public function updateProductPriceByID(UpdateProductDto $productDto) {
         $sql = "UPDATE product p SET p.product_price = :newPrice WHERE product_id = :productID";
         $stmt = $this->getConnection()->prepare($sql);
         $stmt->bindParam(':productID', $productDto->id);
