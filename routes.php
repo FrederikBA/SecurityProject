@@ -18,4 +18,5 @@ post('/security/product/$id', 'src/Endpoints/DeleteProduct.php');
 //Update price on a product.
 post('/security/updateproduct', 'src/Endpoints/UpdateProductPrice.php');
 
-
+//Update user info
+post('/security/updateuser', 'src/Endpoints/UpdateUserInfo.php');
