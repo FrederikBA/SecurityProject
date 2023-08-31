@@ -10,3 +10,5 @@ get('/security/test', 'src/Endpoints/TestEndpoint.php');
 get('/security/products', 'src/Endpoints/GetAllProducts.php');
 
 get('/security/product/$id', 'src/Endpoints/GetProductById');
+
+post('/security/product/$id', 'src/Endpoints/DeleteProduct');

@@ -53,4 +53,18 @@ class ProductService
         return $product;
     }
 
+
+    public function deleteProductByID($productID) {
+        $sql = "DELETE FROM product WHERE product_id = :productID";
+        $stmt = $this->connection->prepare($sql);
+        $stmt->bindParam(':productID', $productID, PDO::PARAM_INT);
+        $stmt->execute();
+        
+        // Check if any rows were affected (deleted)
+        return $stmt->rowCount() > 0;
+    }
+    
+    
 }
+
+
