@@ -32,7 +32,18 @@ class UserService extends Connector
         return $user;
     }
 
-    
+    public function deleteUser(UserDto $userDto) {
+        $sql = "DELETE FROM user WHERE user_id = :userId";
+        $stmt = $this->getConnection()->prepare($sql);
+        $stmt->bindParam(':userId', $userDto->id, PDO::PARAM_INT);
+        $stmt->execute();
+        
+        // Check if any rows were affected (deleted)
+        return $stmt->rowCount() > 0;
+    }
 
+
+
+   
 
 }

@@ -23,3 +23,6 @@ post('/security/updateuser', 'src/Endpoints/UpdateUserInfo.php');
 
 //user by ID
 get('/security/user/$id', 'src/Endpoints/getUserById.php');
+
+//Delete user
+post('/security/deleteuser/$id', 'src/Endpoints/DeleteUser.php');
