@@ -24,7 +24,7 @@ class Connector
     }
 
 
-    public function getConnection()
+    protected function getConnection()
     {
         try 
         {

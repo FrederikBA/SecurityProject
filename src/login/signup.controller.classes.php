@@ -16,6 +16,42 @@ class SignupController {
         $this->email =$email;
     }
 
+    private function signupUser()
+    {
+        if ($this->emptyInput() == false) 
+        {
+            // echo "Empty input fields!";
+            header("location: ../../public/index.php?error=emptyInput");
+            exit();
+        }
+        if ($this->invalidUid() == false) 
+        {
+            // echo "Invalid Username!";
+            header("location: ../../public/index.php?error=invalidUid");
+            exit();
+        }
+        if ($this->invalidEmail() == false) 
+        {
+            // echo "Invalid Email!";
+            header("location: ../../public/index.php?error=invalidEmail");
+            exit();
+        }
+        if ($this->pwdMatch() == false) 
+        {
+            // echo "Passwords don't match!";
+            header("location: ../../public/index.php?error=pwdMatch");
+            exit();
+        }
+        if ($this->uidTakenCheck() == false) 
+        {
+            // echo "Username or Email is taken!";
+            header("location: ../../public/index.php?error=uidTaken");
+            exit();
+        }
+
+        $this->setUser();
+    }
+
     // All functionality that fx. checks if username is acceptable and that pwd and repeat pwd is the same goes below here.
 
     private function emptyInput()
@@ -64,6 +100,20 @@ class SignupController {
     {
         $results;
         if ($this->pwd !== $this->pwdRepeat) 
+        {
+            $results = false;
+        }
+        else
+        {
+            $results = true;
+        }
+        return $results;
+    }
+
+    private function uidTakenCheck()
+    {
+        $results;
+        if (!$this->checkUser($this->uid, $this->email)) 
         {
             $results = false;
         }
