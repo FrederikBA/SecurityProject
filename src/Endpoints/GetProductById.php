@@ -1,5 +1,4 @@
 <?php
-// src/Endpoints/GetProductById.php
 
 require_once __DIR__ . '/../Service/ProductService.php';
 
