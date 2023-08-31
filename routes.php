@@ -1,5 +1,5 @@
 <?php
-
+require __DIR__ . '/src/cors/init.php';
 require_once __DIR__ . '/router.php';
 
 get('/security', '/public/index.php');
