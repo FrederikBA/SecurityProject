@@ -1,6 +1,6 @@
 import { BrowserRouter, Routes, Route } from "react-router-dom";
 import Header from './components/Header';
-import One from './views/One';
+import ShopPage from './views/ShopPage';
 import Two from './views/Two';
 
 
@@ -10,7 +10,7 @@ const App = () => {
     <BrowserRouter>
       <Header />
       <Routes>
-        <Route path="/" element={<One />} />
+        <Route path="/" element={<ShopPage />} />
         <Route path="/two" element={<Two />} />
       </Routes>
     </BrowserRouter>
