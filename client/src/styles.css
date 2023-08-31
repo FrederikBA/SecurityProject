@@ -1,8 +1,5 @@
 body {
   margin: 0;
-  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', 'Oxygen',
-    'Ubuntu', 'Cantarell', 'Fira Sans', 'Droid Sans', 'Helvetica Neue',
-    sans-serif;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
 }
@@ -13,15 +10,17 @@ code {
 }
 
 .header a.active {
-  background-color: #4CAF50;
+  background-color: #ffe13f;
+  color: black;
 }
 
 ul.header {
   list-style-type: none;
+  font-weight: bold;
   margin: 0;
   padding: 0;
   overflow: hidden;
-  background-color: #26292c;
+  background-color: #090922;
 }
 
 ul.header li {
@@ -36,10 +35,457 @@ ul.header li a {
   text-decoration: none;
 }
 
+ul.header li span {
+  display: block;
+  color: white;
+  text-align: center;
+  padding: 14px 16px;
+  text-decoration: none;
+}
+
+ul.header span {
+  text-decoration: none;
+}
+
 ul.header li a:hover:not(.active) {
-  background-color: #0b0b0b;
+  background-color: #ffe13f;
+  color: black;
+}
+
+.user-nav {
+  cursor: pointer;
+}
+
+.user-nav:hover {
+  background-color: #ffe13f;
+  color: black;
 }
 
 .center {
   text-align: center;
+}
+
+.input-group {
+  align-items: center;
+}
+
+.bockbluster-logo {
+  font-family: 'Impact';
+  font-size: 48px;
+  font-weight: bold;
+  text-align: center;
+  color: #ffe13f;
+  cursor: pointer;
+}
+
+.bockbluster-letter {
+  display: inline-block;
+  margin: 0 2px;
+  text-transform: uppercase;
+}
+
+.registered-trademark {
+  font-size: 16px;
+  vertical-align: super;
+}
+
+.align-right {
+  float: right !important;
+  padding-right: 10px;
+}
+
+.frontpage-nav {
+  padding-left: 10px;
+}
+
+.loginInput {
+  margin-top: 5px;
+  width: 20%;
+  padding: 6px 10px;
+  margin: 8px 0;
+  box-sizing: border-box;
+  border-radius: 10px;
+}
+
+.loginButton {
+  width: 20%;
+  margin: 10px;
+  background-color: #ffe13f;
+  padding: 10px 20px;
+  border: none;
+  border-radius: 10px;
+  font-size: 14px;
+  font-weight: bold;
+  cursor: pointer;
+}
+
+.registerInput {
+  margin-top: 5px;
+  width: 20%;
+  padding: 6px 10px;
+  margin: 8px 0;
+  box-sizing: border-box;
+  border-radius: 10px;
+}
+
+.loginButton:hover {
+  transform: scale(1.0225);
+}
+
+.none {
+  text-decoration: none;
+}
+
+.pagination-container {
+  display: flex;
+  justify-content: center;
+  margin-top: 20px;
+}
+
+.right {
+  display: inline-block;
+  width: 3em;
+  height: 3em;
+  border-radius: 50%;
+  border: 0.1em solid #0e193c;
+  margin-left: 1em;
+  background-color: #0e193c;
+}
+
+.right:after {
+  content: '';
+  display: inline-block;
+  margin-top: 0.5em;
+  margin-left: -0.2em;
+  width: 1em;
+  height: 1em;
+  border-top: 0.2em solid white;
+  border-right: 0.2em solid white;
+  -moz-transform: rotate(45deg);
+  -webkit-transform: rotate(45deg);
+  transform: rotate(45deg);
+}
+
+.right:hover {
+  transition: background-color 0.3s ease;
+  background-color: blue;
+}
+
+.left {
+  display: inline-block;
+  width: 3em;
+  height: 3em;
+  border-radius: 50%;
+  border: 0.1em solid #0e193c;
+  margin-right: 1em;
+  background-color: #0e193c;
+}
+
+.left:after {
+  content: '';
+  display: inline-block;
+  margin-top: 0.5em;
+  margin-left: 0.2em;
+  width: 1em;
+  height: 1em;
+  border-top: 0.2em solid white;
+  border-right: 0.2em solid white;
+  -moz-transform: rotate(-135deg);
+  -webkit-transform: rotate(-135deg);
+  transform: rotate(-135deg);
+}
+
+.left:hover {
+  transition: background-color 0.3s ease;
+  background-color: blue;
+}
+
+.page-number {
+  display: inline-block;
+  width: 3em;
+  height: 3em;
+  border-radius: 50%;
+  border: 0.1em solid #0e193c;
+  margin-right: 0.25em;
+  margin-left: 0.25em;
+  background-color: #0e193c;
+  color: white;
+  font-weight: bold;
+}
+
+
+.page-number:hover {
+  transition: background-color 0.3s ease;
+  background-color: blue;
+}
+
+.page-number.current-page {
+  background-color: #ffe13f;
+  color: black;
+}
+
+.star {
+  width: 20px;
+  height: 20px;
+  padding: 2px;
+  position: absolute;
+  margin-left: -20px;
+  margin-top: 1px;
+}
+
+.card-title {
+  font-weight: bold;
+}
+
+.text-area-div {
+  display: flex;
+  justify-content: center;
+}
+
+.text-area {
+  width: 50%;
+}
+
+.search-icon-input {
+  margin-left: -40px;
+}
+
+.poster-text {
+  font-size: 10pt;
+}
+
+.poster {
+  position: relative;
+  cursor: pointer;
+}
+
+.poster .show-more {
+  position: absolute;
+  top: 30%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  -ms-transform: translate(-50%, -50%);
+  background-color: transparent;
+  box-shadow: 0 0 0 2px #000;
+  font-size: 12px;
+  padding: 12px 24px;
+  border: none;
+  cursor: pointer;
+  border-radius: 5px;
+  font-weight: bold;
+  width: 9em;
+}
+
+.poster .rent {
+  position: absolute;
+  top: 45%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  -ms-transform: translate(-50%, -50%);
+  background-color: transparent;
+  box-shadow: 0 0 0 2px #fff;
+  color: white;
+  font-size: 16px;
+  padding: 12px 24px;
+  border: none;
+  cursor: pointer;
+  border-radius: 5px;
+  font-weight: bold;
+  width: 10em;
+}
+
+.poster .stream-movie {
+  position: absolute;
+  top: 42%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  -ms-transform: translate(-50%, -50%);
+  background-color: transparent;
+  box-shadow: 0 0 0 2px #fff;
+  color: white;
+  font-size: 16px;
+  padding: 12px 24px;
+  border: none;
+  cursor: pointer;
+  border-radius: 5px;
+  font-weight: bold;
+  width: 10em;
+}
+
+.poster .btn:hover {
+  background-color: white !important;
+  color: black !important;
+  opacity: 1;
+}
+
+.poster:hover .card-img-top {
+  transition: transform 0.3s ease;
+  opacity: 0.2;
+}
+
+.modal-close-btn {
+  margin-bottom: -3px;
+}
+
+.cart-container {
+  display: flex;
+  justify-content: center;
+  overflow: hidden;
+  padding: 10px;
+}
+
+.cart-item {
+  background-color: #FFF;
+  color: black;
+  width: 900px !important;
+}
+
+.cart-col {
+  padding-left: 0 !important;
+}
+
+.cart-poster {
+  width: 150px;
+  height: auto;
+  float: left !important;
+  padding: 10px;
+}
+
+.cart-title {
+  float: left !important;
+  padding: 5px;
+  position: relative;
+}
+
+.cart-summary {
+  width: 300px;
+  opacity: 0.6;
+  font-size: 11pt;
+  margin-top: 55px;
+}
+
+.cart-loan {
+  padding-top: 175px;
+}
+
+.cart-date {
+  float: left !important;
+}
+
+.cart-remove {
+  cursor: pointer;
+  float: right;
+  clear: right;
+  padding-top: 10px;
+}
+
+.cart-remove:hover {
+  color: #090922;
+}
+
+.cart-price {
+  float: right;
+  clear: right;
+  padding-top: 130px;
+}
+
+.checkout-container {
+  max-width: 900px !important;
+}
+
+.checkout-button {
+  float: right;
+  width: 250px;
+  margin-right: 10px;
+  margin-bottom: 50px;
+}
+
+.checkout-total-price {
+  float: right;
+  clear: right;
+  margin-right: 10px;
+}
+
+.sort-container {
+  padding-bottom: 10px;
+}
+
+.sort-item {
+  font-family: Arial, Helvetica, sans-serif;
+  font-weight: bold;
+  font-size: 14pt;
+  height: 40px;
+}
+
+.sort-arrow {
+  padding: 1px !important;
+  color: #ffe13f !important;
+}
+
+.sort-arrow:hover {
+  opacity: 0.7;
+}
+
+.sort-title {
+  padding-right: 2px;
+}
+
+.expiration {
+  color: #d9534f;
+}
+
+.orderConfirmationButton {
+  width: 20%;
+  margin: 10px;
+  background-color: #ffe13f;
+  padding: 10px 20px;
+  margin-top: 50px;
+  border: none;
+  border-radius: 10px;
+  font-size: 14px;
+  font-weight: bold;
+  cursor: pointer;
+}
+
+.orderConfirmationButton:hover {
+  transform: scale(1.0225);
+}
+
+.product-container {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  padding: 20px;
+}
+
+.product-card {
+  border: 1px solid #ccc;
+  padding: 20px;
+  margin-top: 20px;
+  width: 300px;
+  text-align: center;
+  background-color: #f9f9f9;
+  box-shadow: 0px 0px 5px rgba(0, 0, 0, 0.2);
+}
+
+.product-image {
+  max-width: 100%;
+  height: auto;
+  margin-bottom: 10px;
+}
+
+.product-name {
+  font-size: 24px;
+  margin-bottom: 10px;
+}
+
+.product-price {
+  font-size: 20px;
+  margin-bottom: 10px;
+  color: #ff6600;
+}
+
+.product-id {
+  font-size: 14px;
+  color: #888;
 }

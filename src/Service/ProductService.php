@@ -6,18 +6,12 @@ require_once 'src/Model/Dto/UpdateProductDto.php';
 
 /* "bindParam" - Binding Parameters: You're using parameter binding to safely insert the values into the query. This helps prevent SQL injection. */
 
-class ProductService
+class ProductService extends Connector
 {
-    private $connection;
-
-    public function __construct()
-    {
-        $this->connection = (new Connector())->getConnection();
-    }
 
     public function createProduct(Product $product)
     {
-        $stmt = $this->connection->prepare("INSERT INTO product (product_name, product_price, product_img) VALUES (:name, :price, :img)");
+        $stmt = $this->getConnection()->prepare("INSERT INTO product (product_name, product_price, product_img) VALUES (:name, :price, :img)");
         $stmt->bindParam(':name', $product->name);
         $stmt->bindParam(':price', $product->price);
         $stmt->bindParam(':img', $product->img);
@@ -40,7 +34,7 @@ class ProductService
     
         // Select all products from the "product" table
         $sql = "SELECT * FROM product";
-        $stmt = $this->connection->query($sql);
+        $stmt = $this->getConnection()->query($sql);
     
         // Check if the query executed successfully
         if ($stmt) {
@@ -51,12 +45,9 @@ class ProductService
         return $products;
     }
     
-
-
-    
     public function getProductByID($productID) {
         $sql = "SELECT * FROM product WHERE product_id = :productID";
-        $stmt = $this->connection->prepare($sql);
+        $stmt = $this->getConnection()->prepare($sql);
         $stmt->bindParam(':productID', $productID, PDO::PARAM_INT);
         $stmt->execute();
         
@@ -69,7 +60,7 @@ class ProductService
 
     public function deleteProductByID($productID) {
         $sql = "DELETE FROM product WHERE product_id = :productID";
-        $stmt = $this->connection->prepare($sql);
+        $stmt = $this->getConnection()->prepare($sql);
         $stmt->bindParam(':productID', $productID, PDO::PARAM_INT);
         $stmt->execute();
         
