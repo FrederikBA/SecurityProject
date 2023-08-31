@@ -20,7 +20,7 @@ class ProductService extends Connector
 
     public function updateProductPriceByID( UpdateProductDto $productDto) {
         $sql = "UPDATE product p SET p.product_price = :newPrice WHERE product_id = :productID";
-        $stmt = $this->connection->prepare($sql);
+        $stmt = $this->getConnection()->prepare($sql);
         $stmt->bindParam(':productID', $productDto->id);
         $stmt->bindParam(':newPrice', $productDto->price);
         // Check if the update was successful
