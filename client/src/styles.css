@@ -266,15 +266,14 @@ ul.header li a:hover:not(.active) {
   transform: translate(-50%, -50%);
   -ms-transform: translate(-50%, -50%);
   background-color: transparent;
-  box-shadow: 0 0 0 2px #fff;
-  color: white;
-  font-size: 16px;
+  box-shadow: 0 0 0 2px #000;
+  font-size: 12px;
   padding: 12px 24px;
   border: none;
   cursor: pointer;
   border-radius: 5px;
   font-weight: bold;
-  width: 10em;
+  width: 9em;
 }
 
 .poster .rent {
@@ -450,4 +449,43 @@ ul.header li a:hover:not(.active) {
 
 .orderConfirmationButton:hover {
   transform: scale(1.0225);
+}
+
+.product-container {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  padding: 20px;
+}
+
+.product-card {
+  border: 1px solid #ccc;
+  padding: 20px;
+  margin-top: 20px;
+  width: 300px;
+  text-align: center;
+  background-color: #f9f9f9;
+  box-shadow: 0px 0px 5px rgba(0, 0, 0, 0.2);
+}
+
+.product-image {
+  max-width: 100%;
+  height: auto;
+  margin-bottom: 10px;
+}
+
+.product-name {
+  font-size: 24px;
+  margin-bottom: 10px;
+}
+
+.product-price {
+  font-size: 20px;
+  margin-bottom: 10px;
+  color: #ff6600;
+}
+
+.product-id {
+  font-size: 14px;
+  color: #888;
 }
