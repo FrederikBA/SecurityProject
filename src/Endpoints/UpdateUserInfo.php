@@ -15,7 +15,7 @@ $data = json_decode($inputData, true); // Assuming your data is in JSON format
 $newEmail = isset($data['new_email']) ? floatval($data['new_email']) : "";
 
 // Update the product price
-$userDto = new UserDto($_POST['id'], $_POST['email'], $_POST['name']);
+$userDto = new UserDto($_POST['id'], $_POST['email'], $_POST['username']);
 $success = $userService->updateUserInfo($userDto);
 
 if ($success) {

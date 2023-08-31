@@ -4,14 +4,14 @@ class User {
     public $uid;
     public $pwd;
     public $pwdRepeat;
-    public $name;
+    public $username;
     public $email;
 
-    public function __construct($uid, $pwd, $pwdRepeat, $name, $email) {
+    public function __construct($uid, $pwd, $pwdRepeat, $username, $email) {
         $this->uid = $uid;
         $this->pwd = $pwd;
         $this->pwdRepeat = $pwdRepeat;
-        $this->name = $name;
+        $this->username = $username;
         $this->email = $email;
     }
 }

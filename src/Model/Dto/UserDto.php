@@ -3,13 +3,13 @@
 class UserDto {
     public $id;
     public $email;
-    public $name;
+    public $username;
 
 
-    public function __construct($id,  $email, $name,) {
+    public function __construct($id,  $email, $username,) {
         $this->id = $id;
         $this->email = $email;
-        $this->name = $name;
+        $this->username = $username;
 
     }
 }
