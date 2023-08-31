@@ -6,6 +6,7 @@ use Dotenv\Dotenv;
 
 class Connector
 {
+
     private $host;
     private $dbname;
     private $user;
@@ -21,6 +22,7 @@ class Connector
         $this->user = $_ENV['SQL_USERNAME'];
         $this->pass = $_ENV['SQL_PASSWORD'];
     }
+
 
     public function getConnection()
     {
