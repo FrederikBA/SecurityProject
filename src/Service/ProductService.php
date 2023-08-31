@@ -38,4 +38,19 @@ class ProductService
         return $products;
     }
     
+
+
+    
+    public function getProductByID($productID) {
+        $sql = "SELECT * FROM product WHERE product_id = :productID";
+        $stmt = $this->connection->prepare($sql);
+        $stmt->bindParam(':productID', $productID, PDO::PARAM_INT);
+        $stmt->execute();
+        
+        // Fetch the result as an associative array
+        $product = $stmt->fetch(PDO::FETCH_ASSOC);
+
+        return $product;
+    }
+
 }
