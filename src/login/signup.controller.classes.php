@@ -1,22 +1,25 @@
 <?php
 
-class SignupController {
+class SignupController extends signupUser
+{
     
     //Disse variables er private fordi SignupController er den eneste class der skal have adgang til dem.
     private $uid;
     private $pwd;
     private $pwdRepeat;
     private $email;
+    private $name;
 
-    public function __construct($uid, $pwd, $pwdRepeat, $email) 
+    public function __construct($uid, $pwd, $pwdRepeat, $email, $name) 
     {
         $this->uid =$uid;
         $this->pwd =$pwd;
         $this->pwdRepeat =$pwdRepeat;
         $this->email =$email;
+        $this->name =$name;
     }
 
-    private function signupUser()
+    public function signupUser()
     {
         if ($this->emptyInput() == false) 
         {
@@ -49,7 +52,7 @@ class SignupController {
             exit();
         }
 
-        $this->setUser();
+        $this->setUser($this->uid, $this->pwd, $this->name, $this->email);
     }
 
     // All functionality that fx. checks if username is acceptable and that pwd and repeat pwd is the same goes below here.
@@ -57,7 +60,7 @@ class SignupController {
     private function emptyInput()
     {
         $results;
-        if (empty($this->uid) || empty($this->pwd) || empty($this->pwdRepeat) || empty($this->email)) 
+        if (empty($this->uid) || empty($this->pwd) || empty($this->pwdRepeat) || empty($this->name) || empty($this->email)) 
         {
             $results = false;
         }
