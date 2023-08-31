@@ -1,7 +1,7 @@
 import { BrowserRouter, Routes, Route } from "react-router-dom";
 import Header from './components/Header';
 import ShopPage from './views/ShopPage';
-import Two from './views/Two';
+import ProductPage from './views/ProductPage';
 
 
 const App = () => {
@@ -11,7 +11,7 @@ const App = () => {
       <Header />
       <Routes>
         <Route path="/" element={<ShopPage />} />
-        <Route path="/two" element={<Two />} />
+        <Route path="/product/:productId" element={<ProductPage />} />
       </Routes>
     </BrowserRouter>
   );
