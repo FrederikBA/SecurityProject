@@ -26,8 +26,16 @@ class Connector
 
     public function getConnection()
     {
-        $connection = new PDO("mysql:host=$this->host;dbname=$this->dbname", $this->user, $this->pass);
-        $connection->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
-        return $connection;
+        try 
+        {
+            $connection = new PDO("mysql:host=$this->host;dbname=$this->dbname", $this->user, $this->pass);
+            $connection->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
+            return $connection;
+        } 
+        catch (PDOException $e) 
+        {
+            print "Error!: " . $e->getMessage() . "<br/>";
+            die();
+        }
     }
 }

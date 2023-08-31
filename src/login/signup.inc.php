@@ -11,7 +11,10 @@ if (isset($_POST["submit"])) # Dette tjekker om submit knappen på frontend bliv
 
     // Instantiate SignupController Class
 
-
+    include "signup.classes.php";
+    include "signup.controller.classes.php";
+    
+    $signup = new SignupController($uid, $pwd, $pwdRepeat, $email);
 
 
     // Running error handlers and user signup
