@@ -20,3 +20,6 @@ post('/security/updateproduct', 'src/Endpoints/UpdateProductPrice.php');
 
 //Update user info
 post('/security/updateuser', 'src/Endpoints/UpdateUserInfo.php');
+
+//user by ID
+get('/security/user/$id', 'src/Endpoints/getUserById.php');

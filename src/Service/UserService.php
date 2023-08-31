@@ -21,7 +21,17 @@ class UserService extends Connector
     }
     
     
-    
+    public function getUserById($userID) {
+        $sql = "SELECT `user_id`, `email`, `username` FROM `user` WHERE user_id = :userID";
+        $stmt = $this->getConnection()->prepare($sql);
+        $stmt->bindParam(':userID', $userID, PDO::PARAM_INT);
+        $stmt->execute();
+        
+        $user = $stmt->fetch(PDO::FETCH_ASSOC);
+
+        return $user;
+    }
+
     
 
 
