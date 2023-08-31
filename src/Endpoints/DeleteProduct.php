@@ -18,3 +18,4 @@ if ($success) {
     echo json_encode(array("message" => "Product has already been deleted"));
 }
 ?>
+
