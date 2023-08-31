@@ -2,6 +2,9 @@
 
 require_once 'src/Database/Connector.php';
 require_once 'src/Model/Product.php';
+require_once 'src/Model/Dto/UpdateProductDto.php';
+
+/* "bindParam" - Binding Parameters: You're using parameter binding to safely insert the values into the query. This helps prevent SQL injection. */
 
 class ProductService
 {
@@ -20,6 +23,16 @@ class ProductService
         $stmt->bindParam(':img', $product->img);
         $stmt->execute();
     }
+
+    public function updateProductPriceByID( UpdateProductDto $productDto) {
+        $sql = "UPDATE product p SET p.product_price = :newPrice WHERE product_id = :productID";
+        $stmt = $this->connection->prepare($sql);
+        $stmt->bindParam(':productID', $productDto->id);
+        $stmt->bindParam(':newPrice', $productDto->price);
+        // Check if the update was successful
+        return $stmt->execute();
+    }
+    
 
     public function getProductsFromDatabase() {
         // Initialize an empty array to store product data
@@ -65,6 +78,7 @@ class ProductService
     }
     
     
+    
+
+
 }
-
-

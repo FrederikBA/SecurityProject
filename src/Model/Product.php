@@ -11,4 +11,7 @@ class Product {
         $this->price = $price;
         $this->img = $img;
     }
+
+   
+
 }

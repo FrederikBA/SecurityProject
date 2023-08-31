@@ -9,6 +9,13 @@ get('/security/test', 'src/Endpoints/TestEndpoint.php');
 
 get('/security/products', 'src/Endpoints/GetAllProducts.php');
 
-get('/security/product/$id', 'src/Endpoints/GetProductById');
+//Product by ID.
+get('/security/product/$id', 'src/Endpoints/GetProductById.php');
 
-post('/security/product/$id', 'src/Endpoints/DeleteProduct');
+//Delete product.
+post('/security/product/$id', 'src/Endpoints/DeleteProduct.php');
+
+//Update price on a product.
+post('/security/updateproduct', 'src/Endpoints/UpdateProductPrice.php');
+
+
