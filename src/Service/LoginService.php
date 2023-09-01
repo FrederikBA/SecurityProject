@@ -7,7 +7,7 @@ class LoginService extends Connector
     public function registerUser($registerDto)
     {
         try {
-            // Get the database connection using the parent class's getConnection method
+            // Get the database connection
             $connection = $this->getConnection();
 
             // Hash the password
