@@ -58,18 +58,15 @@ class ProductService extends Connector
     }
 
 
-    public function deleteProductByID($productID) {
+    public function deleteProductByID(UpdateProductDto $productDto) {
         $sql = "DELETE FROM product WHERE product_id = :productID";
         $stmt = $this->getConnection()->prepare($sql);
-        $stmt->bindParam(':productID', $productID, PDO::PARAM_INT);
+        $stmt->bindParam(':productID', $productDto->id, PDO::PARAM_INT);
         $stmt->execute();
         
         // Check if any rows were affected (deleted)
         return $stmt->rowCount() > 0;
     }
     
-    
-    
-
 
 }

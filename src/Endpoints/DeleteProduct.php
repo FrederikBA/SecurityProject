@@ -4,18 +4,23 @@ require_once __DIR__ . '/../Service/ProductService.php';
 
 $productService = new ProductService();
 
-// Get the product ID from the URL
-$id = isset($id) ? intval($id) : 0; // Convert $id to integer
+$inputData = file_get_contents("php://input");
+$data = json_decode($inputData, true);
 
-// Delete the product
-$success = $productService->deleteProductByID($id);
 
-if ($success) {
-    header("Content-Type: application/json");
-    echo json_encode(array("message" => "Product deleted successfully"));
+
+if (isset($data['id'])) {
+    $productDto = new UpdateProductDto($data['id'], ''); 
+    $success = $productService->deleteProductByID($productDto);
+
+    if ($success) {
+        header("Content-Type: application/json");
+        echo json_encode(array("message" => "Product deleted successfully"));
+    } else {
+        http_response_code(404);
+        echo json_encode(array("message" => "Product not found or couldn't be deleted"));
+    }
 } else {
-    http_response_code(404);
-    echo json_encode(array("message" => "Product has already been deleted"));
+    http_response_code(400);
+    echo json_encode(array("message" => "Missing user ID in request body"));
 }
-?>
-

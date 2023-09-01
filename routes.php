@@ -13,7 +13,7 @@ get('/security/products', 'src/Endpoints/GetAllProducts.php');
 get('/security/product/$id', 'src/Endpoints/GetProductById.php');
 
 //Delete product.
-post('/security/product/$id', 'src/Endpoints/DeleteProduct.php');
+post('/security/deleteproduct', 'src/Endpoints/DeleteProduct.php');
 
 //Update price on a product.
 post('/security/updateproduct', 'src/Endpoints/UpdateProductPrice.php');
