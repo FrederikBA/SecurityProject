@@ -113,6 +113,20 @@ class OrderService extends Connector
     }
     
 
+    public function deleteOrderById(OrderDto $orderDto) {
+        $sql = "DELETE FROM `Order` WHERE order_id = :order_id";
+        $stmt = $this->getConnection()->prepare($sql);
+        $stmt->bindParam(':order_id', $orderDto->order_id, PDO::PARAM_INT);
+        $success = $stmt->execute();
+        if ($success) {
+            return true; 
+        } else {
+            return false; 
+        }
+    }
+    
    
+
+    
 
 }

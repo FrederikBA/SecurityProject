@@ -32,3 +32,6 @@ get('/security/orders', 'src/Endpoints/GetAllOrderWithProduct.php');
 
 //Get Order by id
 get('/security/order/$id', 'src/Endpoints/GetOrderById.php');
+
+//Delete order
+post('/security/deleteorder', 'src/Endpoints/DeleteOrder.php');

@@ -22,5 +22,5 @@ if (isset($data['id'])) {
     }
 } else {
     http_response_code(400);
-    echo json_encode(array("message" => "Missing user ID in request body"));
+    echo json_encode(array("message" => "Missing product ID in request body"));
 }
