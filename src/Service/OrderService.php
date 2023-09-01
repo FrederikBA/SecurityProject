@@ -60,7 +60,58 @@ class OrderService extends Connector
     
     
    
-
+    public function getOrderById($order_id) {
+        // Initialize an empty variable to store the order
+        $order = null;
+    
+        // SQL query to retrieve the order by its ID
+        $sql = "SELECT
+                    o.order_id,
+                    o.user_id,
+                    ol.product_id,
+                    ol.quantity,
+                    p.product_name,
+                    p.product_price
+                FROM
+                    `Order` o
+                JOIN
+                    OrderLine ol ON o.order_id = ol.order_id
+                JOIN
+                    Product p ON ol.product_id = p.product_id
+                WHERE
+                    o.order_id = :order_id";
+    
+        // Prepare the SQL statement
+        $stmt = $this->getConnection()->prepare($sql);
+    
+        // Bind the order_id parameter
+        $stmt->bindParam(':order_id', $order_id, PDO::PARAM_INT);
+    
+        // Execute the SQL query
+        $stmt->execute();
+    
+        // Check if the query executed successfully and fetch the result
+        if ($stmt && $stmt->rowCount() > 0) {
+            // Fetch the result as an associative array
+            $orderData = $stmt->fetch(PDO::FETCH_ASSOC);
+    
+            // Create a DTO for the order
+            $orderDto = new OrderWithProductDto(
+                $orderData['order_id'],
+                $orderData['user_id'],
+                $orderData['product_id'],
+                $orderData['quantity'],
+                $orderData['product_name'],
+                $orderData['product_price']
+            );
+    
+            // Assign the DTO to the $order variable
+            $order = $orderDto;
+        }
+    
+        return $order;
+    }
+    
 
    
 
