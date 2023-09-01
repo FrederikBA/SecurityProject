@@ -33,7 +33,7 @@ class LoginService extends Connector
             if ($e->getCode() === '23000') {
                 // Handle duplicate key violation (username already exists)
                 // echo ["success" => false, "error" => "Username already exists."];
-                echo "Username already exists";
+                echo "Username already exists: " . $e->getMessage();
             } else {
                 // Handle other database errors
                 // echo ["success" => false, "error" => "Registration failed: " . $e->getMessage()];
