@@ -1,0 +1,67 @@
+<?php
+
+require_once 'src/Database/Connector.php';
+require_once 'src/Model/Dto/OrderDto.php';
+require_once 'src/Model/Dto/OrderWithProductDto.php';
+
+/* "bindParam" - Binding Parameters: You're using parameter binding to safely insert the values into the query. This helps prevent SQL injection. */
+
+class OrderService extends Connector
+{
+
+    public function getAllOrdersWithDetails() {
+        // Initialize an empty array to store order data
+        $orders = array();
+    
+        // SQL query to retrieve all orders and their associated product details
+        $sql = "SELECT
+                    o.order_id,
+                    o.user_id,
+                    ol.product_id,
+                    ol.quantity,
+                    p.product_name,
+                    p.product_price
+                FROM
+                    `Order` o
+                JOIN
+                    OrderLine ol ON o.order_id = ol.order_id
+                JOIN
+                    Product p ON ol.product_id = p.product_id";
+    
+        // Prepare the SQL statement
+        $stmt = $this->getConnection()->prepare($sql);
+    
+        // Execute the SQL query
+        $stmt->execute();
+    
+        // Check if the query executed successfully
+        if ($stmt) {
+            // Fetch the results as an associative array
+            $orderData = $stmt->fetchAll(PDO::FETCH_ASSOC);
+    
+            // Iterate through the order data and create DTOs
+            foreach ($orderData as $orderItem) {
+                $orderDto = new OrderWithProductDto(
+                    $orderItem['order_id'],
+                    $orderItem['user_id'],
+                    $orderItem['product_id'],
+                    $orderItem['quantity'],
+                    $orderItem['product_name'],
+                    $orderItem['product_price']
+                );
+    
+                // Add the DTO to the orders array
+                $orders[] = $orderDto;
+            }
+        }
+    
+        return $orders;
+    }
+    
+    
+   
+
+
+   
+
+}

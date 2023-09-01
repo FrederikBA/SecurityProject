@@ -26,3 +26,6 @@ get('/security/user/$id', 'src/Endpoints/getUserById.php');
 
 //Delete user
 post('/security/deleteuser', 'src/Endpoints/DeleteUser.php');
+
+//Get all orders with products
+get('/security/orders', 'src/Endpoints/GetAllOrderWithProduct.php');
