@@ -5,7 +5,7 @@ if (isset($_POST['email'], $_POST['username'], $_POST['password'])) {
     $loginService = new LoginService();
     $registerDto = new RegisterDto($_POST['email'], $_POST['username'], $_POST['password']);
     $loginService->registerUser($registerDto);
-    echo "User created successfully!";
+    echo "200 OK";
 } else {
-    echo "Failed to create user!";
+    echo "Error occured";
 }
