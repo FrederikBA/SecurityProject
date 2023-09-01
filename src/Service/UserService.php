@@ -11,11 +11,11 @@ class UserService extends Connector
 
     
     public function updateUserInfo(UserDto $userDto) {
-        $sql = "UPDATE user SET email = :newEmail, username = :newUserame WHERE user_id = :userID";
+        $sql = "UPDATE user SET email = :newEmail, username = :newUsername WHERE user_id = :userID";
         $stmt = $this->getConnection()->prepare($sql);
         $stmt->bindParam(':userID', $userDto->id);
         $stmt->bindParam(':newEmail', $userDto->email);
-        $stmt->bindParam(':newUserame', $userDto->username);
+        $stmt->bindParam(':newUsername', $userDto->username);
         // Check if the update was successful
         return $stmt->execute();
     }

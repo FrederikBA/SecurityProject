@@ -18,7 +18,8 @@ class ProductService extends Connector
         $stmt->execute();
     }
 
-    public function updateProductPriceByID(UpdateProductDto $productDto) {
+    public function updateProductPriceByID(UpdateProductDto $productDto)
+    {
         $sql = "UPDATE product p SET p.product_price = :newPrice WHERE product_id = :productID";
         $stmt = $this->getConnection()->prepare($sql);
         $stmt->bindParam(':productID', $productDto->id);
@@ -26,31 +27,33 @@ class ProductService extends Connector
         // Check if the update was successful
         return $stmt->execute();
     }
-    
 
-    public function getProductsFromDatabase() {
+
+    public function getProductsFromDatabase()
+    {
         // Initialize an empty array to store product data
         $products = array();
-    
+
         // Select all products from the "product" table
         $sql = "SELECT * FROM product";
         $stmt = $this->getConnection()->query($sql);
-    
+
         // Check if the query executed successfully
         if ($stmt) {
             // Fetch the results as an associative array
             $products = $stmt->fetchAll(PDO::FETCH_ASSOC);
         }
-    
+
         return $products;
     }
-    
-    public function getProductByID($productID) {
+
+    public function getProductByID($productID)
+    {
         $sql = "SELECT * FROM product WHERE product_id = :productID";
         $stmt = $this->getConnection()->prepare($sql);
         $stmt->bindParam(':productID', $productID, PDO::PARAM_INT);
         $stmt->execute();
-        
+
         // Fetch the result as an associative array
         $product = $stmt->fetch(PDO::FETCH_ASSOC);
 
@@ -58,15 +61,14 @@ class ProductService extends Connector
     }
 
 
-    public function deleteProductByID(UpdateProductDto $productDto) {
+    public function deleteProductByID(UpdateProductDto $productDto)
+    {
         $sql = "DELETE FROM product WHERE product_id = :productID";
         $stmt = $this->getConnection()->prepare($sql);
         $stmt->bindParam(':productID', $productDto->id, PDO::PARAM_INT);
         $stmt->execute();
-        
+
         // Check if any rows were affected (deleted)
         return $stmt->rowCount() > 0;
     }
-    
-
 }

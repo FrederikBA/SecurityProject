@@ -18,9 +18,11 @@ VALUES ('Product 4', 39.99);
 INSERT INTO Product (product_name, product_price)
 VALUES ('Product 5', 49.99);
 
+INSERT INTO Roles (role)
+VALUES ('user');
 
-
-
+INSERT INTO Roles (role)
+VALUES ('admin');
 
 -- Insert User 1
 INSERT INTO User (username, email, password)

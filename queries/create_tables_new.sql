@@ -3,8 +3,13 @@ USE shopdb;
 CREATE TABLE User (
   user_id INT AUTO_INCREMENT PRIMARY KEY,
   email VARCHAR(255),
-  username VARCHAR(255),
-  password VARCHAR(255)
+  username VARCHAR(255) UNIQUE NOT NULL,
+  password VARCHAR(255) NOT NULL
+);
+
+CREATE TABLE Roles (
+  id INT AUTO_INCREMENT PRIMARY KEY,
+  role VARCHAR(255)
 );
 
 CREATE TABLE Product (
@@ -14,9 +19,10 @@ CREATE TABLE Product (
 );
 
 CREATE TABLE UserRole (
-  role_id INT AUTO_INCREMENT PRIMARY KEY,
+  id INT AUTO_INCREMENT PRIMARY KEY,
+  role_id INT,
   user_id INT,
-  role VARCHAR(255),
+  FOREIGN KEY (role_id) REFERENCES Roles(id) ON DELETE CASCADE,
   FOREIGN KEY (user_id) REFERENCES User(user_id) ON DELETE CASCADE
 );
 
