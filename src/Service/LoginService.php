@@ -27,16 +27,13 @@ class LoginService extends Connector
             $stmt = $connection->prepare("INSERT INTO UserRole (user_id, role_id) VALUES (?, ?)");
             $stmt->execute([$user_id, $roleId]);
 
-            // echo ["success" => true, "message" => "Registration successful"];
             echo "Registration successful";
         } catch (PDOException $e) {
             if ($e->getCode() === '23000') {
                 // Handle duplicate key violation (username already exists)
-                // echo ["success" => false, "error" => "Username already exists."];
                 echo "Username already exists: " . $e->getMessage();
             } else {
                 // Handle other database errors
-                // echo ["success" => false, "error" => "Registration failed: " . $e->getMessage()];
                 echo "Registration failed" . $e->getMessage();
             }
         }
