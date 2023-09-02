@@ -38,3 +38,6 @@ post('/security/deleteorder', 'src/Endpoints/DeleteOrder.php');
 
 //Register user
 post('/security/register', 'src/Endpoints/RegisterUser.php');
+
+//Login user
+post('/security/login', 'src/Endpoints/Login.php');

@@ -1,6 +1,7 @@
 <?php
 require_once 'src/Database/Connector.php';
 require_once 'src/Model/Dto/RegisterDto.php';
+require_once 'src/Model/Dto/LoginDto.php';
 
 class LoginService extends Connector
 {
@@ -10,7 +11,7 @@ class LoginService extends Connector
             // Get the database connection
             $connection = $this->getConnection();
 
-            // Hash the password
+            // Hash the password (password_hash uses the bcrypt algorithm)
             $hashedPassword = password_hash($registerDto->password, PASSWORD_DEFAULT);
 
             // Set the default role to 'user' on register (other roles are set differently)
@@ -34,8 +35,37 @@ class LoginService extends Connector
                 echo "Username already exists: " . $e->getMessage();
             } else {
                 // Handle other database errors
-                echo "Registration failed" . $e->getMessage();
+                echo "Registration failed<: " . $e->getMessage();
             }
+        }
+    }
+    
+    public function loginUser($loginDto)
+    {
+        try {
+            // Get the database connection
+            $connection = $this->getConnection();
+
+            // Retrieve the user's hashed password and role from the database
+            $stmt = $connection->prepare("SELECT User.user_id, User.password, UserRole.role_id FROM User
+                                           INNER JOIN UserRole ON User.user_id = UserRole.user_id
+                                           WHERE User.username = ?");
+            $stmt->execute([$loginDto->username]);
+            $user = $stmt->fetch(PDO::FETCH_ASSOC);
+
+            if ($user && password_verify($loginDto->password, $user['password'])) {
+                // Password is correct, create a session for the user
+                session_start();
+                $_SESSION['user_id'] = $user['user_id'];
+                $_SESSION['role_id'] = $user['role_id'];
+
+                echo "Login successful";
+            } else {
+                echo "Incorrect username or password";
+            }
+        } catch (PDOException $e) {
+            // Handle database errors
+            echo "Login failed: " . $e->getMessage();
         }
     }
 }
