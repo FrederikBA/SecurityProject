@@ -31,7 +31,7 @@ const Register = () => {
 
     // Toast
     const registerNotifySuccess = () => {
-        toast.success('Din bruger er oprettet!', { position: toast.POSITION.BOTTOM_RIGHT });
+        toast.success('User created successfully', { position: toast.POSITION.BOTTOM_RIGHT });
     };
 
     const registerNotifyError = (msg) => {
@@ -47,13 +47,13 @@ const Register = () => {
             <form onChange={onChange} >
                 <input className="registerInput" type="text" placeholder="Email" id="email" />
                 <br></br>
-                <input className="registerInput" type="text" placeholder="Brugernavn" id="username" />
+                <input className="registerInput" type="text" placeholder="Username" id="username" />
                 <br></br>
-                <input className="registerInput" type="text" placeholder="Adgangskode" id="password" />
+                <input className="registerInput" type="text" placeholder="Password" id="password" />
                 <br></br>
                 <br></br>
             </form>
-            <button className="loginButton" onClick={register}>Opret bruger</button>
+            <button className="loginButton" onClick={register}>Create Account</button>
             <ToastContainer />
         </div >
     )
