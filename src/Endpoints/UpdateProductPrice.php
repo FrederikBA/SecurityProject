@@ -1,9 +1,5 @@
 <?php
 
-ini_set('display_errors', 1);
-error_reporting(E_ALL);
-
-
 require_once __DIR__ . '/../Service/ProductService.php';
 
 $productService = new ProductService();
@@ -21,16 +17,5 @@ $newPrice = isset($data['new_price']) ? floatval($data['new_price']) : 0.0;
 $productDto = new UpdateProductDto($_POST['id'], $_POST['price']);
 $success = $productService->updateProductPriceByID($productDto);
 
-if ($success) {
-    header("Content-Type: application/json");
-    echo json_encode(array("message" => "Product price updated successfully"));
-} else {
-    http_response_code(404);
-    echo json_encode(array("message" => "Product not found or price couldn't be updated"));
-}
-?>
-
-<?php
-
-require_once 'src/Service/ProductService.php';
-
+header("Content-Type: application/json");
+http_response_code(404);

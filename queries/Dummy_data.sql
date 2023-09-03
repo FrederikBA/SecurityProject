@@ -1,37 +1,34 @@
--- Insert Users
-INSERT INTO User (email, username, password)
-VALUES
-  ('admin@example.com', 'adminuser', 'adminpassword'),
-  ('user@example.com', 'regularuser', 'userpassword');
+-- Dummy data for User table
+INSERT INTO User (email, username, password) VALUES
+  ('user1@example.com', 'user1', 'password1'),
+  ('user2@example.com', 'user2', 'password2'),
+  ('user3@example.com', 'user3', 'password3');
 
--- Insert User Roles
-INSERT INTO UserRole (user_id, role)
-VALUES
-  (1, 'admin'),
-  (2, 'user');
+-- Dummy data for Roles table
+INSERT INTO Roles (role) VALUES
+  ('Admin'),
+  ('Customer');
 
--- Insert Products
-INSERT INTO Product (product_name, product_price)
-VALUES
-  ('Product A', 10.99),
-  ('Product B', 15.49),
-  ('Product C', 8.99),
-  ('Product D', 12.79),
-  ('Product E', 6.49);
+-- Dummy data for UserRole table
+INSERT INTO UserRole (role_id, user_id) VALUES
+  (1, 1), -- Assigning Admin role to user1
+  (2, 2), -- Assigning Customer role to user2
+  (2, 3); -- Assigning Customer role to user3
 
+-- Dummy data for Product table
+INSERT INTO Product (product_name, product_price) VALUES
+  ('Product A', 19.99),
+  ('Product B', 29.99),
+  ('Product C', 9.99);
 
--- Insert Orders
-INSERT INTO `Order` (user_id)
-VALUES
-  (1), -- Admin user placing an order
-  (2); -- Regular user placing an order
+-- Dummy data for Order table
+INSERT INTO `Order` (user_id) VALUES
+  (1), -- Order by user1
+  (2), -- Order by user2
+  (3); -- Order by user3
 
--- Insert Order Lines
-INSERT INTO OrderLine (order_id, product_id, quantity)
-VALUES
-  (1, 1, 3), -- Admin user's order with 3 units of Product A
-  (2, 2, 2), -- Regular user's order with 2 units of Product B;
-  (3, 3, 5), -- Regular user's order with 5 units of Product C
-  (3, 4, 2), -- Regular user's order with 2 units of Product D
-  (4, 1, 4), -- Admin user's order with 4 units of Product A
-  (4, 5, 3); -- Admin user's order with 3 units of Product E
+-- Dummy data for OrderLine table
+INSERT INTO OrderLine (order_id, product_id, quantity) VALUES
+  (1, 1, 2), -- Order for Product A by user1
+  (2, 2, 3), -- Order for Product B by user2
+  (3, 3, 1); -- Order for Product C by user3
