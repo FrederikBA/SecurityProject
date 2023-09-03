@@ -44,8 +44,9 @@ const ProductCard = ({ products, isLoading, rentNotifySuccess, rentNotifyError, 
     }
 
     return (
-        <div className="row row-cols-5">
-            {/* {products.map((product) => (
+        <div className="container">
+            <div className="row row-cols-5">
+                {/* {products.map((product) => (
                 <div key={product.movie_id} className="col mb-4 poster" onMouseEnter={() => handleMouseEnter(movie.movie_id)}
                     onMouseLeave={handleMouseLeave}>
                     <img src={movie.poster} className="card-img-top" alt={movie.title} />
@@ -63,24 +64,25 @@ const ProductCard = ({ products, isLoading, rentNotifySuccess, rentNotifyError, 
                     </div>
                 </div>
             ))} */
-                products.map((product) => (
-                    <div key={product.product_id} className="col mb-4 poster" onMouseEnter={() => handleMouseEnter(product.product_id)}
-                        onMouseLeave={handleMouseLeave}>
-                        <img src={shirt} className="card-img-top" alt={product.product_name} />
-                        {hoveredProductId === product.product_id ? (
-                            <>
-                                <button onClick={() => handleProductClick(product.product_id)} className="btn show-more">Vis mere</button>
-                                {/* <button onClick={(e) => { e.stopPropagation(); addToCart(movie.movie_id, movie.price); }} id="rent-button" className="btn rent">Læg i kurv</button> */}
-                            </>
-                        ) : null}
+                    products.map((product) => (
+                        <div key={product.product_id} className="col mb-4 poster" onMouseEnter={() => handleMouseEnter(product.product_id)}
+                            onMouseLeave={handleMouseLeave}>
+                            <img src={shirt} className="card-img-top" alt={product.product_name} />
+                            {hoveredProductId === product.product_id ? (
+                                <>
+                                    <button onClick={() => handleProductClick(product.product_id)} className="btn show-more">More info</button>
+                                    {/* <button onClick={(e) => { e.stopPropagation(); addToCart(movie.movie_id, movie.price); }} id="rent-button" className="btn rent">Add to basket</button> */}
+                                </>
+                            ) : null}
 
-                        <div className="card-body center">
-                            <p className="card-title">{product.product_name}</p>
-                            <span className="poster-text">{product.product_price} kr.</span>
+                            <div className="card-body center">
+                                <p className="card-title">{product.product_name}</p>
+                                <span className="poster-text">${product.product_price}</span>
+                            </div>
                         </div>
-                    </div>
-                ))
-            }
+                    ))
+                }
+            </div>
         </div>
     );
 

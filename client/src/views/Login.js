@@ -37,15 +37,15 @@ const Login = ({ onLogin }) => {
     return (
         <div className="center">
             <form onChange={onChange} >
-                <input className="loginInput" placeholder="Brugernavn" id="username" />
+                <input className="loginInput" placeholder="Username" id="username" />
                 <br></br>
-                <input className="loginInput" type="password" placeholder="Adgangskode" id="password" />
+                <input className="loginInput" type="password" placeholder="Password" id="password" />
                 <br></br>
                 <br></br>
-                <button className="loginButton" onClick={login}>Log ind</button>
+                <button className="loginButton" onClick={login}>Log in</button>
                 <br></br>
             </form>
-            <button className="loginButton" onClick={toRegister}>Opret bruger</button>
+            <button className="loginButton" onClick={toRegister}>Sign up</button>
         </div >
     )
 }

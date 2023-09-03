@@ -22,15 +22,15 @@ const ShopPage = () => {
 
     //Toast
     const rentNotifySuccess = () => {
-        toast.success('Din film er tilføjet til kurven', { position: toast.POSITION.BOTTOM_RIGHT });
+        toast.success('Success Message', { position: toast.POSITION.BOTTOM_RIGHT });
     };
 
     const rentNotifyError = () => {
-        toast.error('Der opstod en fejl, din film blev ikke tilføjet', { position: toast.POSITION.BOTTOM_RIGHT });
+        toast.error('Error Message', { position: toast.POSITION.BOTTOM_RIGHT });
     };
 
     const rentNotifyLogin = () => {
-        toast.error('Du skal logge ind for at leje en film', { position: toast.POSITION.BOTTOM_RIGHT });
+        toast.error('Login Error Message', { position: toast.POSITION.BOTTOM_RIGHT });
     };
 
 

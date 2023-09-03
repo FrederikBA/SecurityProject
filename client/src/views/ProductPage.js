@@ -24,7 +24,7 @@ const ProductPage = () => {
                 <div className="product-card">
                     <img src={shirt} alt={product.product_name} className="product-image" />
                     <h2 className="product-name">{product.product_name}</h2>
-                    <p className="product-price">DKK {product.product_price},-</p>
+                    <p className="product-price">$ {product.product_price}</p>
                 </div>
             </div>
         </div>

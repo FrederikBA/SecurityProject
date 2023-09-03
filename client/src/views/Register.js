@@ -5,7 +5,6 @@ import apiUtils from '../utils/apiUtils';
 
 const Register = () => {
     const [loginCredentials, setLoginCredentials] = useState({ email: "", username: "", password: "" });
-    const [errorMsg, setErrorMsg] = useState("");
 
     const URL = apiUtils.getUrl()
 
@@ -18,7 +17,7 @@ const Register = () => {
 
             const response = await apiUtils.getAxios().post(URL + '/register', formData, {
                 headers: {
-                    'Content-Type': 'multipart/form-data', // Set the content type to form data
+                    'Content-Type': 'multipart/form-data'
                 },
             });
 
