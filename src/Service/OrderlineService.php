@@ -7,11 +7,4 @@ require_once 'src/Model/Dto/OrderlineDto.php';
 
 class OrderlineService extends Connector
 {
-
-    
-   
-
-
-   
-
 }

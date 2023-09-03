@@ -5,6 +5,7 @@ import apiUtils from '../utils/apiUtils';
 
 const Register = () => {
     const [loginCredentials, setLoginCredentials] = useState({ email: "", username: "", password: "" });
+    const [errorMsg, setErrorMsg] = useState("");
 
     const URL = apiUtils.getUrl()
 
@@ -20,9 +21,11 @@ const Register = () => {
                     'Content-Type': 'multipart/form-data', // Set the content type to form data
                 },
             });
-            registerNotifySuccess()
+
+
+            registerNotifySuccess(response)
         } catch (error) {
-            registerNotifyError()
+            registerNotifyError(error.response.data)
         }
     }
 
@@ -32,8 +35,8 @@ const Register = () => {
         toast.success('Din bruger er oprettet!', { position: toast.POSITION.BOTTOM_RIGHT });
     };
 
-    const registerNotifyError = () => {
-        toast.error('Der opstod en fejl, din bruger blev ikke oprettet', { position: toast.POSITION.BOTTOM_RIGHT });
+    const registerNotifyError = (msg) => {
+        toast.error(msg, { position: toast.POSITION.BOTTOM_RIGHT });
     };
 
     const onChange = (evt) => {
