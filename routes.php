@@ -41,3 +41,6 @@ post('/security/register', 'src/Endpoints/RegisterUser.php');
 
 //Login user
 post('/security/login', 'src/Endpoints/Login.php');
+
+//Logout user
+post('/security/logout', 'src/Endpoints/Logout.php');
