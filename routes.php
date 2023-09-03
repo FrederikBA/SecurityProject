@@ -4,11 +4,43 @@ require_once __DIR__ . '/router.php';
 
 get('/security', '/public/index.php');
 post('/security/product/create', 'src/Endpoints/CreateProduct.php');
-get('/security/test', 'src/Endpoints/TestEndpoint.php');    
+get('/security/test', 'src/Endpoints/TestEndpoint.php');
 #any('/404', 'views/404.php');
 
 get('/security/products', 'src/Endpoints/GetAllProducts.php');
 
-get('/security/product/$id', 'src/Endpoints/GetProductById');
+//Product by ID.
+get('/security/product/$id', 'src/Endpoints/GetProductById.php');
 
-post('/security/product/$id', 'src/Endpoints/DeleteProduct');
+//Delete product.
+post('/security/deleteproduct', 'src/Endpoints/DeleteProduct.php');
+
+//Update price on a product.
+post('/security/updateproduct', 'src/Endpoints/UpdateProductPrice.php');
+
+//Update user info
+post('/security/updateuser', 'src/Endpoints/UpdateUserInfo.php');
+
+//user by ID
+get('/security/user/$id', 'src/Endpoints/getUserById.php');
+
+//Delete user
+post('/security/deleteuser', 'src/Endpoints/DeleteUser.php');
+
+//Get all orders with products
+get('/security/orders', 'src/Endpoints/GetAllOrderWithProduct.php');
+
+//Get Order by id
+get('/security/order/$id', 'src/Endpoints/GetOrderById.php');
+
+//Delete order
+post('/security/deleteorder', 'src/Endpoints/DeleteOrder.php');
+
+//Register user
+post('/security/register', 'src/Endpoints/RegisterUser.php');
+
+//Login user
+post('/security/login', 'src/Endpoints/Login.php');
+
+//Logout user
+post('/security/logout', 'src/Endpoints/Logout.php');

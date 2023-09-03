@@ -2,13 +2,12 @@
 
 require_once 'src/Service/ProductService.php';
 
-#public function create() {
-if (isset($_POST['name'], $_POST['price'], $_POST['img'])) {
+if (isset($_POST['name'], $_POST['price'])) {
     $productService = new ProductService();
-    $product = new Product($_POST['name'], $_POST['price'], $_POST['img']);
-    $productService->createProduct($product);
+    
+    $productDto = new CreateProductDto($_POST['name'], $_POST['price']);
+    $productService->createProduct($productDto);
     echo "Product created successfully!";
 } else {
     echo "Failed to create product!";
 }
-#}
