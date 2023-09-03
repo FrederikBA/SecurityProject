@@ -86,7 +86,7 @@ class LoginService extends Connector
                 setcookie(
                     session_name(),
                     '',
-                    time() - 42000,
+                    time() - 42000, // Current time - 42000 (past time to expire cookie immediately)
                     $params["path"],
                     $params["domain"],
                     $params["secure"],
