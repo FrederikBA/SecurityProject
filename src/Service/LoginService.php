@@ -32,9 +32,11 @@ class LoginService extends Connector
         } catch (PDOException $e) {
             if ($e->getCode() === '23000') {
                 // Handle duplicate key violation (username already exists)
+                http_response_code(500);
                 echo "Username already exists: " . $e->getMessage();
             } else {
                 // Handle other database errors
+                http_response_code(500);
                 echo "Registration failed<: " . $e->getMessage();
             }
         }
@@ -61,10 +63,12 @@ class LoginService extends Connector
 
                 echo "Login successful";
             } else {
+                http_response_code(500);
                 echo "Incorrect username or password";
             }
         } catch (PDOException $e) {
             // Handle database errors
+            http_response_code(500);
             echo "Login failed: " . $e->getMessage();
         }
     }
@@ -99,10 +103,12 @@ class LoginService extends Connector
 
             echo "Logout successful";
         } else {
+            http_response_code(500);
             echo "You are not logged in.";
         }
     } catch (Exception $e) {
         // Handle any exceptions that may occur during logout
+        http_response_code(500);
         echo "Logout failed: " . $e->getMessage();
     }
 }
