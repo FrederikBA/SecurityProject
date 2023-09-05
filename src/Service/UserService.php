@@ -2,6 +2,8 @@
 
 require_once 'src/Database/Connector.php';
 require_once 'src/Model/Dto/UserDto.php';
+require_once 'src/Model/Dto/DeleteDto.php';
+
 
 class UserService
 {
@@ -13,7 +15,7 @@ class UserService
     }
 
 
-    public function updateUserInfo(UserDto $userDto)
+    public function updateUser(UserDto $userDto)
     {
         try {
             $updatedUser = $this->userRepository->UpdateUser($userDto->id, $userDto->email, $userDto->username);
@@ -21,11 +23,11 @@ class UserService
                 echo "User updated successfully";
                 return $updatedUser;
             } else {
-                echo "Error updating User";
+                echo "An error occured updating User";
             }
         } catch (PDOException $e) {
             http_response_code(500);
-            echo "Unexpected error, update failed";
+            echo $e->getMessage();
         }
     }
 
@@ -41,11 +43,11 @@ class UserService
             }
         } catch (PDOException $e) {
             http_response_code(500);
-            echo $e;
+            echo $e->getMessage();
         }
     }
 
-    public function deleteUser(UserDto $userDto)
+    public function deleteUser(DeleteDto $userDto)
     {
         try {
             $rowsDeleted = $this->userRepository->DeleteUser($userDto->id);
@@ -57,7 +59,7 @@ class UserService
             }
         } catch (PDOException $e) {
             http_response_code(500);
-            echo $e;
+            echo $e->getMessage();
         }
     }
 }

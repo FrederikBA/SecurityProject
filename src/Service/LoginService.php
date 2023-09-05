@@ -29,9 +29,8 @@ class LoginService
                 http_response_code(500);
                 echo "Username already exists";
             } else {
-                // Handle other potential database errors
                 http_response_code(500);
-                echo "Unexpected error, registration failed";
+                echo $e->getMessage();
             }
         }
     }
@@ -60,9 +59,8 @@ class LoginService
                 echo "Incorrect username or password";
             }
         } catch (PDOException $e) {
-            // Handle database errors
             http_response_code(500);
-            echo "Unexpected error, login failed";
+            echo $e->getMessage();
         }
     }
 
@@ -86,9 +84,8 @@ class LoginService
                 echo "You are not logged in.";
             }
         } catch (Exception $e) {
-            // Handle any exceptions that may occur during logout
             http_response_code(500);
-            echo "Unexpected error, logout failed";
+            echo $e->getMessage();
         }
     }
 

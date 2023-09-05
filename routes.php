@@ -13,8 +13,8 @@ post('/security/product/create', 'src/Endpoints/CreateProduct.php');
 //Get all Products
 get('/security/products', 'src/Endpoints/GetAllProducts.php');
 
-//Product by ID.
-get('/security/product/$id', 'src/Endpoints/GetProductById.php');
+//Get Product.
+get('/security/product/$id', 'src/Endpoints/GetProduct.php');
 
 //Delete product.
 post('/security/deleteproduct', 'src/Endpoints/DeleteProduct.php');
@@ -23,10 +23,10 @@ post('/security/deleteproduct', 'src/Endpoints/DeleteProduct.php');
 post('/security/updateproduct', 'src/Endpoints/UpdateProductPrice.php');
 
 //Update user info
-post('/security/updateuser', 'src/Endpoints/UpdateUserInfo.php');
+post('/security/updateuser', 'src/Endpoints/UpdateUser.php');
 
 //user by ID
-get('/security/user/$id', 'src/Endpoints/getUserById.php');
+get('/security/user/$id', 'src/Endpoints/GetUser.php');
 
 //Delete user
 post('/security/deleteuser', 'src/Endpoints/DeleteUser.php');

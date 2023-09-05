@@ -1,6 +1,6 @@
 <?php
 
-require_once __DIR__ . '/../Service/OrderService.php';
+require_once 'src/Service/OrderService.php';
 
 $orderService = new OrderService();
 
@@ -10,7 +10,7 @@ $data = json_decode($inputData, true);
 
 
 if (isset($data['id'])) {
-    $orderDto = new OrderDto($data['id'], ''); 
+    $orderDto = new OrderDto($data['id'], '');
     $success = $orderService->deleteOrderById($orderDto);
 
     if ($success) {

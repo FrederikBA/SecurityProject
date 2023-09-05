@@ -1,21 +1,18 @@
 <?php
 
-require_once __DIR__ . '/../Service/ProductService.php';
+require_once 'src/Service/ProductService.php';
+require_once 'src/Database/Repository/ProductRepository.php';
+$productRepository = new ProductRepository();
+$productService = new ProductService($productRepository);
 
-$productService = new ProductService();
-
-// Get the product ID from the route placeholder
-$id = isset($parameters['id']) ? intval($parameters['id']) : 0; // Convert $id to integer
-
-// Get the new price from the POST request data
+// Get request body
 $inputData = file_get_contents("php://input");
-$data = json_decode($inputData, true); // Assuming your data is in JSON format
+$data = json_decode($inputData, true);
 
-$newPrice = isset($data['new_price']) ? floatval($data['new_price']) : 0.0;
-
-// Update the product price
-$productDto = new UpdateProductDto($_POST['id'], $_POST['price']);
-$success = $productService->updateProductPriceByID($productDto);
-
-header("Content-Type: application/json");
-http_response_code(404);
+if (isset($data['id'], $data['price'])) {
+    $productDto = new UpdateProductDto($data['id'], $data['price']);
+    $productService->updateProductPrice($productDto); //Perform update
+} else {
+    http_response_code(400);
+    echo "Invalid body";
+}

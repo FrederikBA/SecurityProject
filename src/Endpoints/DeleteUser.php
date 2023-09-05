@@ -1,6 +1,6 @@
 <?php
 
-require_once __DIR__ . '/../Service/UserService.php';
+require_once 'src/Service/UserService.php';
 require_once 'src/Database/Repository/UserRepository.php';
 $userRepository = new UserRepository();
 $userService = new UserService($userRepository);
@@ -10,7 +10,7 @@ $inputData = file_get_contents("php://input");
 $data = json_decode($inputData, true);
 
 if (isset($data['id'])) {
-    $userDto = new UserDto($data['id'], '', ''); // Create UserDto with just the ID
+    $userDto = new DeleteDto($data['id']);
     $userService->deleteUser($userDto); // Perform delete
 } else {
     http_response_code(400);

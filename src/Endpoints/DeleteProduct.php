@@ -1,26 +1,21 @@
 <?php
 
-require_once __DIR__ . '/../Service/ProductService.php';
-
-$productService = new ProductService();
+require_once 'src/Service/ProductService.php';
+require_once 'src/Database/Repository/ProductRepository.php';
+$productRepository = new ProductRepository();
+$productService = new ProductService($productRepository);
 
 $inputData = file_get_contents("php://input");
 $data = json_decode($inputData, true);
 
-
+// Get request body
+$inputData = file_get_contents("php://input");
+$data = json_decode($inputData, true);
 
 if (isset($data['id'])) {
-    $productDto = new UpdateProductDto($data['id'], ''); 
-    $success = $productService->deleteProductByID($productDto);
-
-    if ($success) {
-        header("Content-Type: application/json");
-        echo json_encode(array("message" => "Product deleted successfully"));
-    } else {
-        http_response_code(404);
-        echo json_encode(array("message" => "Product not found or couldn't be deleted"));
-    }
+    $productDto = new DeleteDto($data['id']);
+    $productService->deleteProduct($productDto); // Perform delete
 } else {
     http_response_code(400);
-    echo json_encode(array("message" => "Missing product ID in request body"));
+    echo "Invalid body";
 }

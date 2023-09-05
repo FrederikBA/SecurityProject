@@ -1,5 +1,5 @@
 <?php
-require_once __DIR__ . '/../Service/UserService.php';
+require_once 'src/Service/UserService.php';
 require_once 'src/Database/Repository/UserRepository.php';
 $userRepository = new UserRepository();
 $userService = new UserService($userRepository);
@@ -10,7 +10,7 @@ $data = json_decode($inputData, true);
 
 if (isset($data['id'], $data['email'], $data['username'])) {
     $userDto = new UserDto($data['id'], $data['email'], $data['username']); // Create UserDto with just the ID
-    $userService->updateUserInfo($userDto); //Perform update
+    $userService->updateUser($userDto); //Perform update
 } else {
     http_response_code(400);
     echo "Invalid body";
