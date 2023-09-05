@@ -50,23 +50,25 @@ class LoginService extends Connector
 
             // Retrieve the user's hashed password and role from the database
             $stmt = $connection->prepare("SELECT User.user_id, User.password, UserRole.role_id FROM User
-                                           INNER JOIN UserRole ON User.user_id = UserRole.user_id
-                                           WHERE User.username = ?");
+                                       INNER JOIN UserRole ON User.user_id = UserRole.user_id
+                                       WHERE User.username = ?");
             $stmt->execute([$loginDto->username]);
             $user = $stmt->fetch(PDO::FETCH_ASSOC);
 
             if ($user && password_verify($loginDto->password, $user['password'])) {
-                // Set the session lifetime to 30 minutes (1800 seconds) (Security measure)
-                ini_set('session.gc_maxlifetime', 1800);
+                // Start the session
+                session_start();
+
+                // Set session cookie parameters (Secutity measure)
+                // $cookieLifetime = 60; // 30 minutes
+                // session_set_cookie_params($cookieLifetime);
 
                 // Password is correct, create a session for the user
-                session_start();
                 $_SESSION['user_id'] = $user['user_id'];
                 $_SESSION['role_id'] = $user['role_id'];
 
                 // Regenerate the session ID and delete the old one (Security measure)
                 session_regenerate_id(true);
-
 
                 echo "Login successful";
             } else {
@@ -80,6 +82,7 @@ class LoginService extends Connector
         }
     }
 
+
     public function logoutUser()
     {
         try {
@@ -91,7 +94,7 @@ class LoginService extends Connector
                 // Unset all session variables
                 $_SESSION = array();
 
-                // Destroy the session cookie
+                // Destroy the session cookie // Does this work????
                 if (ini_get("session.use_cookies")) {
                     $params = session_get_cookie_params();
                     setcookie(
