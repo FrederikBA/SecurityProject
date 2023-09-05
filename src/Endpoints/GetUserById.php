@@ -1,19 +1,11 @@
 <?php
 
 require_once __DIR__ . '/../Service/UserService.php';
+require_once 'src/Database/Repository/UserRepository.php';
+$userRepository = new UserRepository();
+$userService = new UserService($userRepository);
 
-$userService = new UserService();
+$foundUser = $userService->getUserById($id);
 
-$id = isset($id) ? intval($id) : 0; // Convert $id to integer
-
-$user = $userService->getUserById($id);
-
-if ($user) {
-    header("Content-Type: application/json");
-    echo json_encode($user);
-} else {
-    http_response_code(404);
-    echo json_encode(array("message" => "User not found"));
-}
-?>
-
+//Serialize dto to json and echo
+echo json_encode($foundUser);

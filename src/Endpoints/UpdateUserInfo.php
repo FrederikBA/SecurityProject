@@ -1,33 +1,17 @@
 <?php
-
-
 require_once __DIR__ . '/../Service/UserService.php';
+require_once 'src/Database/Repository/UserRepository.php';
+$userRepository = new UserRepository();
+$userService = new UserService($userRepository);
 
-$userService = new UserService();
-
-// Get the product ID from the route placeholder
-$id = isset($parameters['id']) ? intval($parameters['id']) : 0; // Convert $id to integer
-
-// Get the new price from the POST request data
+// Get request body
 $inputData = file_get_contents("php://input");
-$data = json_decode($inputData, true); // Assuming your data is in JSON format
+$data = json_decode($inputData, true);
 
-$newEmail = isset($data['new_email']) ? floatval($data['new_email']) : "";
-
-// Update the product price
-$userDto = new UserDto($_POST['id'], $_POST['email'], $_POST['username']);
-$success = $userService->updateUserInfo($userDto);
-
-if ($success) {
-    header("Content-Type: application/json");
-    echo json_encode(array("message" => "User info updated successfully"));
+if (isset($data['id'], $data['email'], $data['username'])) {
+    $userDto = new UserDto($data['id'], $data['email'], $data['username']); // Create UserDto with just the ID
+    $userService->updateUserInfo($userDto); //Perform update
 } else {
-    http_response_code(404);
-    echo json_encode(array("message" => "User not found or couldn't be updated"));
+    http_response_code(400);
+    echo "Invalid body";
 }
-?>
-
-<?php
-
-require_once 'src/Service/ProductService.php';
-

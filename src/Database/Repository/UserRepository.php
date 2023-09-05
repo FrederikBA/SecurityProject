@@ -1,7 +1,7 @@
 <?php
 require_once 'src/Database/Connector.php';
 
-class UserRepository extends Connector //Implement interface 
+class UserRepository extends Connector
 {
     public function createUser(string $email, string $username, string $password)
     {
@@ -18,15 +18,44 @@ class UserRepository extends Connector //Implement interface
 
     public function GetUserLoginCredentials(string $username)
     {
-        // Get the database connection
         $connection = $this->getConnection();
 
-        // Retrieve the user's hashed password and role from the database
-        $stmt = $connection->prepare("SELECT User.user_id, User.password, UserRole.role_id FROM User
-                                               INNER JOIN UserRole ON User.user_id = UserRole.user_id
-                                               WHERE User.username = ?");
+        $stmt = $connection->prepare(
+            "SELECT User.user_id, User.password, UserRole.role_id FROM User
+            INNER JOIN UserRole ON User.user_id = UserRole.user_id WHERE User.username = ?"
+        );
         $stmt->execute([$username]);
         $user = $stmt->fetch(PDO::FETCH_ASSOC);
         return $user;
+    }
+
+    public function UpdateUser(int $userId, string $email, string $username)
+    {
+        $sql = "UPDATE user SET email = :newEmail, username = :newUsername WHERE user_id = :userId";
+        $stmt = $this->getConnection()->prepare($sql);
+        $stmt->bindParam(':userId', $userId);
+        $stmt->bindParam(':newEmail', $email);
+        $stmt->bindParam(':newUsername', $username);
+        $stmt->execute();
+        return $stmt->rowCount();
+    }
+
+    public function GetUser(int $userId)
+    {
+        $sql = "SELECT user_id, email, username FROM user WHERE user_id = :userId";
+        $stmt = $this->getConnection()->prepare($sql);
+        $stmt->bindParam(':userId', $userId, PDO::PARAM_INT);
+        $stmt->execute();
+        $user = $stmt->fetch(PDO::FETCH_ASSOC);
+        return $user;
+    }
+
+    public function DeleteUser($userId)
+    {
+        $sql = "DELETE FROM user WHERE user_id = :userId";
+        $stmt = $this->getConnection()->prepare($sql);
+        $stmt->bindParam(':userId', $userId, PDO::PARAM_INT);
+        $stmt->execute();
+        return $stmt->rowCount() > 0;
     }
 }

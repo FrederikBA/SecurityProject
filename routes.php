@@ -2,11 +2,15 @@
 require __DIR__ . '/src/cors/init.php';
 require_once __DIR__ . '/router.php';
 
+//Views
 get('/security', '/public/index.php');
-post('/security/product/create', 'src/Endpoints/CreateProduct.php');
-get('/security/test', 'src/Endpoints/TestEndpoint.php');
-#any('/404', 'views/404.php');
 
+//Endpoints
+
+//Create Product
+post('/security/product/create', 'src/Endpoints/CreateProduct.php');
+
+//Get all Products
 get('/security/products', 'src/Endpoints/GetAllProducts.php');
 
 //Product by ID.
