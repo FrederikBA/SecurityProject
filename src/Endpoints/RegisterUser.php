@@ -6,5 +6,6 @@ if (isset($_POST['email'], $_POST['username'], $_POST['password'])) {
     $registerDto = new RegisterDto($_POST['email'], $_POST['username'], $_POST['password']);
     $loginService->registerUser($registerDto);
 } else {
+    http_response_code(400);
     echo "Invalid body";
 }

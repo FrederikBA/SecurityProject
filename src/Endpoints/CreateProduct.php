@@ -7,7 +7,6 @@ if (isset($_POST['name'], $_POST['price'])) {
     
     $productDto = new CreateProductDto($_POST['name'], $_POST['price']);
     $productService->createProduct($productDto);
-    echo "Product created successfully!";
 } else {
-    echo "Failed to create product!";
+    echo "Invalid body";
 }

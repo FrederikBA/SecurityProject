@@ -9,66 +9,128 @@ require_once 'src/Model/Dto/CreateProductDto.php';
 
 class ProductService extends Connector
 {
-
     public function createProduct(CreateProductDto $createProductDto)
     {
-        $stmt = $this->getConnection()->prepare("INSERT INTO product (product_name, product_price) VALUES (:name, :price)");
-        $stmt->bindParam(':name', $createProductDto->name);
-        $stmt->bindParam(':price', $createProductDto->price);
-        $stmt->execute();
+        try {
+
+            $stmt = $this->getConnection()->prepare("INSERT INTO product (product_name, product_price) VALUES (:name, :price)");
+            $stmt->bindParam(':name', $createProductDto->name);
+            $stmt->bindParam(':price', $createProductDto->price);
+            if ($stmt->execute()) {
+                echo "Product created successfully!";
+            } else {
+                echo "Failed to create the product!";
+            }
+        } catch (PDOException $e) {
+            // Handle PDO exceptions
+            echo "Database error: " . $e->getMessage();
+        }
     }
+
 
     public function updateProductPriceByID(UpdateProductDto $productDto)
     {
-        $sql = "UPDATE product p SET p.product_price = :newPrice WHERE product_id = :productID";
-        $stmt = $this->getConnection()->prepare($sql);
-        $stmt->bindParam(':productID', $productDto->id);
-        $stmt->bindParam(':newPrice', $productDto->price);
-        // Check if the update was successful
-        return $stmt->execute();
+        try {
+            // Check if the product with the specified ID exists before updating
+            $checkSql = "SELECT COUNT(*) FROM product WHERE product_id = :productID";
+            $checkStmt = $this->getConnection()->prepare($checkSql);
+            $checkStmt->bindParam(':productID', $productDto->id);
+            $checkStmt->execute();
+
+            $productExists = ($checkStmt->fetchColumn() > 0);
+
+            if ($productExists) {
+                $updateSql = "UPDATE product p SET p.product_price = :newPrice WHERE product_id = :productID";
+                $updateStmt = $this->getConnection()->prepare($updateSql);
+                $updateStmt->bindParam(':productID', $productDto->id);
+                $updateStmt->bindParam(':newPrice', $productDto->price);
+
+                // Check if the update was successful
+                if ($updateStmt->execute()) {
+                    echo "Product price updated successfully!";
+                } else {
+                    echo "Failed to update the product price!";
+                }
+            } else {
+                echo "Product not found. Price not updated.";
+            }
+        } catch (PDOException $e) {
+            // Handle PDO exceptions
+            echo "Database error: " . $e->getMessage();
+        }
     }
 
 
     public function getProductsFromDatabase()
     {
-        // Initialize an empty array to store product data
-        $products = array();
+        try {
+            $products = array();
+            $sql = "SELECT * FROM product";
+            $stmt = $this->getConnection()->query($sql);
 
-        // Select all products from the "product" table
-        $sql = "SELECT * FROM product";
-        $stmt = $this->getConnection()->query($sql);
+            if (!$stmt) {
+                echo "Failed to retrieve products from the database.";
+            } else {
+                $products = $stmt->fetchAll(PDO::FETCH_ASSOC);
+            }
 
-        // Check if the query executed successfully
-        if ($stmt) {
-            // Fetch the results as an associative array
-            $products = $stmt->fetchAll(PDO::FETCH_ASSOC);
+            return $products;
+        } catch (PDOException $e) {
+            // Handle PDO exceptions
+            echo "Database error: " . $e->getMessage();
+            return array(); // Return an empty array or handle the error as needed
         }
-
-        return $products;
     }
+
+
+
 
     public function getProductByID($productID)
     {
-        $sql = "SELECT * FROM product WHERE product_id = :productID";
-        $stmt = $this->getConnection()->prepare($sql);
-        $stmt->bindParam(':productID', $productID, PDO::PARAM_INT);
-        $stmt->execute();
+        try {
+            $sql = "SELECT * FROM product WHERE product_id = :productID";
+            $stmt = $this->getConnection()->prepare($sql);
+            $stmt->bindParam(':productID', $productID, PDO::PARAM_INT);
+            $stmt->execute();
 
-        // Fetch the result as an associative array
-        $product = $stmt->fetch(PDO::FETCH_ASSOC);
+            $product = $stmt->fetch(PDO::FETCH_ASSOC);
 
-        return $product;
+            if (!$product) {
+                echo "Product not found.";
+            }
+
+            return $product;
+        } catch (PDOException $e) {
+            // Handle PDO exceptions
+            echo "Database error: " . $e->getMessage();
+            return null; // Return null or handle the error as needed
+        }
     }
+
 
 
     public function deleteProductByID(UpdateProductDto $productDto)
     {
-        $sql = "DELETE FROM product WHERE product_id = :productID";
-        $stmt = $this->getConnection()->prepare($sql);
-        $stmt->bindParam(':productID', $productDto->id, PDO::PARAM_INT);
-        $stmt->execute();
+        try {
+            $sql = "DELETE FROM product WHERE product_id = :productID";
+            $stmt = $this->getConnection()->prepare($sql);
+            $stmt->bindParam(':productID', $productDto->id, PDO::PARAM_INT);
+            $stmt->execute();
 
-        // Check if any rows were affected (deleted)
-        return $stmt->rowCount() > 0;
+            // Check if any rows were affected (deleted)
+            $rowCount = $stmt->rowCount();
+
+            if ($rowCount === 0) {
+                echo "Product not found.";
+            } else {
+                echo "Product deleted successfully!";
+            }
+
+            return $rowCount > 0;
+        } catch (PDOException $e) {
+            // Handle PDO exceptions
+            echo "Database error: " . $e->getMessage();
+            return false; // Return false or handle the error as needed
+        }
     }
 }

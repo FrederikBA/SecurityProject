@@ -32,14 +32,16 @@ class LoginService extends Connector
         } catch (PDOException $e) {
             if ($e->getCode() === '23000') {
                 // Handle duplicate key violation (username already exists)
-                echo "Username already exists: " . $e->getMessage();
+                http_response_code(500);
+                echo "Username already exists";
             } else {
                 // Handle other database errors
-                echo "Registration failed<: " . $e->getMessage();
+                http_response_code(500);
+                echo "Unexpected error, registration failed";
             }
         }
     }
-    
+
     public function loginUser($loginDto)
     {
         try {
@@ -61,50 +63,53 @@ class LoginService extends Connector
 
                 echo "Login successful";
             } else {
+                http_response_code(500);
                 echo "Incorrect username or password";
             }
         } catch (PDOException $e) {
             // Handle database errors
-            echo "Login failed: " . $e->getMessage();
+            http_response_code(500);
+            echo "Unexpected error, login failed";
         }
     }
 
     public function logoutUser()
-{
-    try {
-        // Start the session
-        session_start();
+    {
+        try {
+            // Start the session
+            session_start();
 
-        // Check if the user is logged in
-        if (isset($_SESSION['user_id'])) {
-            // Unset all session variables
-            $_SESSION = array();
+            // Check if the user is logged in
+            if (isset($_SESSION['user_id'])) {
+                // Unset all session variables
+                $_SESSION = array();
 
-            // Destroy the session cookie
-            if (ini_get("session.use_cookies")) {
-                $params = session_get_cookie_params();
-                setcookie(
-                    session_name(),
-                    '',
-                    time() - 42000, // Current time - 42000 (past time to expire cookie immediately)
-                    $params["path"],
-                    $params["domain"],
-                    $params["secure"],
-                    $params["httponly"]
-                );
+                // Destroy the session cookie
+                if (ini_get("session.use_cookies")) {
+                    $params = session_get_cookie_params();
+                    setcookie(
+                        session_name(),
+                        '',
+                        time() - 42000, // Current time - 42000 (past time to expire cookie immediately)
+                        $params["path"],
+                        $params["domain"],
+                        $params["secure"],
+                        $params["httponly"]
+                    );
+                }
+
+                // Destroy the session
+                session_destroy();
+
+                echo "Logout successful";
+            } else {
+                http_response_code(500);
+                echo "You are not logged in.";
             }
-
-            // Destroy the session
-            session_destroy();
-
-            echo "Logout successful";
-        } else {
-            echo "You are not logged in.";
+        } catch (Exception $e) {
+            // Handle any exceptions that may occur during logout
+            http_response_code(500);
+            echo "Unexpected error, logout failed";
         }
-    } catch (Exception $e) {
-        // Handle any exceptions that may occur during logout
-        echo "Logout failed: " . $e->getMessage();
     }
-}
-
 }
