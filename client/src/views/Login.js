@@ -23,8 +23,7 @@ const Login = () => {
                     'Content-Type': 'multipart/form-data'
                 },
             });
-            //TODO Landing page
-            // navigate('/')
+            navigate('/landing')
         } catch (error) {
             loginNotifyError(error.response.data)
         }

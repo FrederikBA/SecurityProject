@@ -113,7 +113,7 @@ class LoginService extends Connector
         }
     }
 
-    // Checks the PHP session is user_id is available (is logged in)
+    // Checks the PHP session if user_id is available (is logged in)
     public function checkLoginStatus()
     {
         session_start();
