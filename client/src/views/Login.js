@@ -1,8 +1,10 @@
 import { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import apiUtils from "../utils/apiUtils"
+import { ToastContainer, toast } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
 
-const Login = ({ onLogin }) => {
+const Login = () => {
     const [loginCredentials, setLoginCredentials] = useState({ username: "", password: "" });
 
     const navigate = useNavigate();
@@ -11,18 +13,22 @@ const Login = ({ onLogin }) => {
 
     const login = async (evt) => {
         evt.preventDefault()
+
+        const formData = new FormData();
+        formData.append('username', loginCredentials.username);
+        formData.append('password', loginCredentials.password);
+
+
         try {
-            const res = await apiUtils.getAxios().post(URL + '/login', {
-                username: loginCredentials.username,
-                password: loginCredentials.password
-            })
-            localStorage.setItem('jwtToken', res.data.access_token)
-            localStorage.setItem('user', loginCredentials.username)
-            localStorage.setItem('userId', res.data.user_id)
-            localStorage.setItem('memberId', res.data.member_id)
-            navigate('/landing-page')
-            onLogin()
+            const response = await apiUtils.getAxios().post(URL + '/login', formData, {
+                headers: {
+                    'Content-Type': 'multipart/form-data'
+                },
+            });
+            //TODO Landing page
+            navigate('/')
         } catch (error) {
+            registerNotifyError(error.response.data)
         }
     }
 
@@ -33,6 +39,11 @@ const Login = ({ onLogin }) => {
     const onChange = (evt) => {
         setLoginCredentials({ ...loginCredentials, [evt.target.id]: evt.target.value })
     }
+
+    // Toast
+    const registerNotifyError = (msg) => {
+        toast.error(msg, { position: toast.POSITION.BOTTOM_RIGHT });
+    };
 
     return (
         <div className="center">
