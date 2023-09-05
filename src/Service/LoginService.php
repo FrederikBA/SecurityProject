@@ -112,4 +112,16 @@ class LoginService extends Connector
             echo "Unexpected error, logout failed";
         }
     }
+
+    public function checkLoginStatus()
+    {
+        session_start();
+        if (isset($_SESSION['user_id'])) {
+            echo json_encode(["message" => "User is logged in"]);
+        } else {
+            // User is not logged in
+            http_response_code(401);
+            echo json_encode(["message" => "User is not logged in"]);
+        }
+    }
 }
