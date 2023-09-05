@@ -56,10 +56,17 @@ class LoginService extends Connector
             $user = $stmt->fetch(PDO::FETCH_ASSOC);
 
             if ($user && password_verify($loginDto->password, $user['password'])) {
+                // Set the session lifetime to 30 minutes (1800 seconds) (Security measure)
+                ini_set('session.gc_maxlifetime', 1800);
+
                 // Password is correct, create a session for the user
                 session_start();
                 $_SESSION['user_id'] = $user['user_id'];
                 $_SESSION['role_id'] = $user['role_id'];
+
+                // Regenerate the session ID and delete the old one (Security measure)
+                session_regenerate_id(true);
+
 
                 echo "Login successful";
             } else {
@@ -98,7 +105,8 @@ class LoginService extends Connector
                     );
                 }
 
-                // Destroy the session
+                // Destroy the session (Security measure). Prevents user information being accessed
+                // by anyone who may use the same device after the user has logged out.
                 session_destroy();
 
                 echo "Logout successful";
