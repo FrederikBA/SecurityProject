@@ -1,8 +1,10 @@
 <?php
 
-function cors() {
+function cors()
+{
     // Always set this header for testing. In production, be more selective.
-    header("Access-Control-Allow-Origin: *");
+    // header("Access-Control-Allow-Origin: *");
+    header("Access-Control-Allow-Origin: http://localhost:3000");
 
     // If you want to be selective:
     // if (isset($_SERVER['HTTP_ORIGIN']) && ($_SERVER['HTTP_ORIGIN'] == 'http://your-allowed-origin.com')) {
@@ -18,7 +20,7 @@ function cors() {
             // may also be using PUT, PATCH, HEAD etc
             header("Access-Control-Allow-Methods: GET, POST, OPTIONS");
         }
-        
+
         if (isset($_SERVER['HTTP_ACCESS_CONTROL_REQUEST_HEADERS'])) {
             header("Access-Control-Allow-Headers: {$_SERVER['HTTP_ACCESS_CONTROL_REQUEST_HEADERS']}");
         }
@@ -30,5 +32,3 @@ function cors() {
 // Call the function to set the headers
 
 cors();
-
-?>

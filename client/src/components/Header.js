@@ -10,6 +10,7 @@ const Header = () => {
             <nav>
                 <ul className='header'>
                     <li><NavLink to='/'>Shop</NavLink></li>
+                    <li><NavLink to='/profile'>Profile</NavLink></li>
                     <li className="align-right login-nav"><NavLink to="/login">Log in</NavLink></li>
                     <li className="align-right"><NavLink to="/cart"><div className="cart-icon">{cartIcon}</div></NavLink></li>
                 </ul>
