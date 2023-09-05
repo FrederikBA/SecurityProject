@@ -1,4 +1,6 @@
 <?php
 require_once 'src/Service/LoginService.php';
-$loginService = new LoginService();
+require_once 'src/Database/Repository/UserRepository.php';
+$userRepository = new UserRepository();
+$loginService = new LoginService($userRepository);
 $loginService->checkLoginStatus();
