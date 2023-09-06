@@ -1,4 +1,5 @@
 <?php
+require_once 'src/Database/Connector.php';
 
 class ProductRepository extends Connector
 {

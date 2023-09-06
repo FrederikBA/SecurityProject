@@ -5,6 +5,9 @@ require_once __DIR__ . '/router.php';
 //Views
 get('/security', '/public/index.php');
 
+//Headers
+header("Content-Type: application/json");
+
 //Endpoints
 
 //Create Product
