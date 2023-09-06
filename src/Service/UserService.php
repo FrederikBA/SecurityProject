@@ -1,47 +1,64 @@
 <?php
 
-require_once 'src/Database/Connector.php';
-require_once 'src/Model/user.php';
 require_once 'src/Model/Dto/UserDto.php';
+require_once 'src/Model/Dto/DeleteDto.php';
 
-/* "bindParam" - Binding Parameters: You're using parameter binding to safely insert the values into the query. This helps prevent SQL injection. */
 
-class UserService extends Connector
+class UserService
 {
+    private $userRepository;
 
-
-    public function updateUserInfo(UserDto $userDto)
+    public function __construct(UserRepository $userRepository)
     {
-        $sql = "UPDATE user SET email = :newEmail, username = :newUsername WHERE user_id = :userID";
-        $stmt = $this->getConnection()->prepare($sql);
-        $stmt->bindParam(':userID', $userDto->id);
-        $stmt->bindParam(':newEmail', $userDto->email);
-        $stmt->bindParam(':newUsername', $userDto->username);
-        // Check if the update was successful
-        return $stmt->execute();
+        $this->userRepository = $userRepository;
+    }
+
+
+    public function updateUser(UserDto $userDto)
+    {
+        try {
+            $updatedUser = $this->userRepository->UpdateUser($userDto->id, $userDto->email, $userDto->username);
+            if ($updatedUser > 0) {
+                echo "User updated successfully";
+                return $updatedUser;
+            } else {
+                echo "An error occured updating User";
+            }
+        } catch (PDOException $e) {
+            http_response_code(500);
+            echo $e->getMessage();
+        }
     }
 
 
     public function getUserById($userID)
     {
-        $sql = "SELECT `user_id`, `email`, `username` FROM `user` WHERE user_id = :userID";
-        $stmt = $this->getConnection()->prepare($sql);
-        $stmt->bindParam(':userID', $userID, PDO::PARAM_INT);
-        $stmt->execute();
-
-        $user = $stmt->fetch(PDO::FETCH_ASSOC);
-
-        return $user;
+        try {
+            $user = $this->userRepository->GetUser($userID);
+            if ($user) {
+                return new UserDto($user['user_id'], $user['email'], $user['username']);
+            } else {
+                return "User not found";
+            }
+        } catch (PDOException $e) {
+            http_response_code(500);
+            echo $e->getMessage();
+        }
     }
 
-    public function deleteUser(UserDto $userDto)
+    public function deleteUser(DeleteDto $dto)
     {
-        $sql = "DELETE FROM user WHERE user_id = :userId";
-        $stmt = $this->getConnection()->prepare($sql);
-        $stmt->bindParam(':userId', $userDto->id, PDO::PARAM_INT);
-        $stmt->execute();
-
-        // Check if any rows were affected (deleted)
-        return $stmt->rowCount() > 0;
+        try {
+            $rowsDeleted = $this->userRepository->DeleteUser($dto->id);
+            if ($rowsDeleted > 0) {
+                echo "User deleted successfully";
+                return $rowsDeleted;
+            } else {
+                echo "User not found or couldn't be deleted";
+            }
+        } catch (PDOException $e) {
+            http_response_code(500);
+            echo $e->getMessage();
+        }
     }
 }

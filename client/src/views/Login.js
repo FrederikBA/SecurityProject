@@ -13,22 +13,19 @@ const Login = () => {
 
     const login = async (evt) => {
         evt.preventDefault()
-
-        const formData = new FormData();
-        formData.append('username', loginCredentials.username);
-        formData.append('password', loginCredentials.password);
-
-
         try {
+            const formData = new FormData();
+            formData.append('username', loginCredentials.username);
+            formData.append('password', loginCredentials.password);
+
             const response = await apiUtils.getAxios().post(URL + '/login', formData, {
                 headers: {
                     'Content-Type': 'multipart/form-data'
                 },
             });
-            //TODO Landing page
-            navigate('/')
+            navigate('/landing')
         } catch (error) {
-            registerNotifyError(error.response.data)
+            loginNotifyError(error.response.data)
         }
     }
 
@@ -41,7 +38,7 @@ const Login = () => {
     }
 
     // Toast
-    const registerNotifyError = (msg) => {
+    const loginNotifyError = (msg) => {
         toast.error(msg, { position: toast.POSITION.BOTTOM_RIGHT });
     };
 
@@ -57,6 +54,7 @@ const Login = () => {
                 <br></br>
             </form>
             <button className="loginButton" onClick={toRegister}>Sign up</button>
+            <ToastContainer />
         </div >
     )
 }

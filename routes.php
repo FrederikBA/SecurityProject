@@ -2,15 +2,22 @@
 require __DIR__ . '/src/cors/init.php';
 require_once __DIR__ . '/router.php';
 
+//Views
 get('/security', '/public/index.php');
-post('/security/product/create', 'src/Endpoints/CreateProduct.php');
-get('/security/test', 'src/Endpoints/TestEndpoint.php');
-#any('/404', 'views/404.php');
 
+//Headers
+header("Content-Type: application/json");
+
+//Endpoints
+
+//Create Product
+post('/security/product/create', 'src/Endpoints/CreateProduct.php');
+
+//Get all Products
 get('/security/products', 'src/Endpoints/GetAllProducts.php');
 
-//Product by ID.
-get('/security/product/$id', 'src/Endpoints/GetProductById.php');
+//Get Product.
+get('/security/product/$id', 'src/Endpoints/GetProduct.php');
 
 //Delete product.
 post('/security/deleteproduct', 'src/Endpoints/DeleteProduct.php');
@@ -19,19 +26,19 @@ post('/security/deleteproduct', 'src/Endpoints/DeleteProduct.php');
 post('/security/updateproduct', 'src/Endpoints/UpdateProductPrice.php');
 
 //Update user info
-post('/security/updateuser', 'src/Endpoints/UpdateUserInfo.php');
+post('/security/updateuser', 'src/Endpoints/UpdateUser.php');
 
 //user by ID
-get('/security/user/$id', 'src/Endpoints/getUserById.php');
+get('/security/user/$id', 'src/Endpoints/GetUser.php');
 
 //Delete user
 post('/security/deleteuser', 'src/Endpoints/DeleteUser.php');
 
 //Get all orders with products
-get('/security/orders', 'src/Endpoints/GetAllOrderWithProduct.php');
+get('/security/orders', 'src/Endpoints/GetAllOrders.php');
 
 //Get Order by id
-get('/security/order/$id', 'src/Endpoints/GetOrderById.php');
+get('/security/order/$id', 'src/Endpoints/GetOrder.php');
 
 //Delete order
 post('/security/deleteorder', 'src/Endpoints/DeleteOrder.php');
@@ -44,3 +51,6 @@ post('/security/login', 'src/Endpoints/Login.php');
 
 //Logout user
 post('/security/logout', 'src/Endpoints/Logout.php');
+
+//Check user login
+get('/security/checklogin', "src/Endpoints/CheckLogin.php");

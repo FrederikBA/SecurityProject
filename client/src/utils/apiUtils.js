@@ -9,6 +9,7 @@ const api = () => {
     }
 
     const getAxios = () => {
+        axios.defaults.withCredentials = true;
         return axios.create()
     }
 
