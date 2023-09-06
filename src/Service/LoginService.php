@@ -42,14 +42,11 @@ class LoginService
 
             if ($user && password_verify($loginDto->password, $user['password'])) {
 
-                // Start the session
-                session_start();
-
                 // Password is correct, create a session for the user
                 $_SESSION['user_id'] = $user['user_id'];
                 $_SESSION['role_id'] = $user['role_id'];
 
-                // Regenerate the session ID and delete the old one (Security measure)
+                // Regenerate the session ID and delete the old one on each login
                 session_regenerate_id(true);
 
                 echo "Login successful";
@@ -67,9 +64,6 @@ class LoginService
     public function logoutUser()
     {
         try {
-            // Start the session
-            session_start();
-
             // Check if the user is logged in
             if (isset($_SESSION['user_id'])) {
                 // Destroy the session and unset all session variables. Prevents user information being accessed
