@@ -85,7 +85,6 @@ class LoginService
     // Checks the PHP session if user_id is available (is logged in)
     public function checkLoginStatus()
     {
-        session_start();
         if (isset($_SESSION['user_id'])) {
             echo json_encode(["message" => "User is logged in"]);
         } else {
