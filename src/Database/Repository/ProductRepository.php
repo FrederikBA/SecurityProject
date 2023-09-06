@@ -40,9 +40,9 @@ class ProductRepository extends Connector
 
     public function deleteProduct(int $id)
     {
-        $sql = "DELETE FROM product WHERE product_id = :productID";
+        $sql = "DELETE FROM product WHERE product_id = :id";
         $stmt = $this->getConnection()->prepare($sql);
-        $stmt->bindParam(':productID', $id, PDO::PARAM_INT);
+        $stmt->bindParam(':id', $id, PDO::PARAM_INT);
         $stmt->execute();
         return $stmt->rowCount() > 0;
     }

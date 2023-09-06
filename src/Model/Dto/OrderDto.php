@@ -2,12 +2,12 @@
 
 class OrderDto
 {
-    public $order_id;
-    public $user_id;
+    public $id;
+    public $userId;
 
-    public function __construct($order_id, $user_id)
+    public function __construct($id, $userId)
     {
-        $this->order_id = $order_id;
-        $this->user_id = $user_id;
+        $this->id = $id;
+        $this->userId = $userId;
     }
 }

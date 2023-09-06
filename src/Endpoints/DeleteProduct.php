@@ -13,8 +13,8 @@ $inputData = file_get_contents("php://input");
 $data = json_decode($inputData, true);
 
 if (isset($data['id'])) {
-    $productDto = new DeleteDto($data['id']);
-    $productService->deleteProduct($productDto); // Perform delete
+    $dto = new DeleteDto($data['id']);
+    $productService->deleteProduct($dto); // Perform delete
 } else {
     http_response_code(400);
     echo "Invalid body";

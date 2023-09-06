@@ -32,10 +32,10 @@ get('/security/user/$id', 'src/Endpoints/GetUser.php');
 post('/security/deleteuser', 'src/Endpoints/DeleteUser.php');
 
 //Get all orders with products
-get('/security/orders', 'src/Endpoints/GetAllOrderWithProduct.php');
+get('/security/orders', 'src/Endpoints/GetAllOrders.php');
 
 //Get Order by id
-get('/security/order/$id', 'src/Endpoints/GetOrderById.php');
+get('/security/order/$id', 'src/Endpoints/GetOrder.php');
 
 //Delete order
 post('/security/deleteorder', 'src/Endpoints/DeleteOrder.php');

@@ -10,8 +10,8 @@ $inputData = file_get_contents("php://input");
 $data = json_decode($inputData, true);
 
 if (isset($data['id'])) {
-    $userDto = new DeleteDto($data['id']);
-    $userService->deleteUser($userDto); // Perform delete
+    $dto = new DeleteDto($data['id']);
+    $userService->deleteUser($dto); // Perform delete
 } else {
     http_response_code(400);
     echo "Invalid body";

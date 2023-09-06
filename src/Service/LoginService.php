@@ -1,5 +1,4 @@
 <?php
-require_once 'src/Database/Connector.php';
 require_once 'src/Database/Repository/UserRepository.php';
 require_once 'src/Model/Dto/RegisterDto.php';
 require_once 'src/Model/Dto/LoginDto.php';

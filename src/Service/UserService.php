@@ -1,6 +1,5 @@
 <?php
 
-require_once 'src/Database/Connector.php';
 require_once 'src/Model/Dto/UserDto.php';
 require_once 'src/Model/Dto/DeleteDto.php';
 
@@ -47,10 +46,10 @@ class UserService
         }
     }
 
-    public function deleteUser(DeleteDto $userDto)
+    public function deleteUser(DeleteDto $dto)
     {
         try {
-            $rowsDeleted = $this->userRepository->DeleteUser($userDto->id);
+            $rowsDeleted = $this->userRepository->DeleteUser($dto->id);
             if ($rowsDeleted > 0) {
                 echo "User deleted successfully";
                 return $rowsDeleted;

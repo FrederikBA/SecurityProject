@@ -1,0 +1,11 @@
+<?php
+
+require_once 'src/Service/OrderService.php';
+require_once 'src/Database/Repository/OrderRepository.php';
+$orderRepository = new OrderRepository();
+$orderService = new OrderService($orderRepository);
+
+$order = $orderService->getOrder($id); //id is set automatically because of route setup
+
+//Serialize dto to json and echo
+echo json_encode($order);

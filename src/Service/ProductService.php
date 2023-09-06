@@ -1,6 +1,5 @@
 <?php
 
-require_once 'src/Database/Connector.php';
 require_once 'src/Model/Product.php';
 require_once 'src/Model/Dto/UpdateProductDto.php';
 require_once 'src/Model/Dto/CreateProductDto.php';
@@ -73,10 +72,10 @@ class ProductService
         }
     }
 
-    public function deleteProduct(DeleteDto $productDto)
+    public function deleteProduct(DeleteDto $dto)
     {
         try {
-            $rowsDeleted = $this->productRepository->DeleteProduct($productDto->id);
+            $rowsDeleted = $this->productRepository->DeleteProduct($dto->id);
             if ($rowsDeleted > 0) {
                 echo "Product deleted successfully";
                 return $rowsDeleted;
