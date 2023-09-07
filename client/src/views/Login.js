@@ -16,23 +16,30 @@ const Login = () => {
 
     const login = async (evt) => {
         evt.preventDefault();
-        try {   
-                const formData = new FormData();
-                formData.append('username', loginCredentials.username);
-                formData.append('password', loginCredentials.password);
-    
-                console.log("FormData prepared, sending login request"); 
-                 const response = await apiUtils.getAxios().post(URL + '/login', formData, {
-                     headers: {
-                         'Content-Type': 'multipart/form-data'
-                     },
-                 });
-                navigate('/landing');
+        try {
+            const formData = new FormData();
+            formData.append('username', loginCredentials.username);
+            formData.append('password', loginCredentials.password);
+            formData.append('g-recaptcha-response', captchaValue);  // appending captcha value
+            
+            console.log("FormData prepared, sending login request"); 
+            const response = await apiUtils.getAxios().post(URL + '/login', formData, {
+                headers: {
+                    'Content-Type': 'multipart/form-data'
+                },
+            });
+            navigate('/landing');
         } catch (error) {
             loginNotifyError("Login failed");
         }
     };
-
+    
+    const [captchaValue, setCaptchaValue] = useState(null); // declaring a state for storing captcha value
+    
+    const onFisk = (value) => {
+        console.log("Captcha value:", value);
+        setCaptchaValue(value); // setting the captcha value when it changes
+    };    
 
     const toRegister = () => {
         navigate('/register');
@@ -61,9 +68,9 @@ const Login = () => {
             <button className="loginButton" onClick={toRegister}>Sign up</button>
 
             <ReCAPTCHA
-    sitekey="6LeHfgMoAAAAAK-xEgrArjssBOgl7a5OuInbVloQ"
-    onChange={onChange}
-  />
+                sitekey="6LcPegcoAAAAALq6qy7sXoyh0LQJ-aL7xahbnSEK"
+                onChange={onFisk}
+            />
             <ToastContainer />
         </div>
     );

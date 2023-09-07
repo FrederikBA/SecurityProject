@@ -37,6 +37,21 @@ class LoginService
     public function loginUser($loginDto)
     {
         try {
+            // Verify CAPTCHA first
+            $secret = '6LcPegcoAAAAADplYg5YG4dUtZu_E9d1DrA9jESF'; // replace with your secret key
+            $response = $loginDto->recaptchaResponse;
+            $remoteip = $_SERVER['REMOTE_ADDR'];
+    
+            $url = "https://www.google.com/recaptcha/api/siteverify?secret=$secret&response=$response&remoteip=$remoteip";
+            $responseData = file_get_contents($url);
+            $dataRow = json_decode($responseData, true);
+    
+            if (!$dataRow['success']) {
+                http_response_code(401);
+                echo "reCAPTCHA verification failed";
+                return;
+            }
+
             // Get and check user credentials from the database
             $user = $this->userRepository->GetUserLoginCredentials($loginDto->username);
 
@@ -94,3 +109,4 @@ class LoginService
         }
     }
 }
+
