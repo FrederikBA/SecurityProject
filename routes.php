@@ -55,3 +55,9 @@ post('/security/logout', 'src/Endpoints/Logout.php');
 
 //Check user login
 get('/security/checklogin', "src/Endpoints/CheckLogin.php");
+
+
+
+get('/security/logtester', "src/Endpoints/Logtest.php");
+
+
