@@ -2,14 +2,17 @@
 require_once 'src/Database/Repository/UserRepository.php';
 require_once 'src/Model/Dto/RegisterDto.php';
 require_once 'src/Model/Dto/LoginDto.php';
+//require_once 'LoggingManager.php';
 
 class LoginService
 {
     private $userRepository;
-
+    private $securityLogger;
     public function __construct(UserRepository $userRepository)
     {
         $this->userRepository = $userRepository;
+        //$securityLoggerManager = new LoggingManager('security', 'Logs/security.log');
+       // $this->securityLogger = $securityLoggerManager->getLogger();
     }
 
     public function registerUser($registerDto)
@@ -46,8 +49,11 @@ class LoginService
             $responseData = file_get_contents($url);
             $dataRow = json_decode($responseData, true);
     
+            
+
             if (!$dataRow['success']) {
                 http_response_code(401);
+              //  $this->securityLogger->error('reCAPTCHA verification failed');
                 echo "reCAPTCHA verification failed";
                 return;
             }
@@ -67,10 +73,15 @@ class LoginService
                 echo "Login successful";
             } else {
                 http_response_code(500);
+                //Captcha skal være korrekt men pass/user forkert, før den rammer her.
+                $logMessage = "[" . date("d.m.Y H:i:s") . "] Incorrect login attempt for user: " . $loginDto->username .  "\n";
+                error_log($logMessage, 3, 'logs/userlogin.log');
                 echo "Incorrect username or password";
             }
         } catch (PDOException $e) {
             http_response_code(500);
+            $logMessage = "[" . date("d.m.Y H:i:s") . "] Database error: " . $e->getMessage();
+            error_log($logMessage, 3, 'logs/userlogin.log');
             echo $e->getMessage();
         }
     }
