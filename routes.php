@@ -56,8 +56,12 @@ post('/security/logout', 'src/Endpoints/Logout.php');
 //Check user login
 get('/security/checklogin', "src/Endpoints/CheckLogin.php");
 
+//Add to cart
+post('/security/addtocart', "src/Endpoints/Cart/AddToCart.php");
+
+//Get cart
+get('/security/getcart', "src/Endpoints/Cart/GetCart.php");
 
 
-get('/security/logtester', "src/Endpoints/Logtest.php");
 
-
+// get('/security/logtester', "src/Endpoints/Logtest.php");

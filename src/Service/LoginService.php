@@ -12,7 +12,7 @@ class LoginService
     {
         $this->userRepository = $userRepository;
         //$securityLoggerManager = new LoggingManager('security', 'Logs/security.log');
-       // $this->securityLogger = $securityLoggerManager->getLogger();
+        // $this->securityLogger = $securityLoggerManager->getLogger();
     }
 
     public function registerUser($registerDto)
@@ -44,16 +44,16 @@ class LoginService
             $secret = '6LcPegcoAAAAADplYg5YG4dUtZu_E9d1DrA9jESF'; // replace with your secret key
             $response = $loginDto->recaptchaResponse;
             $remoteip = $_SERVER['REMOTE_ADDR'];
-    
+
             $url = "https://www.google.com/recaptcha/api/siteverify?secret=$secret&response=$response&remoteip=$remoteip";
             $responseData = file_get_contents($url);
             $dataRow = json_decode($responseData, true);
-    
-            
+
+
 
             if (!$dataRow['success']) {
                 http_response_code(401);
-              //  $this->securityLogger->error('reCAPTCHA verification failed');
+                //  $this->securityLogger->error('reCAPTCHA verification failed');
                 echo "reCAPTCHA verification failed";
                 return;
             }
@@ -120,4 +120,3 @@ class LoginService
         }
     }
 }
-
