@@ -15,36 +15,41 @@ import OrderConfirmation from "./views/OrderConfirmation";
 
 const App = () => {
   const [isLoggedIn, setIsLoggedIn] = useState(false);
+  const [role, setRole] = useState("user");
   const URL = apiUtils.getUrl()
+
+  const checkLogin = async () => {
+    try {
+      const response = await apiUtils.getAxios().get(apiUtils.getUrl() + '/checklogin', {
+        withCredentials: true,
+      });
+      // If success, do login
+      setIsLoggedIn(true)
+      setRole(response.data)
+
+    } catch (error) {
+      // If error, do logout
+      onLogout()
+    }
+  }
 
   const onLogout = async () => {
     try {
       const response = await apiUtils.getAxios().post(URL + '/logout')
+      setIsLoggedIn(false)
+      setRole(response.data)
     } catch (error) {
       //Handle error
     }
   }
 
   useEffect(() => {
-    const checkLogin = async () => {
-      try {
-        const response = await apiUtils.getAxios().get(apiUtils.getUrl() + '/checklogin', {
-          withCredentials: true,
-        });
-        //If success, do login
-        setIsLoggedIn(true)
-
-      } catch (error) {
-        //If error, do logout
-        setIsLoggedIn(false)
-      }
-    }
     checkLogin();
   }, []);
 
   return (
     <BrowserRouter>
-      <Header isLoggedIn={isLoggedIn} onLogout={() => { onLogout(); setIsLoggedIn(false) }} />
+      <Header isLoggedIn={isLoggedIn} role={role} onLogout={() => { onLogout(); setIsLoggedIn(false) }} />
       <Routes>
         <Route path="/" element={<ShopPage isLoggedIn={isLoggedIn} />} />
         <Route path="/product/:productId" element={<ProductPage />} />
@@ -52,7 +57,7 @@ const App = () => {
         <Route path="/register" element={<Register />} />
         <Route path="/cart" element={<Cart />} />
         <Route path="/receipt" element={<OrderConfirmation />} />
-        <Route path='/landing' element={<LandingPage isLoggedIn={isLoggedIn} onLogin={() => setIsLoggedIn(true)} onLogout={() => setIsLoggedIn(false)} />} />
+        <Route path="/landing" element={<LandingPage isLoggedIn={isLoggedIn} checkLogin={checkLogin} />} />
       </Routes>
     </BrowserRouter>
   );

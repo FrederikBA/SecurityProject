@@ -1,24 +1,9 @@
-import { useState, useEffect } from "react";
-import apiUtils from "../utils/apiUtils";
+import { useEffect } from "react";
 
-const LandingPage = ({ isLoggedIn, onLogin, onLogout }) => {
-    const URL = apiUtils.getUrl();
+const LandingPage = ({ isLoggedIn, checkLogin }) => {
 
     useEffect(() => {
-        const checkLogin = async () => {
-            try {
-                const response = await apiUtils.getAxios().get(URL + '/checklogin', {
-                    withCredentials: true,
-                });
-                //If success, do login
-                onLogin()
-
-            } catch (error) {
-                //If error, do logout
-                onLogout()
-            }
-        }
-        checkLogin();
+        checkLogin()
     }, []);
 
     return (
