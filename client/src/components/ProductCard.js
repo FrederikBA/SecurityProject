@@ -3,29 +3,43 @@ import { useNavigate } from 'react-router-dom';
 import apiUtils from '../utils/apiUtils';
 import shirt from '../img/shirt.jpg';
 
-const ProductCard = ({ products, isLoading, rentNotifySuccess, rentNotifyError, rentNotifyLogin }) => {
+const ProductCard = ({ products, isLoggedIn, isLoading, rentNotifySuccess, rentNotifyError, rentNotifyLogin }) => {
     const navigate = useNavigate();
     const [hoveredProductId, setHoveredProductId] = useState(null);
 
+    // const formData = new FormData();
+    // formData.append('username', loginCredentials.username);
+    // formData.append('password', loginCredentials.password);
+    // formData.append('g-recaptcha-response', captchaValue);
+    // const response = await apiUtils.getAxios().post(URL + '/login', formData, {
+    //     headers: {
+    //         'Content-Type': 'multipart/form-data'
+    //     },
 
-    // const addToCart = async (movieId, price) => {
 
-    //     try {
-    //         if (localStorage.getItem('jwtToken') !== null) {
-    //             await apiUtils.getAxios().post(apiUtils.getUrl() + '/addtocart', {
-    //                 user_id: localStorage.getItem('userId'),
-    //                 movie_id: movieId,
-    //                 price: price,
-    //             });
-    //             rentNotifySuccess()
-    //         } else {
-    //             rentNotifyLogin()
-    //         }
+    const addToCart = async (productId, productName, quantity, productPrice) => {
+        try {
+            if (isLoggedIn) {
+                const formData = new FormData();
+                formData.append('productId', productId);
+                formData.append('productName', productName);
+                formData.append('quantity', quantity);
+                formData.append('productPrice', productPrice);
 
-    //     } catch (error) {
-    //         rentNotifyError()
-    //     }
-    // };
+                await apiUtils.getAxios().post(apiUtils.getUrl() + '/addtocart', formData, {
+                    headers: {
+                        'Content-Type': 'multipart/form-data'
+                    }
+                });
+                rentNotifySuccess()
+            } else {
+                rentNotifyLogin()
+            }
+
+        } catch (error) {
+            rentNotifyError()
+        }
+    };
 
     const handleProductClick = (productId) => {
         navigate(`/product/${productId}`);
@@ -44,7 +58,7 @@ const ProductCard = ({ products, isLoading, rentNotifySuccess, rentNotifyError, 
     }
 
     return (
-        <div className="container">
+        <div className="container" >
             <div className="row row-cols-5">
                 {/* {products.map((product) => (
                 <div key={product.movie_id} className="col mb-4 poster" onMouseEnter={() => handleMouseEnter(movie.movie_id)}
@@ -71,7 +85,7 @@ const ProductCard = ({ products, isLoading, rentNotifySuccess, rentNotifyError, 
                             {hoveredProductId === product.product_id ? (
                                 <>
                                     <button onClick={() => handleProductClick(product.product_id)} className="btn show-more">More info</button>
-                                    {/* <button onClick={(e) => { e.stopPropagation(); addToCart(movie.movie_id, movie.price); }} id="rent-button" className="btn rent">Add to basket</button> */}
+                                    <button onClick={(e) => { e.stopPropagation(); addToCart(product.product_id, product.product_name, 1, product.product_price); }} id="rent-button" className="btn rent">Add to cart</button>
                                 </>
                             ) : null}
 
@@ -83,7 +97,7 @@ const ProductCard = ({ products, isLoading, rentNotifySuccess, rentNotifyError, 
                     ))
                 }
             </div>
-        </div>
+        </div >
     );
 
 

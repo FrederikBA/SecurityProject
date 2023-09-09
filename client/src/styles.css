@@ -261,7 +261,7 @@ ul.header li a:hover:not(.active) {
 
 .poster .show-more {
   position: absolute;
-  top: 30%;
+  top: 22%;
   left: 50%;
   transform: translate(-50%, -50%);
   -ms-transform: translate(-50%, -50%);
@@ -278,20 +278,19 @@ ul.header li a:hover:not(.active) {
 
 .poster .rent {
   position: absolute;
-  top: 45%;
+  top: 50%;
   left: 50%;
   transform: translate(-50%, -50%);
   -ms-transform: translate(-50%, -50%);
-  background-color: transparent;
-  box-shadow: 0 0 0 2px #fff;
-  color: white;
-  font-size: 16px;
+  box-shadow: 0 0 0 2px #000;
+  font-size: 12px;
   padding: 12px 24px;
   border: none;
   cursor: pointer;
   border-radius: 5px;
   font-weight: bold;
-  width: 10em;
+  width: 9em;
+  white-space: nowrap;
 }
 
 .poster .stream-movie {
@@ -313,7 +312,7 @@ ul.header li a:hover:not(.active) {
 }
 
 .poster .btn:hover {
-  background-color: white !important;
+  background-color: #ffe13f !important;
   color: black !important;
   opacity: 1;
 }
@@ -488,4 +487,8 @@ ul.header li a:hover:not(.active) {
 .product-id {
   font-size: 14px;
   color: #888;
+}
+
+.g-captcha {
+  display: inline-block;
 }

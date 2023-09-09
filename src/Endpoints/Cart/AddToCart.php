@@ -4,11 +4,11 @@ require_once 'src/Service/CartService.php';
 require_once 'src/Model/CartLine.php';
 $cartService = new CartService();
 
-if (isset($_POST['product_id'], $_POST['product_name'], $_POST['quantity'], $_POST['product_price'])) {
-    $productId = $_POST['product_id'];
-    $productName = $_POST['product_name'];
+if (isset($_POST['productId'], $_POST['productName'], $_POST['quantity'], $_POST['productPrice'])) {
+    $productId = $_POST['productId'];
+    $productName = $_POST['productName'];
     $quantity = (int)$_POST['quantity'];
-    $product_price = (float)$_POST['product_price'];
+    $product_price = (float)$_POST['productPrice'];
 
     $cart = $cartService->getCart();
 

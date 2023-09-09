@@ -45,7 +45,7 @@ const App = () => {
     <BrowserRouter>
       <Header isLoggedIn={isLoggedIn} onLogout={() => { onLogout(); setIsLoggedIn(false) }} />
       <Routes>
-        <Route path="/" element={<ShopPage />} />
+        <Route path="/" element={<ShopPage isLoggedIn={isLoggedIn} />} />
         <Route path="/product/:productId" element={<ProductPage />} />
         <Route path="/login" element={<Login />} />
         <Route path="/register" element={<Register />} />

@@ -1,7 +1,5 @@
 <?php
 
-require_once 'src/Model/Cart.php';
-require_once 'src/Model/CartLine.php';
 require_once 'src/Service/CartService.php';
 
 $cartService = new CartService();

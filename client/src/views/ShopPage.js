@@ -5,7 +5,7 @@ import 'react-toastify/dist/ReactToastify.css';
 
 import ProductCard from '../components/ProductCard';
 
-const ShopPage = () => {
+const ShopPage = ({ isLoggedIn }) => {
     const [products, setProducts] = useState([{}]);
     const [isLoading, setIsLoading] = useState(true);
 
@@ -36,7 +36,7 @@ const ShopPage = () => {
 
     return (
         <div className="center">
-            <ProductCard products={products} isLoading={isLoading} rentNotifySuccess={rentNotifySuccess} rentNotifyError={rentNotifyError} rentNotifyLogin={rentNotifyLogin} />
+            <ProductCard products={products} isLoggedIn={isLoggedIn} isLoading={isLoading} rentNotifySuccess={rentNotifySuccess} rentNotifyError={rentNotifyError} rentNotifyLogin={rentNotifyLogin} />
         </div>
     )
 }
