@@ -117,13 +117,45 @@ class LoginService
     // Checks the PHP session if user_id is available (is logged in)
     public function checkLoginStatus()
     {
-        //TODO Should check if user exists in database too
         if (isset($_SESSION['user_id'])) {
-            echo json_encode(["message" => "User is logged in"]);
+            // User is logged in, check if user exists in the database
+            $this->userRepository->getUser($_SESSION['user_id']);
+
+            switch ($this->checkRole()) {
+                case "user":
+                    // User with role "user" is logged in
+                    return "user";
+
+                case "admin":
+                    // User with role "admin" is logged in
+                    return "admin";
+
+                default:
+                    // User is not found in the database, consider them logged out
+                    unset($_SESSION['user_id']);
+                    http_response_code(401);
+                    echo json_encode(["message" => "User is not logged in"]);
+                    break;
+            }
         } else {
             // User is not logged in
             http_response_code(401);
             echo json_encode(["message" => "User is not logged in"]);
+        }
+    }
+
+
+    private function checkRole()
+    {
+        if (isset($_SESSION['role_id'])) {
+            $role = $_SESSION['role_id'];
+            if ($role === 1) {
+                return "user";
+            } elseif ($role === 2) {
+                return "admin";
+            } else {
+                return "unknown";
+            }
         }
     }
 }
