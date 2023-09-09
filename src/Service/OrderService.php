@@ -1,6 +1,8 @@
 <?php
 
 require_once 'src/Model/Dto/DeleteDto.php';
+require_once 'src/Model/Dto/CreateOrderDto.php';
+
 
 class OrderService
 {
@@ -18,6 +20,8 @@ class OrderService
             return $orders;
         } catch (PDOException $e) {
             echo $e->getMessage();
+            //TODO log $e->getMessage()
+            //TODO Statuscode
         }
     }
 
@@ -34,12 +38,25 @@ class OrderService
             return $order;
         } catch (PDOException $e) {
             echo $e->getMessage();
+            //TODO log $e->getMessage()
+            //TODO Statuscode
         }
     }
 
-    public function createOrder()
+    public function createOrder(CreateOrderDto $orderDto)
     {
-        //TODO Implement
+        try {
+            $product = $this->orderRepository->createOrder($orderDto->id, $orderDto->lines);
+            if ($product) {
+                echo "Order created successfully";
+            } else {
+                echo "Failed to create the order";
+            }
+        } catch (PDOException $e) {
+            echo $e->getMessage();
+            //TODO log $e->getMessage()
+            //TODO Statuscode
+        }
     }
 
 
@@ -55,6 +72,8 @@ class OrderService
             }
         } catch (PDOException $e) {
             echo $e->getMessage();
+            //TODO log $e->getMessage()
+            //TODO Statuscode
         }
     }
 }

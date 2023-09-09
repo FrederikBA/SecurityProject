@@ -5,9 +5,10 @@ INSERT INTO User (email, username, password) VALUES
   ('user3@example.com', 'user3', 'password3');
 
 -- Dummy data for Roles table
+
 INSERT INTO Roles (role) VALUES
-  ('Admin'),
-  ('Customer');
+  ('user'),
+  ('admin');
 
 -- Dummy data for UserRole table
 INSERT INTO UserRole (role_id, user_id) VALUES

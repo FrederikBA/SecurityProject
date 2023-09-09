@@ -21,10 +21,13 @@ class ProductService
 
             if (!$product) {
                 echo "Product not found.";
+                //TODO Statuscode
             }
             return $product;
         } catch (PDOException $e) {
             echo $e->getMessage();
+            //TODO log $e->getMessage()
+            //TODO Statuscode
         }
     }
 
@@ -47,9 +50,12 @@ class ProductService
                 echo "Product created successfully!";
             } else {
                 echo "Failed to create the product!";
+                //TODO Statuscode
             }
         } catch (PDOException $e) {
             echo $e->getMessage();
+            //TODO log $e->getMessage()
+            //TODO Statuscode
         }
     }
 
@@ -63,9 +69,12 @@ class ProductService
                 return $updatedProduct;
             } else {
                 echo "An error occured updating the price on the product";
+                //TODO Statuscode
             }
         } catch (PDOException $e) {
             echo $e->getMessage();
+            //TODO log $e->getMessage()
+            //TODO Statuscode
         }
     }
 
@@ -81,6 +90,8 @@ class ProductService
             }
         } catch (PDOException $e) {
             echo $e->getMessage();
+            //TODO log $e->getMessage()
+            //TODO Statuscode
         }
     }
 }

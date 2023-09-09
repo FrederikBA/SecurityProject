@@ -37,6 +37,7 @@ CREATE TABLE OrderLine (
   order_id INT,
   product_id INT,
   quantity INT,
+  price FLOAT,
   FOREIGN KEY (order_id) REFERENCES `Order`(order_id) ON DELETE CASCADE,
   FOREIGN KEY (product_id) REFERENCES Product(product_id) ON DELETE CASCADE
 );
