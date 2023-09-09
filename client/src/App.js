@@ -10,6 +10,7 @@ import Login from './views/Login';
 import Register from "./views/Register";
 import LandingPage from "./views/LandingPage";
 import Cart from "./views/Cart";
+import OrderConfirmation from "./views/OrderConfirmation";
 
 
 const App = () => {
@@ -50,6 +51,7 @@ const App = () => {
         <Route path="/login" element={<Login />} />
         <Route path="/register" element={<Register />} />
         <Route path="/cart" element={<Cart />} />
+        <Route path="/receipt" element={<OrderConfirmation />} />
         <Route path='/landing' element={<LandingPage isLoggedIn={isLoggedIn} onLogin={() => setIsLoggedIn(true)} onLogout={() => setIsLoggedIn(false)} />} />
       </Routes>
     </BrowserRouter>

@@ -3,7 +3,7 @@ require_once 'src/Database/Connector.php';
 
 class UserRepository extends Connector
 {
-    public function UpdateUser(int $userId, string $email, string $username)
+    public function updateUser(int $userId, string $email, string $username)
     {
         $sql = "UPDATE user SET email = :newEmail, username = :newUsername WHERE user_id = :userId";
         $stmt = $this->getConnection()->prepare($sql);
@@ -14,7 +14,7 @@ class UserRepository extends Connector
         return $stmt->rowCount();
     }
 
-    public function GetUser(int $userId)
+    public function getUser(int $userId)
     {
         $sql = "SELECT user_id, email, username FROM user WHERE user_id = :userId";
         $stmt = $this->getConnection()->prepare($sql);
@@ -24,7 +24,7 @@ class UserRepository extends Connector
         return $user;
     }
 
-    public function DeleteUser($userId)
+    public function deleteUser($userId)
     {
         $sql = "DELETE FROM user WHERE user_id = :userId";
         $stmt = $this->getConnection()->prepare($sql);
@@ -46,7 +46,7 @@ class UserRepository extends Connector
         $stmt->execute([$user_id, 1]); // roleId 1 = user role
     }
 
-    public function GetUserLoginCredentials(string $username)
+    public function getUserLoginCredentials(string $username)
     {
         $connection = $this->getConnection();
 

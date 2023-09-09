@@ -41,6 +41,9 @@ get('/security/orders', 'src/Endpoints/Order/GetAllOrders.php');
 //Get Order by id
 get('/security/order/$id', 'src/Endpoints/Order/GetOrder.php');
 
+//Get latest order
+get('/security/latestorder', 'src/Endpoints/Order/GetLatestOrder.php');
+
 //Create Order
 post('/security/createorder', 'src/Endpoints/Order/CreateOrder.php');
 

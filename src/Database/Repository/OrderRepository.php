@@ -3,48 +3,43 @@ require_once 'src/Database/Connector.php';
 
 class OrderRepository extends Connector
 {
-    public function GetOrder(string $id)
+    public function getOrder(string $id)
     {
-        try {
-            // Create a query to fetch the order and its order lines
-            $sql = "SELECT O.order_id, O.created, OL.product_id, OL.quantity, OL.price
-                FROM `Order` AS O
-                INNER JOIN OrderLine AS OL ON O.order_id = OL.order_id
-                WHERE O.order_id = :order_id";
+        $sql = "SELECT O.order_id, O.created, OL.product_id, OL.quantity, OL.price, P.product_name
+        FROM `Order` AS O
+        INNER JOIN OrderLine AS OL ON O.order_id = OL.order_id
+        INNER JOIN Product AS P ON OL.product_id = P.product_id
+        WHERE O.order_id = :order_id";
 
-            $stmt = $this->getConnection()->prepare($sql);
-            $stmt->bindParam(':order_id', $id, PDO::PARAM_STR);
-            $stmt->execute();
 
-            // Initialize variables to store the order
-            $order = null;
+        $stmt = $this->getConnection()->prepare($sql);
+        $stmt->bindParam(':order_id', $id, PDO::PARAM_STR);
+        $stmt->execute();
 
-            while ($row = $stmt->fetch(PDO::FETCH_ASSOC)) {
-                if ($order === null) {
-                    $order = [
-                        'order_id' => $row['order_id'],
-                        'created' => $row['created'],
-                        'order_lines' => [],
-                    ];
-                }
-                $order['order_lines'][] = [
-                    'product_id' => $row['product_id'],
-                    'quantity' => $row['quantity'],
-                    'price' => $row['price'],
+        // Initialize variables to store the order
+        $order = null;
+
+        while ($row = $stmt->fetch(PDO::FETCH_ASSOC)) {
+            if ($order === null) {
+                $order = [
+                    'order_id' => $row['order_id'],
+                    'created' => $row['created'],
+                    'lines' => [],
                 ];
             }
-
-            $stmt->closeCursor();
-
-            return $order;
-        } catch (PDOException $e) {
-            // Handle any exceptions here (e.g., log the error)
-            //TODO log $e->getMessage()
+            $order['lines'][] = [
+                'product_name' => $row['product_name'],
+                'product_id' => $row['product_id'],
+                'quantity' => $row['quantity'],
+                'price' => $row['price'],
+            ];
         }
+
+        return $order;
     }
 
 
-    public function GetAllOrders()
+    public function getAllOrders()
     {
         $sql = "SELECT * FROM `order`";
         $stmt = $this->getConnection()->prepare($sql);
@@ -52,7 +47,47 @@ class OrderRepository extends Connector
         return $stmt->fetchAll(PDO::FETCH_ASSOC);
     }
 
-    public function CreateOrder(int $user_id, array $orderLines)
+    public function GetLatestOrder(int $user_id)
+    {
+        $sql = "SELECT O.order_id, O.created, OL.product_id, OL.quantity, OL.price, P.product_name
+        FROM `Order` AS O
+        INNER JOIN OrderLine AS OL ON O.order_id = OL.order_id
+        INNER JOIN Product AS P ON OL.product_id = P.product_id
+        WHERE O.order_id = (
+            SELECT MAX(order_id)
+            FROM `Order`
+            WHERE user_id = :user_id
+        )";
+
+
+
+        $stmt = $this->getConnection()->prepare($sql);
+        $stmt->bindParam(':user_id', $user_id, PDO::PARAM_INT);
+        $stmt->execute();
+
+        // Initialize variables to store the latest order and its order lines
+        $latestOrder = null;
+        while ($row = $stmt->fetch(PDO::FETCH_ASSOC)) {
+            if ($latestOrder === null) {
+                $latestOrder = [
+                    'order_id' => $row['order_id'],
+                    'created' => $row['created'],
+                    'lines' => [],
+                ];
+            }
+            $latestOrder['lines'][] = [
+                'product_name' => $row['product_name'],
+                'product_id' => $row['product_id'],
+                'quantity' => $row['quantity'],
+                'price' => $row['price'],
+            ];
+        }
+        return $latestOrder;
+    }
+
+
+
+    public function createOrder(int $user_id, array $orderLines)
     {
         $connection = $this->getConnection();
         $connection->beginTransaction();
@@ -95,15 +130,12 @@ class OrderRepository extends Connector
         }
     }
 
-
-
-
-    public function UpdateOrder()
+    public function updateOrder()
     {
         //TODO Implement
     }
 
-    public function DeleteOrder(int $id)
+    public function deleteOrder(int $id)
     {
         $sql = "DELETE FROM order WHERE order_id = :id";
         $stmt = $this->getConnection()->prepare($sql);

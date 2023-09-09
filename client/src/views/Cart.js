@@ -40,8 +40,7 @@ const Cart = () => {
             await apiUtils.getAxios().post(URL + '/createorder', {
                 lines: cart.cartLines
             });
-            //TODO navigate to receipt
-            navigate('/')
+            navigate('/receipt')
         } catch (error) {
             console.log(error);
         }

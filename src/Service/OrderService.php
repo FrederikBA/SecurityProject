@@ -43,6 +43,30 @@ class OrderService
         }
     }
 
+    public function getLatestOrder()
+    {
+        try {
+            //Get user id from session
+            if (isset($_SESSION['user_id'])) {
+                $userId = $_SESSION['user_id'];
+                $order = $this->orderRepository->getLatestOrder($userId);
+                if ($order) {
+                    return $order;
+                } else {
+                    echo "Order not found";
+                    //TODO statuscode
+                }
+            } else {
+                echo "An error occured, user not found";
+                //TODO statuscode
+            }
+        } catch (PDOException $e) {
+            echo $e->getMessage();
+            //TODO log $e->getMessage()
+            //TODO Statuscode
+        }
+    }
+
     public function createOrder(CreateOrderDto $orderDto)
     {
         $cartService = new CartService();
