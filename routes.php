@@ -60,7 +60,7 @@ get('/security/checklogin', "src/Endpoints/CheckLogin.php");
 post('/security/addtocart', "src/Endpoints/Cart/AddToCart.php");
 
 //Get cart
-get('/security/getcart', "src/Endpoints/Cart/GetCart.php");
+get('/security/cart', "src/Endpoints/Cart/GetCart.php");
 
 //Add to cart
 post('/security/clearcart', "src/Endpoints/Cart/ClearCart.php");

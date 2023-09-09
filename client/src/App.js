@@ -9,6 +9,7 @@ import ProductPage from './views/ProductPage';
 import Login from './views/Login';
 import Register from "./views/Register";
 import LandingPage from "./views/LandingPage";
+import Cart from "./views/Cart";
 
 
 const App = () => {
@@ -48,6 +49,7 @@ const App = () => {
         <Route path="/product/:productId" element={<ProductPage />} />
         <Route path="/login" element={<Login />} />
         <Route path="/register" element={<Register />} />
+        <Route path="/cart" element={<Cart />} />
         <Route path='/landing' element={<LandingPage onLogin={() => setIsLoggedIn(true)} onLogout={() => setIsLoggedIn(false)} />} />
       </Routes>
     </BrowserRouter>
