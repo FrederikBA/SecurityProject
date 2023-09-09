@@ -23,7 +23,7 @@ class UserService
                 return $updatedUser;
             } else {
                 echo "An error occured updating User";
-                //TODO Statuscode
+                http_response_code(500);
             }
         } catch (PDOException $e) {
             http_response_code(500);
@@ -41,11 +41,10 @@ class UserService
                 return new UserDto($user['user_id'], $user['email'], $user['username']);
             } else {
                 return "User not found";
-                //TODO Statuscode
+                http_response_code(400);
             }
         } catch (PDOException $e) {
             http_response_code(500);
-            echo $e->getMessage();
             //TODO log $e->getMessage()
         }
     }
@@ -58,12 +57,11 @@ class UserService
                 echo "User deleted successfully";
                 return $rowsDeleted;
             } else {
-                echo "User not found or couldn't be deleted";
-                //TODO Statuscode
+                echo "User not found";
+                http_response_code(400);
             }
         } catch (PDOException $e) {
             http_response_code(500);
-            echo $e->getMessage();
             //TODO log $e->getMessage()
         }
     }

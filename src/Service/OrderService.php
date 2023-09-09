@@ -20,9 +20,8 @@ class OrderService
             $orders = $this->orderRepository->getAllOrders();
             return $orders;
         } catch (PDOException $e) {
-            echo $e->getMessage();
             //TODO log $e->getMessage()
-            //TODO Statuscode
+            http_response_code(500);
         }
     }
 
@@ -38,9 +37,8 @@ class OrderService
             }
             return $order;
         } catch (PDOException $e) {
-            echo $e->getMessage();
             //TODO log $e->getMessage()
-            //TODO Statuscode
+            http_response_code(500);
         }
     }
 
@@ -55,16 +53,15 @@ class OrderService
                     return $order;
                 } else {
                     echo "Order not found";
-                    //TODO statuscode
+                    http_response_code(400);
                 }
             } else {
                 echo "An error occured, user not found";
-                //TODO statuscode
+                http_response_code(400);
             }
         } catch (PDOException $e) {
-            echo $e->getMessage();
             //TODO log $e->getMessage()
-            //TODO Statuscode
+            http_response_code(500);
         }
     }
 
@@ -84,16 +81,16 @@ class OrderService
                     $cartService->clearCart();
                 } else {
                     echo "Failed to create the order";
-                    //TODO statuscode
+                    http_response_code(400);
                 }
             } else {
                 echo "An error occured, user not found";
-                //TODO statuscode
+                http_response_code(400);
             }
         } catch (PDOException $e) {
             echo $e->getMessage();
             //TODO log $e->getMessage()
-            //TODO Statuscode
+            http_response_code(500);
         }
     }
 

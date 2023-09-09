@@ -21,13 +21,13 @@ class ProductService
 
             if (!$product) {
                 echo "Product not found.";
-                //TODO Statuscode
+                http_response_code(400);
             }
             return $product;
         } catch (PDOException $e) {
             echo $e->getMessage();
             //TODO log $e->getMessage()
-            //TODO Statuscode
+            http_response_code(500);
         }
     }
 
@@ -37,7 +37,8 @@ class ProductService
             $products = $this->productRepository->getAllProducts();
             return $products;
         } catch (PDOException $e) {
-            echo $e->getMessage();
+            http_response_code(500);
+            //TODO log $e->getMessage()
         }
     }
 
@@ -50,12 +51,11 @@ class ProductService
                 echo "Product created successfully!";
             } else {
                 echo "Failed to create the product!";
-                //TODO Statuscode
+                http_response_code(500);
             }
         } catch (PDOException $e) {
-            echo $e->getMessage();
             //TODO log $e->getMessage()
-            //TODO Statuscode
+            http_response_code(500);
         }
     }
 
@@ -69,12 +69,11 @@ class ProductService
                 return $updatedProduct;
             } else {
                 echo "An error occured updating the price on the product";
-                //TODO Statuscode
+                http_response_code(500);
             }
         } catch (PDOException $e) {
-            echo $e->getMessage();
             //TODO log $e->getMessage()
-            //TODO Statuscode
+            http_response_code(500);
         }
     }
 
@@ -86,12 +85,12 @@ class ProductService
                 echo "Product deleted successfully";
                 return $rowsDeleted;
             } else {
-                echo "Product not found or couldn't be deleted";
+                echo "Product not found";
+                http_response_code(400);
             }
         } catch (PDOException $e) {
-            echo $e->getMessage();
             //TODO log $e->getMessage()
-            //TODO Statuscode
+            http_response_code(500);
         }
     }
 }

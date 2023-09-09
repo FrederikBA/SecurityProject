@@ -75,7 +75,6 @@ class CartService
                 // Remove the CartLine from the array
                 unset($cartLines[$key]);
 
-                // Update the Cart object with the modified cartLines
                 $cart->setCartLines(array_values($cartLines));
 
                 // Update the total price
@@ -88,10 +87,10 @@ class CartService
                 // Store the updated cart in the session
                 $_SESSION['cart'] = serialize($cart);
 
-                return true; // Successfully deleted the cart item
+                return true;
             }
         }
 
-        return false; // Cart item not found
+        return false;
     }
 }
