@@ -62,5 +62,8 @@ post('/security/addtocart', "src/Endpoints/Cart/AddToCart.php");
 //Get cart
 get('/security/cart', "src/Endpoints/Cart/GetCart.php");
 
-//Add to cart
+//Remove CartLine
+post('/security/removecartline', "src/Endpoints/Cart/RemoveCartLine.php");
+
+//Clear cart
 post('/security/clearcart', "src/Endpoints/Cart/ClearCart.php");

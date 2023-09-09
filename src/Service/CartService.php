@@ -1,7 +1,7 @@
 <?php
 require_once 'src/Model/Cart.php';
 require_once 'src/Model/CartLine.php';
-
+require_once 'src/Model/Dto/DeleteDto.php';
 
 class CartService
 {
@@ -65,14 +65,33 @@ class CartService
         return null;
     }
 
-    public function removeCartItem($productId)
+    public function deleteCartItem(DeleteDto $dto)
     {
-        foreach ($this->cart->cartLines as $key => $cartLine) {
-            if ($cartLine->getProductId() == $productId) {
-                unset($this->cart->cartLines[$key]);
-                $this->cart->cartLines = array_values($this->cart->cartLines);
-                return;
+        $cart = $this->getCart();
+        $cartLines = $cart->getCartLines();
+
+        foreach ($cartLines as $key => $cartLine) {
+            if ($cartLine->getProductId() == $dto->id) {
+                // Remove the CartLine from the array
+                unset($cartLines[$key]);
+
+                // Update the Cart object with the modified cartLines
+                $cart->setCartLines(array_values($cartLines));
+
+                // Update the total price
+                $totalPrice = 0;
+                foreach ($cartLines as $line) {
+                    $totalPrice += $line->getPrice();
+                }
+                $cart->setTotalPrice($totalPrice);
+
+                // Store the updated cart in the session
+                $_SESSION['cart'] = serialize($cart);
+
+                return true; // Successfully deleted the cart item
             }
         }
+
+        return false; // Cart item not found
     }
 }

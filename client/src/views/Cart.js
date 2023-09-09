@@ -1,22 +1,36 @@
 import { useState, useEffect } from "react";
 import apiUtils from "../utils/apiUtils";
 import shirt from '../img/shirt.jpg';
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
+import { faRemove } from '@fortawesome/free-solid-svg-icons'
 
 const Cart = () => {
     const [cart, setCart] = useState({ "cartLines": [] });
-
+    const deleteIcon = <FontAwesomeIcon icon={faRemove} size="2x" />
     const URL = apiUtils.getUrl()
 
+    const getCart = async () => {
+        const response = await apiUtils.getAxios().get(URL + '/cart')
+        setCart(response.data)
+    }
+
     useEffect(() => {
-        const getCart = async () => {
-            const response = await apiUtils.getAxios().get(URL + '/cart')
-            setCart(response.data)
-            console.log(cart);
-        }
         getCart()
     }, []);
 
     const totalQuantity = cart.cartLines.reduce((total, cartLine) => total + cartLine.quantity, 0);
+
+    const handleRemove = async (itemId) => {
+        try {
+            await apiUtils.getAxios().post(URL + '/removecartline', {
+                id: itemId
+            });
+            await getCart();
+        } catch (error) {
+            console.error("Error removing cart line:", error);
+        }
+    };
+
 
     return (
         <div className="container">
@@ -32,6 +46,7 @@ const Cart = () => {
                                 <th>Product Name</th>
                                 <th>Quantity</th>
                                 <th>Price</th>
+                                <th></th>
                             </tr>
                         </thead>
                         <tbody>
@@ -41,6 +56,8 @@ const Cart = () => {
                                     <td>{item.productName}</td>
                                     <td>{item.quantity}</td>
                                     <td>${item.price}</td>
+                                    <td>{<div onClick={() => handleRemove(item.productId)} className="cart-remove cart-item-details">{deleteIcon}</div>}</td>
+
                                 </tr>
                             ))}
                         </tbody>

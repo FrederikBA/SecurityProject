@@ -10,6 +10,11 @@ class Cart
         return $this->cartLines;
     }
 
+    public function setCartLines($cartLines)
+    {
+        $this->cartLines = $cartLines;
+    }
+
     public function getTotalPrice()
     {
         return $this->totalPrice;

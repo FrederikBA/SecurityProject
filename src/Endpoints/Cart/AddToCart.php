@@ -2,6 +2,7 @@
 
 require_once 'src/Service/CartService.php';
 require_once 'src/Model/CartLine.php';
+
 $cartService = new CartService();
 
 if (isset($_POST['productId'], $_POST['productName'], $_POST['quantity'], $_POST['productPrice'])) {
