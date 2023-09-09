@@ -38,6 +38,10 @@ const OrderConfirmation = () => {
                             <th>Order Date</th>
                             <td>{order.created}</td>
                         </tr>
+                        <tr>
+                            <th>Order status</th>
+                            <td>{order.order_status}</td>
+                        </tr>
                         {/* Add more order-related information as needed */}
                     </tbody>
                 </table>

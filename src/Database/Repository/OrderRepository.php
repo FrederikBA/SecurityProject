@@ -5,7 +5,7 @@ class OrderRepository extends Connector
 {
     public function getOrder(string $id)
     {
-        $sql = "SELECT O.order_id, O.created, OL.product_id, OL.quantity, OL.price, P.product_name
+        $sql = "SELECT O.order_id, O.order_status, O.created, OL.product_id, OL.quantity, OL.price, P.product_name
         FROM `Order` AS O
         INNER JOIN OrderLine AS OL ON O.order_id = OL.order_id
         INNER JOIN Product AS P ON OL.product_id = P.product_id
@@ -23,6 +23,7 @@ class OrderRepository extends Connector
             if ($order === null) {
                 $order = [
                     'order_id' => $row['order_id'],
+                    'order_status' => $row['order_status'],
                     'created' => $row['created'],
                     'lines' => [],
                 ];
@@ -49,7 +50,7 @@ class OrderRepository extends Connector
 
     public function GetLatestOrder(int $user_id)
     {
-        $sql = "SELECT O.order_id, O.created, OL.product_id, OL.quantity, OL.price, P.product_name
+        $sql = "SELECT O.order_id, O.order_status, O.created, OL.product_id, OL.quantity, OL.price, P.product_name
         FROM `Order` AS O
         INNER JOIN OrderLine AS OL ON O.order_id = OL.order_id
         INNER JOIN Product AS P ON OL.product_id = P.product_id
@@ -71,6 +72,7 @@ class OrderRepository extends Connector
             if ($latestOrder === null) {
                 $latestOrder = [
                     'order_id' => $row['order_id'],
+                    'order_status' => $row['order_status'],
                     'created' => $row['created'],
                     'lines' => [],
                 ];

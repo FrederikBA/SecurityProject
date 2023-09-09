@@ -12,6 +12,7 @@
 
 -- Dummy data for Roles table
 use shopdb;
+
 INSERT INTO Roles (role) VALUES
   ('user'), -- Must be id = 1 (or it will break)
   ('admin'); -- Must be id = 2 (or it will break)

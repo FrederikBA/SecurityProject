@@ -29,6 +29,7 @@ CREATE TABLE UserRole (
 CREATE TABLE `Order` (
   order_id VARCHAR(255) PRIMARY KEY,
   user_id INT,
+  order_status VARCHAR(255) DEFAULT 'In Progress',
   created TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
   FOREIGN KEY (user_id) REFERENCES User(user_id) ON DELETE CASCADE
 );

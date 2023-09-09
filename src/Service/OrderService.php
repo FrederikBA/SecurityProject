@@ -79,7 +79,6 @@ class OrderService
                 $order = $this->orderRepository->createOrder($userId, $orderDto->lines);
                 if ($order) {
                     echo "Order created successfully";
-
                     //Clear cart on successful order
                     $cartService->clearCart();
                 } else {
@@ -96,7 +95,6 @@ class OrderService
             //TODO Statuscode
         }
     }
-
 
     public function deleteOrder(DeleteDto $dto)
     {
