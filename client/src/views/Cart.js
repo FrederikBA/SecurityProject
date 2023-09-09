@@ -63,7 +63,7 @@ const Cart = () => {
                         </tbody>
                     </table>
                     <div className="text-end">
-                        <h4>Total Price: $100</h4>
+                        <h4>Total Price: ${cart.totalPrice}</h4>
                     </div>
                 </>
             )}
