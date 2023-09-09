@@ -1,6 +1,7 @@
 <?php
 
 require_once 'src/Service/ProductService.php';
+require_once 'src/Database/Repository/ProductRepository.php';
 
 if (isset($_POST['name'], $_POST['price'])) {
     $productRepository = new ProductRepository();

@@ -2,12 +2,10 @@
 
 class CreateOrderDto
 {
-    public string $id;
     public array $lines;
 
-    public function __construct($id, $lines)
+    public function __construct($lines)
     {
-        $this->id = $id;
         $this->lines = $lines;
     }
 }

@@ -2,7 +2,7 @@
 
 require_once 'src/Model/Dto/DeleteDto.php';
 require_once 'src/Model/Dto/CreateOrderDto.php';
-
+require_once 'src/Service/CartService.php';
 
 class OrderService
 {
@@ -45,12 +45,26 @@ class OrderService
 
     public function createOrder(CreateOrderDto $orderDto)
     {
+        $cartService = new CartService();
+
         try {
-            $product = $this->orderRepository->createOrder($orderDto->id, $orderDto->lines);
-            if ($product) {
-                echo "Order created successfully";
+            //Get user id from session
+            if (isset($_SESSION['user_id'])) {
+                $userId = $_SESSION['user_id'];
+
+                $order = $this->orderRepository->createOrder($userId, $orderDto->lines);
+                if ($order) {
+                    echo "Order created successfully";
+
+                    //Clear cart on successful order
+                    $cartService->clearCart();
+                } else {
+                    echo "Failed to create the order";
+                    //TODO statuscode
+                }
             } else {
-                echo "Failed to create the order";
+                echo "An error occured, user not found";
+                //TODO statuscode
             }
         } catch (PDOException $e) {
             echo $e->getMessage();

@@ -1,4 +1,5 @@
 import { useState, useEffect } from "react";
+import { useNavigate } from "react-router-dom";
 import apiUtils from "../utils/apiUtils";
 import shirt from '../img/shirt.jpg';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
@@ -7,6 +8,7 @@ import { faRemove } from '@fortawesome/free-solid-svg-icons'
 const Cart = () => {
     const [cart, setCart] = useState({ "cartLines": [] });
     const deleteIcon = <FontAwesomeIcon icon={faRemove} size="2x" />
+    const navigate = useNavigate();
     const URL = apiUtils.getUrl()
 
     const getCart = async () => {
@@ -30,6 +32,20 @@ const Cart = () => {
             console.error("Error removing cart line:", error);
         }
     };
+
+    const purchase = async () => {
+        try {
+            const formData = new FormData();
+            formData.append('lines', cart.cartLines);
+            await apiUtils.getAxios().post(URL + '/createorder', {
+                lines: cart.cartLines
+            });
+            //TODO navigate to receipt
+            navigate('/')
+        } catch (error) {
+            console.log(error);
+        }
+    }
 
 
     return (
@@ -57,13 +73,15 @@ const Cart = () => {
                                     <td>{item.quantity}</td>
                                     <td>${item.price}</td>
                                     <td>{<div onClick={() => handleRemove(item.productId)} className="cart-remove cart-item-details">{deleteIcon}</div>}</td>
-
                                 </tr>
                             ))}
                         </tbody>
                     </table>
                     <div className="text-end">
                         <h4>Total Price: ${cart.totalPrice}</h4>
+                        <button className="btn btn-primary" onClick={purchase}>
+                            Purchase
+                        </button>
                     </div>
                 </>
             )}

@@ -27,14 +27,14 @@ CREATE TABLE UserRole (
 );
 
 CREATE TABLE `Order` (
-  order_id INT AUTO_INCREMENT PRIMARY KEY,
+  order_id VARCHAR(255) PRIMARY KEY,
   user_id INT,
   FOREIGN KEY (user_id) REFERENCES User(user_id) ON DELETE CASCADE
 );
 
 CREATE TABLE OrderLine (
   orderline_id INT AUTO_INCREMENT PRIMARY KEY,
-  order_id INT,
+  order_id VARCHAR(255),
   product_id INT,
   quantity INT,
   price FLOAT,

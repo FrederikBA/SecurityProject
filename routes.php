@@ -41,6 +41,9 @@ get('/security/orders', 'src/Endpoints/Order/GetAllOrders.php');
 //Get Order by id
 get('/security/order/$id', 'src/Endpoints/Order/GetOrder.php');
 
+//Create Order
+post('/security/createorder', 'src/Endpoints/Order/CreateOrder.php');
+
 //Delete order
 post('/security/deleteorder', 'src/Endpoints/Order/DeleteOrder.php');
 
