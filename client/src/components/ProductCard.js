@@ -7,16 +7,6 @@ const ProductCard = ({ products, isLoggedIn, isLoading, rentNotifySuccess, rentN
     const navigate = useNavigate();
     const [hoveredProductId, setHoveredProductId] = useState(null);
 
-    // const formData = new FormData();
-    // formData.append('username', loginCredentials.username);
-    // formData.append('password', loginCredentials.password);
-    // formData.append('g-recaptcha-response', captchaValue);
-    // const response = await apiUtils.getAxios().post(URL + '/login', formData, {
-    //     headers: {
-    //         'Content-Type': 'multipart/form-data'
-    //     },
-
-
     const addToCart = async (productId, productName, quantity, productPrice) => {
         try {
             if (isLoggedIn) {

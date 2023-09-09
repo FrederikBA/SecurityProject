@@ -8,7 +8,6 @@ import ShopPage from './views/ShopPage';
 import ProductPage from './views/ProductPage';
 import Login from './views/Login';
 import Register from "./views/Register";
-import Profile from "./views/Profile";
 import LandingPage from "./views/LandingPage";
 
 
@@ -49,7 +48,6 @@ const App = () => {
         <Route path="/product/:productId" element={<ProductPage />} />
         <Route path="/login" element={<Login />} />
         <Route path="/register" element={<Register />} />
-        <Route path="/profile" element={<Profile />} />
         <Route path='/landing' element={<LandingPage onLogin={() => setIsLoggedIn(true)} onLogout={() => setIsLoggedIn(false)} />} />
       </Routes>
     </BrowserRouter>
