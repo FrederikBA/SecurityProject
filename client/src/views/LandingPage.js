@@ -1,7 +1,7 @@
 import { useState, useEffect } from "react";
 import apiUtils from "../utils/apiUtils";
 
-const LandingPage = ({ onLogin, onLogout }) => {
+const LandingPage = ({ isLoggedIn, onLogin, onLogout }) => {
     const URL = apiUtils.getUrl();
 
     useEffect(() => {
@@ -23,8 +23,10 @@ const LandingPage = ({ onLogin, onLogout }) => {
 
     return (
         <div className="center">
-            <h1>Welcome</h1>
-
+            <div className="center">
+                {isLoggedIn ? <h3>Welcome</h3>
+                    : <h3>You have been logged out</h3>}
+            </div >
         </div>)
 }
 

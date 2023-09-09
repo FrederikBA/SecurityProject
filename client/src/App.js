@@ -50,7 +50,7 @@ const App = () => {
         <Route path="/login" element={<Login />} />
         <Route path="/register" element={<Register />} />
         <Route path="/cart" element={<Cart />} />
-        <Route path='/landing' element={<LandingPage onLogin={() => setIsLoggedIn(true)} onLogout={() => setIsLoggedIn(false)} />} />
+        <Route path='/landing' element={<LandingPage isLoggedIn={isLoggedIn} onLogin={() => setIsLoggedIn(true)} onLogout={() => setIsLoggedIn(false)} />} />
       </Routes>
     </BrowserRouter>
   );
