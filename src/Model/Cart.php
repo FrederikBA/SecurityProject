@@ -3,31 +3,16 @@
 class Cart
 {
     public $cartLines = array();
+    public $totalPrice = 0;
 
-    public function addCartItem($productId, $productName, $quantity, $price)
+    public function getCartLines()
     {
-        foreach ($this->cartLines as $cartLine) {
-            if ($cartLine->getProductId() == $productId) {
-                // Update quantity for existing item
-                $cartLine->setQuantity($cartLine->getQuantity() + $quantity);
-                return;
-            }
-        }
-
-        // If the product doesn't exist, add a new CartLine
-        $cartLine = new CartLine($productId, $productName, $quantity, $price);
-        $this->cartLines[] = $cartLine;
+        return $this->cartLines;
     }
 
-    public function removeCartItem($productId)
+    public function getTotalPrice()
     {
-        foreach ($this->cartLines as $key => $cartLine) {
-            if ($cartLine->getProductId() == $productId) {
-                unset($this->cartLines[$key]);
-                $this->cartLines = array_values($this->cartLines);
-                return;
-            }
-        }
+        return $this->totalPrice;
     }
 
     public function updateFrom(Cart $otherCart)
@@ -46,20 +31,6 @@ class Cart
             if (!$found) {
                 $this->cartLines[] = $otherCartLine;
             }
-        }
-    }
-
-    public function getCartLines()
-    {
-        return $this->cartLines;
-    }
-
-    public function clearCart()
-    {
-        $this->cartLines = array();
-        // Clear from session
-        if (isset($_SESSION['cart'])) {
-            unset($_SESSION['cart']);
         }
     }
 }

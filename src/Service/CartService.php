@@ -12,31 +12,6 @@ class CartService
         $this->cart = new Cart();
     }
 
-    public function addToCart(CartLine $cartLine)
-    {
-        $this->cart->addCartItem($cartLine->getProductId(), $cartLine->getProductName(), $cartLine->getQuantity(), $cartLine->getPrice());
-    }
-
-    public function removeFromCart($productId)
-    {
-        $this->cart->removeCartItem($productId);
-    }
-
-    public function getCartLines()
-    {
-        return $this->cart->getCartLines();
-    }
-
-    public function clearCart()
-    {
-        $this->cart->clearCart();
-    }
-
-    public function setCart(Cart $cart)
-    {
-        $this->cart = $cart;
-    }
-
     public function storeCart()
     {
         if (isset($_SESSION['cart'])) {
@@ -58,6 +33,21 @@ class CartService
         }
     }
 
+    public function addToCart(CartLine $line)
+    {
+        $cartLine = new CartLine($line->getProductId(), $line->getProductName(), $line->getQuantity(), $line->getPrice());
+        $this->cart->cartLines[] = $cartLine;
+    }
+
+    public function clearCart()
+    {
+        $this->cart->cartLines = array();
+        // Clear from session
+        if (isset($_SESSION['cart'])) {
+            unset($_SESSION['cart']);
+        }
+    }
+
     public function findCartItemById($productId)
     {
         $cart = $this->getCart();
@@ -67,5 +57,16 @@ class CartService
             }
         }
         return null;
+    }
+
+    public function removeCartItem($productId)
+    {
+        foreach ($this->cart->cartLines as $key => $cartLine) {
+            if ($cartLine->getProductId() == $productId) {
+                unset($this->cart->cartLines[$key]);
+                $this->cart->cartLines = array_values($this->cart->cartLines);
+                return;
+            }
+        }
     }
 }
