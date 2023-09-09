@@ -7,7 +7,7 @@ class OrderRepository extends Connector
     {
         try {
             // Create a query to fetch the order and its order lines
-            $sql = "SELECT O.order_id, O.user_id, OL.product_id, OL.quantity, OL.price
+            $sql = "SELECT O.order_id, O.created, OL.product_id, OL.quantity, OL.price
                 FROM `Order` AS O
                 INNER JOIN OrderLine AS OL ON O.order_id = OL.order_id
                 WHERE O.order_id = :order_id";
@@ -23,6 +23,7 @@ class OrderRepository extends Connector
                 if ($order === null) {
                     $order = [
                         'order_id' => $row['order_id'],
+                        'created' => $row['created'],
                         'order_lines' => [],
                     ];
                 }
@@ -45,7 +46,7 @@ class OrderRepository extends Connector
 
     public function GetAllOrders()
     {
-        $sql = "SELECT * FROM order";
+        $sql = "SELECT * FROM `order`";
         $stmt = $this->getConnection()->prepare($sql);
         $stmt->execute();
         return $stmt->fetchAll(PDO::FETCH_ASSOC);

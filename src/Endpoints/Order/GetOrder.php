@@ -8,4 +8,6 @@ $orderService = new OrderService($orderRepository);
 $order = $orderService->getOrder($id); //id is set automatically because of route setup
 
 //Serialize dto to json and echo
-echo json_encode($order);
+if ($order) {
+    echo json_encode($order);
+}

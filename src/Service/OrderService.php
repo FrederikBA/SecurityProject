@@ -33,7 +33,7 @@ class OrderService
             $order = $this->orderRepository->getorder($order_id);
 
             if (!$order) {
-                echo "Order not found.";
+                echo "Order not found";
             }
             return $order;
         } catch (PDOException $e) {
