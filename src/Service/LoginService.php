@@ -2,17 +2,18 @@
 require_once 'src/Database/Repository/UserRepository.php';
 require_once 'src/Model/Dto/RegisterDto.php';
 require_once 'src/Model/Dto/LoginDto.php';
-//require_once 'LoggingManager.php';
+require 'vendor/autoload.php';
+
+use Dotenv\Dotenv;
 
 class LoginService
 {
     private $userRepository;
-    private $securityLogger;
     public function __construct(UserRepository $userRepository)
     {
         $this->userRepository = $userRepository;
-        //$securityLoggerManager = new LoggingManager('security', 'Logs/security.log');
-        // $this->securityLogger = $securityLoggerManager->getLogger();
+        $dotenv = Dotenv::createImmutable(__DIR__ . '/../../');
+        $dotenv->load();
     }
 
     public function registerUser($registerDto)
@@ -32,7 +33,7 @@ class LoginService
                 echo "Username already exists";
             } else {
                 http_response_code(500);
-                echo $e->getMessage();
+                //TODO log $e->getMessage()
             }
         }
     }
@@ -40,21 +41,8 @@ class LoginService
     public function loginUser($loginDto)
     {
         try {
-            // Verify CAPTCHA first
-            $secret = '6LcPegcoAAAAADplYg5YG4dUtZu_E9d1DrA9jESF'; // replace with your secret key
-            $response = $loginDto->recaptchaResponse;
-            $remoteip = $_SERVER['REMOTE_ADDR'];
-
-            $url = "https://www.google.com/recaptcha/api/siteverify?secret=$secret&response=$response&remoteip=$remoteip";
-            $responseData = file_get_contents($url);
-            $dataRow = json_decode($responseData, true);
-
-
-
-            if (!$dataRow['success']) {
-                http_response_code(401);
-                //  $this->securityLogger->error('reCAPTCHA verification failed');
-                echo "reCAPTCHA verification failed";
+            $recaptchaResponse = $loginDto->recaptchaResponse;
+            if (!$this->recaptchaVerification($recaptchaResponse)) {
                 return;
             }
 
@@ -63,28 +51,46 @@ class LoginService
 
             if ($user && password_verify($loginDto->password, $user['password'])) {
 
-                // Password is correct, create a session for the user
+                // Password is correct, create the session variables for the user
                 $_SESSION['user_id'] = $user['user_id'];
                 $_SESSION['role_id'] = $user['role_id'];
 
-                // Regenerate the session ID and delete the old one on each login
+                // Regenerate the session ID each login
                 session_regenerate_id(true);
 
                 echo "Login successful";
             } else {
-                http_response_code(500);
-                //Captcha skal være korrekt men pass/user forkert, før den rammer her.
-                $logMessage = "[" . date("d.m.Y H:i:s") . "] Incorrect login attempt for user: " . $loginDto->username .  "\n";
-                error_log($logMessage, 3, 'logs/userlogin.log');
+                http_response_code(401);
                 echo "Incorrect username or password";
             }
         } catch (PDOException $e) {
             http_response_code(500);
-            $logMessage = "[" . date("d.m.Y H:i:s") . "] Database error: " . $e->getMessage();
-            error_log($logMessage, 3, 'logs/userlogin.log');
-            echo $e->getMessage();
+            // Handle database errors
+            //TODO log $e->getMessage()
         }
     }
+
+
+    private function recaptchaVerification(string $recaptchaResponse)
+    {
+        // Verify CAPTCHA first
+        $secret = $_ENV['CAPTCHA_KEY'];
+        $response = $recaptchaResponse;
+        $remoteip = $_SERVER['REMOTE_ADDR'];
+
+        $url = "https://www.google.com/recaptcha/api/siteverify?secret=$secret&response=$response&remoteip=$remoteip";
+        $responseData = file_get_contents($url);
+        $dataRow = json_decode($responseData, true);
+
+        if ($dataRow['success']) {
+            return true;
+        } else {
+            http_response_code(401);
+            echo "reCAPTCHA verification failed";
+            return false;
+        }
+    }
+
 
 
     public function logoutUser()
@@ -104,7 +110,7 @@ class LoginService
             }
         } catch (Exception $e) {
             http_response_code(500);
-            echo $e->getMessage();
+            //TODO log $e->getMessage()
         }
     }
 

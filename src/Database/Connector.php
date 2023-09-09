@@ -1,6 +1,6 @@
 <?php
 
-require 'vendor/autoload.php'; // Load Composer's autoloader
+require 'vendor/autoload.php';
 
 use Dotenv\Dotenv;
 
@@ -26,15 +26,12 @@ class Connector
 
     protected function getConnection()
     {
-        try 
-        {
+        try {
             $connection = new PDO("mysql:host=$this->host;dbname=$this->dbname", $this->user, $this->pass);
             $connection->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
             return $connection;
-        } 
-        catch (PDOException $e) 
-        {
-            print "Error!: " . $e->getMessage() . "<br/>";
+        } catch (PDOException $e) {
+            //TODO log $e->getMessage()
             die();
         }
     }
