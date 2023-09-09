@@ -24,8 +24,6 @@ const OrderConfirmation = () => {
             <div className="center">
                 <h1 className="mt-5">Thank you for ordering</h1>
             </div>
-
-            {/* Order Details Table */}
             <div className="mt-5">
                 <h2>Order Details</h2>
                 <table className="table table-bordered">
@@ -42,12 +40,9 @@ const OrderConfirmation = () => {
                             <th>Order status</th>
                             <td>{order.order_status}</td>
                         </tr>
-                        {/* Add more order-related information as needed */}
                     </tbody>
                 </table>
             </div>
-
-            {/* Order Lines Table */}
             <div className="mt-5">
                 <h2>Lines</h2>
                 <table className="table table-bordered">
@@ -65,7 +60,6 @@ const OrderConfirmation = () => {
                                     <td>{line.product_name}</td>
                                     <td>{line.quantity}</td>
                                     <td>${line.price}</td>
-                                    {/* Add more line-related information as needed */}
                                 </tr>
                             ))}
                     </tbody>

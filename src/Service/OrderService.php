@@ -2,6 +2,7 @@
 
 require_once 'src/Model/Dto/DeleteDto.php';
 require_once 'src/Model/Dto/CreateOrderDto.php';
+require_once 'src/Model/Dto/UpdateOrderDto.php';
 require_once 'src/Service/CartService.php';
 
 class OrderService
@@ -88,6 +89,24 @@ class OrderService
             } else {
                 echo "An error occured, user not found";
                 //TODO statuscode
+            }
+        } catch (PDOException $e) {
+            echo $e->getMessage();
+            //TODO log $e->getMessage()
+            //TODO Statuscode
+        }
+    }
+
+    public function updateOrderStatus(UpdateOrderDto $dto)
+    {
+        try {
+            $updatedOrder = $this->orderRepository->updateOrderStatus($dto->id, "Completed");
+            if ($updatedOrder > 0) {
+                echo "Order status updated successfully";
+                return $updatedOrder;
+            } else {
+                echo "An error occured updating the status on the order";
+                //TODO Statuscode
             }
         } catch (PDOException $e) {
             echo $e->getMessage();

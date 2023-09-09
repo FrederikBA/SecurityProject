@@ -132,10 +132,16 @@ class OrderRepository extends Connector
         }
     }
 
-    public function updateOrder()
+    public function updateOrderStatus(string $id, string $status)
     {
-        //TODO Implement
+        $sql = "UPDATE `order` o SET o.order_status = :order_status WHERE o.order_id = :id";
+        $stmt = $this->getConnection()->prepare($sql);
+        $stmt->bindParam(':id', $id);
+        $stmt->bindParam(':order_status', $status);
+        $stmt->execute();
+        return $stmt->rowCount();
     }
+
 
     public function deleteOrder(int $id)
     {

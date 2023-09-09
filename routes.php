@@ -47,6 +47,10 @@ get('/security/latestorder', 'src/Endpoints/Order/GetLatestOrder.php');
 //Create Order
 post('/security/createorder', 'src/Endpoints/Order/CreateOrder.php');
 
+//Update Order
+post('/security/updateorder', 'src/Endpoints/Order/UpdateOrderStatus.php');
+
+
 //Delete order
 post('/security/deleteorder', 'src/Endpoints/Order/DeleteOrder.php');
 
