@@ -3,30 +3,45 @@ require_once 'src/Database/Connector.php';
 
 class OrderRepository extends Connector
 {
-    public function GetOrder(int $id)
+    public function GetOrder(string $id)
     {
-        //TODO wrong - it shouldnt return product price as the price is quantity * product_price (now a field on orderline)
-        $sql = "SELECT
-        o.order_id,
-        o.user_id,
-        ol.product_id,
-        ol.quantity,
-        p.product_name,
-        p.product_price
-    FROM
-        `Order` o
-    JOIN
-        OrderLine ol ON o.order_id = ol.order_id
-    JOIN
-        Product p ON ol.product_id = p.product_id
-    WHERE
-        o.order_id = :order_id";
+        try {
+            // Create a query to fetch the order and its order lines
+            $sql = "SELECT O.order_id, O.user_id, OL.product_id, OL.quantity, OL.price
+                FROM `Order` AS O
+                INNER JOIN OrderLine AS OL ON O.order_id = OL.order_id
+                WHERE O.order_id = :order_id";
 
-        $stmt = $this->getConnection()->prepare($sql);
-        $stmt->bindParam(':order_id', $id, PDO::PARAM_INT);
-        $stmt->execute();
-        return $stmt->fetch(PDO::FETCH_ASSOC);
+            $stmt = $this->getConnection()->prepare($sql);
+            $stmt->bindParam(':order_id', $id, PDO::PARAM_STR);
+            $stmt->execute();
+
+            // Initialize variables to store the order
+            $order = null;
+
+            while ($row = $stmt->fetch(PDO::FETCH_ASSOC)) {
+                if ($order === null) {
+                    $order = [
+                        'order_id' => $row['order_id'],
+                        'order_lines' => [],
+                    ];
+                }
+                $order['order_lines'][] = [
+                    'product_id' => $row['product_id'],
+                    'quantity' => $row['quantity'],
+                    'price' => $row['price'],
+                ];
+            }
+
+            $stmt->closeCursor();
+
+            return $order;
+        } catch (PDOException $e) {
+            // Handle any exceptions here (e.g., log the error)
+            //TODO log $e->getMessage()
+        }
     }
+
 
     public function GetAllOrders()
     {
@@ -75,7 +90,7 @@ class OrderRepository extends Connector
         } catch (PDOException $e) {
             // If an error occurs, rollback the transaction
             $connection->rollBack();
-            return false; // Order creation failed
+            return false;
         }
     }
 
