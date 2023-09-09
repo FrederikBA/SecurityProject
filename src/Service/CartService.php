@@ -22,11 +22,6 @@ class CartService
         $this->cart->removeCartItem($productId);
     }
 
-    // public function getCart()
-    // {
-    //     return $this->cart;
-    // }
-
     public function getCartLines()
     {
         return $this->cart->getCartLines();

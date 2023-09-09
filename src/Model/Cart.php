@@ -6,7 +6,6 @@ class Cart
 
     public function addCartItem($productId, $productName, $quantity, $price)
     {
-        // Check if the product already exists in the cart
         foreach ($this->cartLines as $cartLine) {
             if ($cartLine->getProductId() == $productId) {
                 // Update quantity for existing item
@@ -22,11 +21,9 @@ class Cart
 
     public function removeCartItem($productId)
     {
-        // Iterate through cart lines and remove the specified product
         foreach ($this->cartLines as $key => $cartLine) {
             if ($cartLine->getProductId() == $productId) {
                 unset($this->cartLines[$key]);
-                // Re-index the array to ensure there are no gaps
                 $this->cartLines = array_values($this->cartLines);
                 return;
             }
@@ -60,7 +57,9 @@ class Cart
     public function clearCart()
     {
         $this->cartLines = array();
+        // Clear from session
+        if (isset($_SESSION['cart'])) {
+            unset($_SESSION['cart']);
+        }
     }
-
-    // You can add methods for calculating the total price of the cart, applying discounts, etc.
 }

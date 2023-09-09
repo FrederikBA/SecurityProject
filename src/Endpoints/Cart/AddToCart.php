@@ -2,11 +2,7 @@
 
 require_once 'src/Service/CartService.php';
 require_once 'src/Model/CartLine.php';
-
-// require_once 'src/Helper/SessionHelper.php';
-
 $cartService = new CartService();
-// $sessionHelper = new SessionHelper();
 
 if (isset($_POST['product_id'], $_POST['product_name'], $_POST['quantity'], $_POST['product_price'])) {
     $productId = $_POST['product_id'];
@@ -14,7 +10,6 @@ if (isset($_POST['product_id'], $_POST['product_name'], $_POST['quantity'], $_PO
     $quantity = (int)$_POST['quantity'];
     $product_price = (float)$_POST['product_price'];
 
-    // Retrieve the existing cart from the session
     $cart = $cartService->getCart();
 
     // Check if the product already exists in the cart
