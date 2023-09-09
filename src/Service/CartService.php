@@ -26,11 +26,17 @@ class CartService
 
     public function getCart()
     {
-        if (isset($_SESSION['cart'])) {
-            return unserialize($_SESSION['cart']);
-        } else {
-            return $this->cart;
+        $cart = isset($_SESSION['cart']) ? unserialize($_SESSION['cart']) : $this->cart;
+
+        // Calculate the total price
+        $totalPrice = 0;
+        foreach ($cart->getCartLines() as $cartLine) {
+            $totalPrice += $cartLine->getPrice();
         }
+
+        $cart->setTotalPrice($totalPrice);
+
+        return $cart;
     }
 
     public function addToCart(CartLine $line)

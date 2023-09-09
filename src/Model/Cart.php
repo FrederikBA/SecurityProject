@@ -15,6 +15,11 @@ class Cart
         return $this->totalPrice;
     }
 
+    public function setTotalPrice($totalPrice)
+    {
+        $this->totalPrice = $totalPrice;
+    }
+
     public function updateFrom(Cart $otherCart)
     {
         foreach ($otherCart->getCartLines() as $otherCartLine) {
