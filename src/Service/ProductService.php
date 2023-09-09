@@ -25,7 +25,6 @@ class ProductService
             }
             return $product;
         } catch (PDOException $e) {
-            echo $e->getMessage();
             //TODO log $e->getMessage()
             http_response_code(500);
         }

@@ -88,7 +88,6 @@ class OrderService
                 http_response_code(400);
             }
         } catch (PDOException $e) {
-            echo $e->getMessage();
             //TODO log $e->getMessage()
             http_response_code(500);
         }
@@ -106,7 +105,6 @@ class OrderService
                 //TODO Statuscode
             }
         } catch (PDOException $e) {
-            echo $e->getMessage();
             //TODO log $e->getMessage()
             //TODO Statuscode
         }
@@ -123,7 +121,6 @@ class OrderService
                 echo "Order not found or couldn't be deleted";
             }
         } catch (PDOException $e) {
-            echo $e->getMessage();
             //TODO log $e->getMessage()
             //TODO Statuscode
         }
