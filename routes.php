@@ -12,7 +12,7 @@ header("Content-Type: application/json");
 //Endpoints
 
 //Create Product
-post('/security/product/create', 'src/Endpoints/Product/CreateProduct.php');
+post('/security/createproduct', 'src/Endpoints/Product/CreateProduct.php');
 
 //Get all Products
 get('/security/products', 'src/Endpoints/Product/GetAllProducts.php');

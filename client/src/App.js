@@ -6,6 +6,7 @@ import 'react-toastify/dist/ReactToastify.css';
 
 //Views
 import Header from './views/shared/Header';
+import NoMatch from "./views/NoMatch";
 import ShopPage from './views/ShopPage';
 import ProductPage from './views/ProductPage';
 import Login from './views/Login';
@@ -67,6 +68,7 @@ const App = () => {
         <Route path="/receipt" element={<OrderConfirmation />} />
         <Route path="/landing" element={<LandingPage isLoggedIn={isLoggedIn} checkLogin={checkLogin} />} />
         <Route path="/admin" element={<Admin role={role} />} />
+        <Route path='*' element={<NoMatch />} />
       </Routes>
     </BrowserRouter>
   );

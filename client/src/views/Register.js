@@ -21,7 +21,6 @@ const Register = () => {
                 },
             });
 
-
             registerNotifySuccess(response)
         } catch (error) {
             registerNotifyError(error.response.data)
