@@ -17,12 +17,3 @@ if (isset($data['lines'])) {
     http_response_code(400);
     echo "Invalid body";
 }
-
-// if (isset($_POST['lines'])) {
-//     $linesArray = json_decode($_POST['lines'], true);
-//     $dto = new CreateOrderDto($linesArray);
-//     $orderService->createOrder($orderDto);
-// } else {
-//     http_response_code(400);
-//     echo "Invalid body";
-// }

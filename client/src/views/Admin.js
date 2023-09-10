@@ -219,7 +219,7 @@ const Admin = ({ role }) => {
                     </section>
                 </div>
             ) : (
-                <div>
+                <div className="center">
                     <h1>Unauthorized</h1>
                     <button onClick={() => { navigate('/') }} className="return-btn">Back to shop</button>
                 </div>

@@ -21,7 +21,7 @@ class ProductService
 
             if (!$product) {
                 echo "Product not found.";
-                http_response_code(400);
+                http_response_code(404);
             }
             return $product;
         } catch (PDOException $e) {
@@ -85,7 +85,7 @@ class ProductService
                 return $rowsDeleted;
             } else {
                 echo "Product not found";
-                http_response_code(400);
+                http_response_code(404);
             }
         } catch (PDOException $e) {
             //TODO log $e->getMessage()

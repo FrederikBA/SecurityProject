@@ -53,11 +53,11 @@ class OrderService
                     return $order;
                 } else {
                     echo "Order not found";
-                    http_response_code(400);
+                    http_response_code(404);
                 }
             } else {
                 echo "An error occured, user not found";
-                http_response_code(400);
+                http_response_code(404);
             }
         } catch (PDOException $e) {
             //TODO log $e->getMessage()
@@ -80,12 +80,12 @@ class OrderService
                     //Clear cart on successful order
                     $cartService->clearCart();
                 } else {
-                    echo "Failed to create the order";
-                    http_response_code(400);
+                    echo "Failed to create the order, order not found";
+                    http_response_code(404);
                 }
             } else {
                 echo "An error occured, user not found";
-                http_response_code(400);
+                http_response_code(404);
             }
         } catch (PDOException $e) {
             //TODO log $e->getMessage()
@@ -101,12 +101,12 @@ class OrderService
                 echo "Order status updated successfully";
                 return $updatedOrder;
             } else {
-                echo "An error occured updating the status on the order";
-                //TODO Statuscode
+                echo "Order not found";
+                http_response_code(404);
             }
         } catch (PDOException $e) {
             //TODO log $e->getMessage()
-            //TODO Statuscode
+            http_response_code(500);
         }
     }
 

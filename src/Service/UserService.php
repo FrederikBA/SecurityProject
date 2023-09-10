@@ -40,7 +40,7 @@ class UserService
                 return new UserDto($user['user_id'], $user['email'], $user['username']);
             } else {
                 return "User not found";
-                http_response_code(400);
+                http_response_code(404);
             }
         } catch (PDOException $e) {
             http_response_code(500);
@@ -68,7 +68,7 @@ class UserService
                 return $rowsDeleted;
             } else {
                 echo "User not found";
-                http_response_code(400);
+                http_response_code(404);
             }
         } catch (PDOException $e) {
             http_response_code(500);
