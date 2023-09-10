@@ -11,6 +11,7 @@ import Register from "./views/Register";
 import LandingPage from "./views/LandingPage";
 import Cart from "./views/Cart";
 import OrderConfirmation from "./views/OrderConfirmation";
+import Admin from "./views/Admin";
 
 
 const App = () => {
@@ -28,16 +29,15 @@ const App = () => {
       setRole(response.data)
 
     } catch (error) {
-      // If error, do logout
-      onLogout()
+      //Handle error
     }
   }
 
   const onLogout = async () => {
     try {
-      const response = await apiUtils.getAxios().post(URL + '/logout')
+      await apiUtils.getAxios().post(URL + '/logout') //Do logotu
       setIsLoggedIn(false)
-      setRole(response.data)
+      setRole("")
     } catch (error) {
       //Handle error
     }
@@ -58,6 +58,7 @@ const App = () => {
         <Route path="/cart" element={<Cart />} />
         <Route path="/receipt" element={<OrderConfirmation />} />
         <Route path="/landing" element={<LandingPage isLoggedIn={isLoggedIn} checkLogin={checkLogin} />} />
+        <Route path="/admin" element={<Admin role={role} />} />
       </Routes>
     </BrowserRouter>
   );

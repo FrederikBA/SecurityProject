@@ -3,7 +3,10 @@ import { useEffect } from "react";
 const LandingPage = ({ isLoggedIn, checkLogin }) => {
 
     useEffect(() => {
-        checkLogin()
+        const dologinCheck = async () => {
+            await checkLogin()
+        }
+        dologinCheck()
     }, []);
 
     return (
