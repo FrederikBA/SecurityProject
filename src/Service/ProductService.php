@@ -25,7 +25,8 @@ class ProductService
             }
             return $product;
         } catch (PDOException $e) {
-            //TODO log $e->getMessage()
+            $logMessage = "[" . date("d.m.Y H:i:s") . "] " . $e->getMessage() .  "\n";
+            error_log($logMessage, 3, 'logs/servererror.log');
             http_response_code(500);
         }
     }
@@ -37,7 +38,8 @@ class ProductService
             return $products;
         } catch (PDOException $e) {
             http_response_code(500);
-            //TODO log $e->getMessage()
+            $logMessage = "[" . date("d.m.Y H:i:s") . "] " . $e->getMessage() .  "\n";
+            error_log($logMessage, 3, 'logs/servererror.log');
         }
     }
 
@@ -53,7 +55,8 @@ class ProductService
                 http_response_code(500);
             }
         } catch (PDOException $e) {
-            //TODO log $e->getMessage()
+            $logMessage = "[" . date("d.m.Y H:i:s") . "] " . $e->getMessage() .  "\n";
+            error_log($logMessage, 3, 'logs/servererror.log');
             http_response_code(500);
         }
     }
@@ -71,7 +74,8 @@ class ProductService
                 http_response_code(500);
             }
         } catch (PDOException $e) {
-            //TODO log $e->getMessage()
+            $logMessage = "[" . date("d.m.Y H:i:s") . "] " . $e->getMessage() .  "\n";
+            error_log($logMessage, 3, 'logs/servererror.log');
             http_response_code(500);
         }
     }
@@ -88,7 +92,8 @@ class ProductService
                 http_response_code(404);
             }
         } catch (PDOException $e) {
-            //TODO log $e->getMessage()
+            $logMessage = "[" . date("d.m.Y H:i:s") . "] " . $e->getMessage() .  "\n";
+            error_log($logMessage, 3, 'logs/servererror.log');
             http_response_code(500);
         }
     }

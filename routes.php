@@ -79,3 +79,4 @@ post('/security/removecartline', "src/Endpoints/Cart/RemoveCartLine.php");
 
 //Clear cart
 post('/security/clearcart', "src/Endpoints/Cart/ClearCart.php");
+

@@ -27,7 +27,8 @@ class UserService
             }
         } catch (PDOException $e) {
             http_response_code(500);
-            //TODO log $e->getMessage()
+            $logMessage = "[" . date("d.m.Y H:i:s") . "] " . $e->getMessage() .  "\n";
+            error_log($logMessage, 3, 'logs/servererror.log');
         }
     }
 
@@ -39,12 +40,13 @@ class UserService
             if ($user) {
                 return new UserDto($user['user_id'], $user['email'], $user['username']);
             } else {
-                return "User not found";
                 http_response_code(404);
+                return "User not found";
             }
         } catch (PDOException $e) {
             http_response_code(500);
-            //TODO log $e->getMessage()
+            $logMessage = "[" . date("d.m.Y H:i:s") . "] " . $e->getMessage() .  "\n";
+            error_log($logMessage, 3, 'logs/servererror.log');
         }
     }
 
@@ -55,7 +57,8 @@ class UserService
             return $products;
         } catch (PDOException $e) {
             http_response_code(500);
-            //TODO log $e->getMessage()
+            $logMessage = "[" . date("d.m.Y H:i:s") . "] " . $e->getMessage() .  "\n";
+            error_log($logMessage, 3, 'logs/servererror.log');
         }
     }
 
@@ -72,7 +75,8 @@ class UserService
             }
         } catch (PDOException $e) {
             http_response_code(500);
-            //TODO log $e->getMessage()
+            $logMessage = "[" . date("d.m.Y H:i:s") . "] " . $e->getMessage() .  "\n";
+            error_log($logMessage, 3, 'logs/servererror.log');
         }
     }
 }

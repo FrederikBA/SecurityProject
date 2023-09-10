@@ -31,7 +31,8 @@ class Connector
             $connection->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
             return $connection;
         } catch (PDOException $e) {
-            //TODO log $e->getMessage()
+            $logMessage = "[" . date("d.m.Y H:i:s") . "] " . $e->getMessage() .  "\n";
+            error_log($logMessage, 3, 'logs/servererror.log');
             die();
         }
     }

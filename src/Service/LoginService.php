@@ -33,7 +33,8 @@ class LoginService
                 echo "Username already exists";
             } else {
                 http_response_code(500);
-                //TODO log $e->getMessage()
+                $logMessage = "[" . date("d.m.Y H:i:s") . "] " . $e->getMessage() .  "\n";
+                error_log($logMessage, 3, 'logs/servererror.log');
             }
         }
     }
@@ -41,10 +42,10 @@ class LoginService
     public function loginUser($loginDto)
     {
         try {
-            $recaptchaResponse = $loginDto->recaptchaResponse;
-            if (!$this->recaptchaVerification($recaptchaResponse)) {
-                return;
-            }
+     //       $recaptchaResponse = $loginDto->recaptchaResponse;
+     //       if (!$this->recaptchaVerification($recaptchaResponse)) {
+     //           return;
+     //       }
 
             // Get and check user credentials from the database
             $user = $this->userRepository->GetUserLoginCredentials($loginDto->username);
@@ -62,11 +63,14 @@ class LoginService
             } else {
                 http_response_code(401);
                 echo "Incorrect username or password";
+                $logMessage = "[" . date("d.m.Y H:i:s") . "] Incorrect login attempt for user: " . $loginDto->username .  "\n";
+                error_log($logMessage, 3, 'logs/userlogin.log');
             }
         } catch (PDOException $e) {
             http_response_code(500);
             // Handle database errors
-            //TODO log $e->getMessage()
+            $logMessage = "[" . date("d.m.Y H:i:s") . "] " . $e->getMessage() .  "\n";
+            error_log($logMessage, 3, 'logs/servererror.log');
         }
     }
 
@@ -110,7 +114,8 @@ class LoginService
             }
         } catch (Exception $e) {
             http_response_code(500);
-            //TODO log $e->getMessage()
+            $logMessage = "[" . date("d.m.Y H:i:s") . "] " . $e->getMessage() .  "\n";
+            error_log($logMessage, 3, 'logs/servererror.log');
         }
     }
 

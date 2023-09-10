@@ -20,7 +20,8 @@ class OrderService
             $orders = $this->orderRepository->getAllOrders();
             return $orders;
         } catch (PDOException $e) {
-            //TODO log $e->getMessage()
+            $logMessage = "[" . date("d.m.Y H:i:s") . "] " . $e->getMessage() .  "\n";
+            error_log($logMessage, 3, 'logs/servererror.log');
             http_response_code(500);
         }
     }
@@ -37,7 +38,8 @@ class OrderService
             }
             return $order;
         } catch (PDOException $e) {
-            //TODO log $e->getMessage()
+            $logMessage = "[" . date("d.m.Y H:i:s") . "] " . $e->getMessage() .  "\n";
+            error_log($logMessage, 3, 'logs/servererror.log');
             http_response_code(500);
         }
     }
@@ -60,7 +62,8 @@ class OrderService
                 http_response_code(404);
             }
         } catch (PDOException $e) {
-            //TODO log $e->getMessage()
+            $logMessage = "[" . date("d.m.Y H:i:s") . "] " . $e->getMessage() .  "\n";
+            error_log($logMessage, 3, 'logs/servererror.log');
             http_response_code(500);
         }
     }
@@ -88,7 +91,8 @@ class OrderService
                 http_response_code(404);
             }
         } catch (PDOException $e) {
-            //TODO log $e->getMessage()
+            $logMessage = "[" . date("d.m.Y H:i:s") . "] " . $e->getMessage() .  "\n";
+            error_log($logMessage, 3, 'logs/servererror.log');
             http_response_code(500);
         }
     }
@@ -105,7 +109,8 @@ class OrderService
                 http_response_code(500);
             }
         } catch (PDOException $e) {
-            //TODO log $e->getMessage()
+            $logMessage = "[" . date("d.m.Y H:i:s") . "] " . $e->getMessage() .  "\n";
+            error_log($logMessage, 3, 'logs/servererror.log');
             http_response_code(500);
         }
     }
@@ -121,8 +126,9 @@ class OrderService
                 echo "Order not found or couldn't be deleted";
             }
         } catch (PDOException $e) {
-            //TODO log $e->getMessage()
-            //TODO Statuscode
+            $logMessage = "[" . date("d.m.Y H:i:s") . "] " . $e->getMessage() .  "\n";
+            error_log($logMessage, 3, 'logs/servererror.log');
+            http_response_code(500);
         }
     }
 }
