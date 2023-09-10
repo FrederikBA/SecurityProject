@@ -1,21 +1,25 @@
 import { useEffect } from "react";
+import { ToastContainer } from 'react-toastify';
+import { useNavigate } from "react-router-dom";
 
 const LandingPage = ({ isLoggedIn, checkLogin }) => {
+    const navigate = useNavigate()
 
     useEffect(() => {
-        const dologinCheck = async () => {
-            await checkLogin()
-        }
-        dologinCheck()
+        const timer = setTimeout(() => {
+            checkLogin()
+        }, 100);
+        return () => clearTimeout(timer);
     }, []);
+
 
     return (
         <div className="center">
-            <div className="center">
-                {isLoggedIn ? <h3>Welcome</h3>
-                    : <h3>You have been logged out</h3>}
-            </div >
-        </div>)
+            {isLoggedIn && <h3>Welcome</h3>}
+            <button onClick={() => { navigate('/') }} className="return-btn">Back to shop</button>
+            <ToastContainer />
+        </div>
+    )
 }
 
 export default LandingPage

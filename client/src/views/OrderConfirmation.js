@@ -66,7 +66,7 @@ const OrderConfirmation = () => {
                 </table>
             </div>
             <div className="center">
-                <button onClick={navigateShop} className="orderConfirmationButton">Back to shop</button>
+                <button onClick={navigateShop} className="return-btn">Back to shop</button>
             </div>
         </div>
     )

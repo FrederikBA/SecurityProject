@@ -21,22 +21,22 @@ const ShopPage = ({ isLoggedIn }) => {
     }, []);
 
     //Toast
-    const rentNotifySuccess = () => {
-        toast.success('The product added to the cart', { position: toast.POSITION.BOTTOM_RIGHT });
+    const buyNotifySuccess = () => {
+        toast.success('Product added to the cart', { position: toast.POSITION.BOTTOM_RIGHT });
     };
 
-    const rentNotifyError = () => {
+    const buyNotifyError = () => {
         toast.error('An unexpected error occured, the product was not added to the cart', { position: toast.POSITION.BOTTOM_RIGHT });
     };
 
-    const rentNotifyLogin = () => {
+    const buyNotifyLogin = () => {
         toast.error('You have to be logged in to add to cart', { position: toast.POSITION.BOTTOM_RIGHT });
     };
 
 
     return (
         <div className="center">
-            <ProductCard products={products} isLoggedIn={isLoggedIn} isLoading={isLoading} rentNotifySuccess={rentNotifySuccess} rentNotifyError={rentNotifyError} rentNotifyLogin={rentNotifyLogin} />
+            <ProductCard products={products} isLoggedIn={isLoggedIn} isLoading={isLoading} buyNotifySuccess={buyNotifySuccess} buyNotifyError={buyNotifyError} buyNotifyLogin={buyNotifyLogin} />
             <ToastContainer />
         </div>
     )

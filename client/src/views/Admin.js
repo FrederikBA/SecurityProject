@@ -1,4 +1,12 @@
+import { useNavigate } from "react-router-dom";
+
 const Admin = ({ role }) => {
+    const navigate = useNavigate()
+
+    const navigateBack = () => {
+        navigate("/")
+    }
+
     return (
         <div className="center">
             {role === 'admin' ? (
@@ -8,6 +16,7 @@ const Admin = ({ role }) => {
             ) : (
                 <div>
                     <h1>Unauthorized </h1>
+                    <button onClick={navigateBack} className="return-btn">Take me back</button>
                 </div>
             )}
         </div>

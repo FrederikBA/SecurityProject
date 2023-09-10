@@ -433,7 +433,7 @@ ul.header li a:hover:not(.active) {
   color: #d9534f;
 }
 
-.orderConfirmationButton {
+.return-btn {
   width: 20%;
   margin: 10px;
   background-color: #ffe13f;
@@ -446,7 +446,7 @@ ul.header li a:hover:not(.active) {
   cursor: pointer;
 }
 
-.orderConfirmationButton:hover {
+.return-btn:hover {
   transform: scale(1.0225);
 }
 

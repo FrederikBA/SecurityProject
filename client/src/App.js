@@ -1,6 +1,8 @@
 import { BrowserRouter, Routes, Route } from "react-router-dom";
 import { useState, useEffect } from "react";
 import apiUtils from "./utils/apiUtils";
+import { toast } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
 
 //Views
 import Header from './views/shared/Header';
@@ -35,13 +37,19 @@ const App = () => {
 
   const onLogout = async () => {
     try {
-      await apiUtils.getAxios().post(URL + '/logout') //Do logotu
+      await apiUtils.getAxios().post(URL + '/logout') //Do logout
       setIsLoggedIn(false)
       setRole("")
+      notifyLogout()
     } catch (error) {
       //Handle error
     }
   }
+
+  //Toast
+  const notifyLogout = () => {
+    toast.info('You are now logged out', { position: toast.POSITION.BOTTOM_RIGHT });
+  };
 
   useEffect(() => {
     checkLogin();
