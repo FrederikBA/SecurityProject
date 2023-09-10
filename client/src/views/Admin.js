@@ -7,9 +7,14 @@ import 'react-toastify/dist/ReactToastify.css';
 
 const Admin = ({ role }) => {
     const [price, setPrice] = useState(10); //Default price to 10 dollars
-    const [selectedOrderId, setSelectedOrderId] = useState("");
     const [product, setProduct] = useState({ product: "name", price: 0 });
+    const [user, setUser] = useState({ email: "", username: "" });
+    const [users, setUsers] = useState([]);
     const [orders, setOrders] = useState([]);
+    const [selectedOrderId, setSelectedOrderId] = useState("");
+    const [selectedUserId, setSelectedUserId] = useState("");
+
+
 
     const URL = apiUtils.getUrl()
     const navigate = useNavigate();
@@ -19,14 +24,23 @@ const Admin = ({ role }) => {
         setOrders(response.data)
     }
 
+    const getAllUsers = async () => {
+        const response = await apiUtils.getAxios().get(URL + '/users')
+        setUsers(response.data)
+    }
+
     useEffect(() => {
         getAllOrders()
+        getAllUsers()
     }, []);
 
 
     const onChangeProduct = (evt) => {
         setProduct({ ...product, [evt.target.id]: evt.target.value })
-        console.log(product);
+    }
+
+    const onChangeUser = (evt) => {
+        setUser({ ...user, [evt.target.id]: evt.target.value })
     }
 
     const createProduct = async () => {
@@ -59,6 +73,20 @@ const Admin = ({ role }) => {
         }
     }
 
+    const updateUser = async () => {
+        try {
+            const response = await apiUtils.getAxios().post(URL + '/updateuser', {
+                id: selectedUserId,
+                email: user.email,
+                username: user.username
+            })
+            userUpdatedSuccess(response)
+            getAllUsers()
+        } catch (error) {
+            userUpdatedError(error.response.data)
+        }
+    }
+
     // Toast
     const productCreatedSuccess = () => {
         toast.success('Product created successfully', { position: toast.POSITION.BOTTOM_RIGHT });
@@ -73,6 +101,14 @@ const Admin = ({ role }) => {
     };
 
     const orderUpdatedError = (msg) => {
+        toast.error(msg, { position: toast.POSITION.BOTTOM_RIGHT });
+    };
+
+    const userUpdatedSuccess = () => {
+        toast.success('User updated successfully', { position: toast.POSITION.BOTTOM_RIGHT });
+    };
+
+    const userUpdatedError = (msg) => {
         toast.error(msg, { position: toast.POSITION.BOTTOM_RIGHT });
     };
 
@@ -91,7 +127,7 @@ const Admin = ({ role }) => {
                         </div>
                         <form onChange={onChangeProduct} >
                             <div className="mb-3">
-                                <label htmlFor="task1Input">Product Name</label>
+                                <label htmlFor="name">Product Name</label>
                                 <input
                                     type="text"
                                     className="form-control"
@@ -100,7 +136,7 @@ const Admin = ({ role }) => {
                                 />
                             </div>
                             <div className="mb-3">
-                                <label htmlFor="task2Input">Price</label>
+                                <label htmlFor="price">Price</label>
                                 <div className="input-group">
                                     <input
                                         type="number"
@@ -116,7 +152,7 @@ const Admin = ({ role }) => {
                         <button className="admin-btn" onClick={createProduct}>Create Product</button>
                     </section>
 
-                    {/* Section 3: Content Management */}
+                    {/* Section 2: Order Management */}
                     <section className="mb-4 admin-section">
                         <div className="center">
                             <h2>Order Management</h2>
@@ -140,37 +176,46 @@ const Admin = ({ role }) => {
                         <button className="admin-btn" onClick={updateOrderStatus}>Complete order</button>
                     </section>
 
-                    {/* Section 2: User Management */}
+                    {/* Section 3: User Management */}
                     <section className="mb-4 admin-section">
                         <div className="center">
                             <h2>User Management</h2>
                         </div>
-                        <div className="mb-3">
-                            <label htmlFor="userName">User's Name</label>
-                            <input
-                                type="text"
-                                className="form-control"
-                                id="userName"
-                                placeholder="User's name"
-                            />
-                        </div>
-                        <div className="mb-3">
-                            <label htmlFor="userEmail">User's Email</label>
-                            <input
-                                type="email"
-                                className="form-control"
-                                id="userEmail"
-                                placeholder="User's email"
-                            />
-                        </div>
-                        <div className="mb-3">
-                            <label htmlFor="userRole">User Role</label>
-                            <select className="form-select" id="userRole">
-                                <option value="admin">Admin</option>
-                                <option value="user">User</option>
-                            </select>
-                        </div>
-                        <button className="admin-btn">Add User</button>
+                        <label htmlFor="userSelect">Select User</label>
+                        <select
+                            className="form-select mb-4"
+                            id="userSelect"
+                            value={selectedUserId}
+                            onChange={(e) => setSelectedUserId(e.target.value)}
+                        >
+                            <option value="">Select a User</option>
+                            {users.map((user) => (
+                                <option key={user.user_id} value={user.user_id}>
+                                    {user.username}
+                                </option>
+                            ))}
+                        </select>
+                        <form onChange={onChangeUser} >
+                            <div className="mb-3">
+                                <label htmlFor="email">Email</label>
+                                <input
+                                    type="text"
+                                    className="form-control"
+                                    id="email"
+                                    placeholder="Email"
+                                />
+                            </div>
+                            <div className="mb-3">
+                                <label htmlFor="username">Username</label>
+                                <input
+                                    type="text"
+                                    className="form-control"
+                                    id="username"
+                                    placeholder="Username"
+                                />
+                            </div>
+                        </form>
+                        <button className="admin-btn" onClick={updateUser}>Update user</button>
                     </section>
                 </div>
             ) : (

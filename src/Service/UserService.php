@@ -48,6 +48,17 @@ class UserService
         }
     }
 
+    public function getAllUsers()
+    {
+        try {
+            $products = $this->userRepository->getAllUsers();
+            return $products;
+        } catch (PDOException $e) {
+            http_response_code(500);
+            //TODO log $e->getMessage()
+        }
+    }
+
     public function deleteUser(DeleteDto $dto)
     {
         try {

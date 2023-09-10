@@ -24,6 +24,15 @@ class UserRepository extends Connector
         return $user;
     }
 
+    public function getAllUsers()
+    {
+        $sql = "SELECT * FROM user";
+        $stmt = $this->getConnection()->prepare($sql);
+        $stmt->execute();
+        return $stmt->fetchAll(PDO::FETCH_ASSOC);
+    }
+
+
     public function deleteUser($userId)
     {
         $sql = "DELETE FROM user WHERE user_id = :userId";

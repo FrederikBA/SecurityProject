@@ -29,8 +29,11 @@ post('/security/updateproduct', 'src/Endpoints/Product/UpdateProductPrice.php');
 //Update user info
 post('/security/updateuser', 'src/Endpoints/User/UpdateUser.php');
 
-//user by ID
+//Get user by ID
 get('/security/user/$id', 'src/Endpoints/User/GetUser.php');
+
+//Get all users
+get('/security/users', 'src/Endpoints/User/GetAllUsers.php');
 
 //Delete user
 post('/security/deleteuser', 'src/Endpoints/User/DeleteUser.php');
