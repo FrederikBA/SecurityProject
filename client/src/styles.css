@@ -512,3 +512,13 @@ ul.header li a:hover:not(.active) {
 .admin-section {
   margin-top: 100px;
 }
+
+.product-remove {
+  cursor: pointer;
+  float: right;
+  clear: right;
+}
+
+.product-remove:hover {
+  color: #090922;
+}

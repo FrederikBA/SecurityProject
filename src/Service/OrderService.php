@@ -101,8 +101,8 @@ class OrderService
                 echo "Order status updated successfully";
                 return $updatedOrder;
             } else {
-                echo "Order not found";
-                http_response_code(404);
+                echo "Order was not updated, as it is already completed or the id was invalid";
+                http_response_code(500);
             }
         } catch (PDOException $e) {
             //TODO log $e->getMessage()

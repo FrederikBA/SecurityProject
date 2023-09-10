@@ -4,20 +4,29 @@ import { useNavigate } from 'react-router-dom';
 import apiUtils from '../utils/apiUtils';
 import { ToastContainer, toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
+import { faRemove } from '@fortawesome/free-solid-svg-icons'
 
 const Admin = ({ role }) => {
-    const [price, setPrice] = useState(10); //Default price to 10 dollars
-    const [product, setProduct] = useState({ product: "name", price: 0 });
-    const [user, setUser] = useState({ email: "", username: "" });
-    const [users, setUsers] = useState([]);
+    const [products, setProducts] = useState([]);
     const [orders, setOrders] = useState([]);
+    const [users, setUsers] = useState([]);
     const [selectedOrderId, setSelectedOrderId] = useState("");
     const [selectedUserId, setSelectedUserId] = useState("");
-
+    const [product, setProduct] = useState({ name: "", price: 0 });
+    const [editedUser, setEditedUser] = useState({ email: "", username: "" });
+    const [editedProduct, setEditedProduct] = useState({ id: 0, price: "" });
 
 
     const URL = apiUtils.getUrl()
     const navigate = useNavigate();
+
+    const deleteIcon = <FontAwesomeIcon icon={faRemove} />
+
+    const getAllProducts = async () => {
+        const response = await apiUtils.getAxios().get(URL + '/products')
+        setProducts(response.data)
+    }
 
     const getAllOrders = async () => {
         const response = await apiUtils.getAxios().get(URL + '/orders')
@@ -30,6 +39,7 @@ const Admin = ({ role }) => {
     }
 
     useEffect(() => {
+        getAllProducts()
         getAllOrders()
         getAllUsers()
     }, []);
@@ -40,7 +50,7 @@ const Admin = ({ role }) => {
     }
 
     const onChangeUser = (evt) => {
-        setUser({ ...user, [evt.target.id]: evt.target.value })
+        setEditedUser({ ...editedUser, [evt.target.id]: evt.target.value })
     }
 
     const createProduct = async () => {
@@ -55,11 +65,49 @@ const Admin = ({ role }) => {
                 },
             });
 
+            await getAllProducts()
             productCreatedSuccess(response)
         } catch (error) {
             productCreatedError(error.response.data)
         }
     }
+
+    const editProduct = (productId) => {
+        const productToEdit = products.find((product) => product.product_id === productId);
+        if (productToEdit) {
+            setEditedProduct({ id: productId, price: productToEdit.product_price });
+        }
+    };
+
+    const handleSaveProduct = async (productId) => {
+        try {
+            const response = await apiUtils.getAxios().post(URL + '/updateproduct', {
+                id: productId,
+                price: Number(editedProduct.price),
+            });
+            await getAllProducts();
+            productUpdatedSuccess(response);
+            setEditedProduct({ id: null, price: "" });
+        } catch (error) {
+            productUpdatedError(error.response.data);
+        }
+    };
+
+    const cancelEditProduct = () => {
+        setEditedProduct({ id: null, price: "" });
+    };
+
+
+    const handleDeleteProduct = async (productId) => {
+        try {
+            await apiUtils.getAxios().post(URL + '/deleteproduct', {
+                id: productId
+            });
+            await getAllProducts();
+        } catch (error) {
+            productDeletedError(error.response.data)
+        }
+    };
 
     const updateOrderStatus = async () => {
         try {
@@ -67,7 +115,7 @@ const Admin = ({ role }) => {
                 id: selectedOrderId
             })
             orderUpdatedSuccess(response)
-            getAllOrders()
+            await getAllOrders()
         } catch (error) {
             orderUpdatedError(error.response.data)
         }
@@ -77,11 +125,11 @@ const Admin = ({ role }) => {
         try {
             const response = await apiUtils.getAxios().post(URL + '/updateuser', {
                 id: selectedUserId,
-                email: user.email,
-                username: user.username
+                email: editedUser.email,
+                username: editedUser.username
             })
             userUpdatedSuccess(response)
-            getAllUsers()
+            await getAllUsers()
         } catch (error) {
             userUpdatedError(error.response.data)
         }
@@ -93,6 +141,18 @@ const Admin = ({ role }) => {
     };
 
     const productCreatedError = (msg) => {
+        toast.error(msg, { position: toast.POSITION.BOTTOM_RIGHT });
+    };
+
+    const productUpdatedSuccess = () => {
+        toast.success('Product updated successfully', { position: toast.POSITION.BOTTOM_RIGHT });
+    };
+
+    const productUpdatedError = (msg) => {
+        toast.error(msg, { position: toast.POSITION.BOTTOM_RIGHT });
+    };
+
+    const productDeletedError = (msg) => {
         toast.error(msg, { position: toast.POSITION.BOTTOM_RIGHT });
     };
 
@@ -143,13 +203,77 @@ const Admin = ({ role }) => {
                                         className="form-control"
                                         id="price"
                                         placeholder="Price"
-                                        value={price}
-                                        onChange={(e) => setPrice(parseInt(e.target.value, 10))}
                                     />
                                 </div>
                             </div>
                         </form>
-                        <button className="admin-btn" onClick={createProduct}>Create Product</button>
+                        <button className="admin-btn mb-4" onClick={createProduct}>Create Product</button>
+
+                        <table className="table table-striped">
+                            <thead>
+                                <tr>
+                                    <th>ID</th>
+                                    <th>Product</th>
+                                    <th>Price</th>
+                                    <th></th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                {products &&
+                                    products.map((product) => (
+                                        <tr key={product.product_id}>
+                                            <td>{product.product_id}</td>
+                                            <td>{product.product_name}</td>
+                                            <td>
+                                                {product.product_id === editedProduct.id ? (
+                                                    <input
+                                                        type="number"
+                                                        className="form-control"
+                                                        value={editedProduct.price}
+                                                        onChange={(e) =>
+                                                            setEditedProduct({
+                                                                ...editedProduct,
+                                                                price: e.target.value,
+                                                            })
+                                                        }
+                                                    />
+                                                ) : (
+                                                    `$${product.product_price}`
+                                                )}
+                                            </td>
+                                            <td>
+                                                {product.product_id === editedProduct.id ? (
+                                                    <>
+                                                        <button
+                                                            className="btn btn-success"
+                                                            onClick={() => handleSaveProduct(product.product_id)}
+                                                        >
+                                                            Save
+                                                        </button>{" "}
+                                                        <button
+                                                            className="btn btn-danger"
+                                                            onClick={() => cancelEditProduct()}
+                                                        >
+                                                            Cancel
+                                                        </button>
+                                                    </>
+                                                ) : (
+                                                    <>
+                                                        <button
+                                                            className="btn btn-primary"
+                                                            onClick={() => editProduct(product.product_id)}
+                                                        >
+                                                            Edit
+                                                        </button>{" "}
+                                                    </>
+                                                )}
+                                            </td>
+                                            <td>{<div onClick={() => handleDeleteProduct(product.product_id)} className="product-remove">{deleteIcon}</div>}</td>
+                                        </tr>
+                                    ))}
+                            </tbody>
+                        </table>
+
                     </section>
 
                     {/* Section 2: Order Management */}
