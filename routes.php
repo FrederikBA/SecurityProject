@@ -35,7 +35,7 @@ get('/security/user/$id', 'src/Endpoints/User/GetUser.php');
 //Delete user
 post('/security/deleteuser', 'src/Endpoints/User/DeleteUser.php');
 
-//Get all orders with products
+//Get all orders
 get('/security/orders', 'src/Endpoints/Order/GetAllOrders.php');
 
 //Get Order by id
@@ -49,7 +49,6 @@ post('/security/createorder', 'src/Endpoints/Order/CreateOrder.php');
 
 //Update Order
 post('/security/updateorder', 'src/Endpoints/Order/UpdateOrderStatus.php');
-
 
 //Delete order
 post('/security/deleteorder', 'src/Endpoints/Order/DeleteOrder.php');

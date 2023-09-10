@@ -1,5 +1,5 @@
 import React from 'react';
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
 import apiUtils from '../utils/apiUtils';
 import { ToastContainer, toast } from 'react-toastify';
@@ -7,10 +7,21 @@ import 'react-toastify/dist/ReactToastify.css';
 
 const Admin = ({ role }) => {
     const [price, setPrice] = useState(10); //Default price to 10 dollars
+    const [selectedOrderId, setSelectedOrderId] = useState("");
     const [product, setProduct] = useState({ product: "name", price: 0 });
+    const [orders, setOrders] = useState([]);
 
     const URL = apiUtils.getUrl()
     const navigate = useNavigate();
+
+    const getAllOrders = async () => {
+        const response = await apiUtils.getAxios().get(URL + '/orders')
+        setOrders(response.data)
+    }
+
+    useEffect(() => {
+        getAllOrders()
+    }, []);
 
 
     const onChangeProduct = (evt) => {
@@ -30,10 +41,21 @@ const Admin = ({ role }) => {
                 },
             });
 
-
             productCreatedSuccess(response)
         } catch (error) {
             productCreatedError(error.response.data)
+        }
+    }
+
+    const updateOrderStatus = async () => {
+        try {
+            const response = await apiUtils.getAxios().post(URL + '/updateorder', {
+                id: selectedOrderId
+            })
+            orderUpdatedSuccess(response)
+            getAllOrders()
+        } catch (error) {
+            orderUpdatedError(error.response.data)
         }
     }
 
@@ -46,8 +68,16 @@ const Admin = ({ role }) => {
         toast.error(msg, { position: toast.POSITION.BOTTOM_RIGHT });
     };
 
+    const orderUpdatedSuccess = () => {
+        toast.success('Order updated successfully', { position: toast.POSITION.BOTTOM_RIGHT });
+    };
+
+    const orderUpdatedError = (msg) => {
+        toast.error(msg, { position: toast.POSITION.BOTTOM_RIGHT });
+    };
+
     return (
-        <div className="container mt-4 form-width">
+        <div className="container mt-4">
             {role === 'admin' ? (
                 <div>
                     <div className="center">
@@ -64,7 +94,7 @@ const Admin = ({ role }) => {
                                 <label htmlFor="task1Input">Product Name</label>
                                 <input
                                     type="text"
-                                    className="form-control form-width"
+                                    className="form-control"
                                     id="name"
                                     placeholder="Name"
                                 />
@@ -74,7 +104,7 @@ const Admin = ({ role }) => {
                                 <div className="input-group">
                                     <input
                                         type="number"
-                                        className="form-control form-width"
+                                        className="form-control"
                                         id="price"
                                         placeholder="Price"
                                         value={price}
@@ -84,6 +114,30 @@ const Admin = ({ role }) => {
                             </div>
                         </form>
                         <button className="admin-btn" onClick={createProduct}>Create Product</button>
+                    </section>
+
+                    {/* Section 3: Content Management */}
+                    <section className="mb-4 admin-section">
+                        <div className="center">
+                            <h2>Order Management</h2>
+                        </div>
+                        <div className="mb-3">
+                            <label htmlFor="orderSelect">Select Order ID</label>
+                            <select
+                                className="form-select"
+                                id="orderSelect"
+                                value={selectedOrderId}
+                                onChange={(e) => setSelectedOrderId(e.target.value)}
+                            >
+                                <option value="">Select an order ID</option>
+                                {orders.map((order) => (
+                                    <option key={order.order_id} value={order.order_id}>
+                                        {order.order_id} ({order.order_status})
+                                    </option>
+                                ))}
+                            </select>
+                        </div>
+                        <button className="admin-btn" onClick={updateOrderStatus}>Complete order</button>
                     </section>
 
                     {/* Section 2: User Management */}
@@ -117,40 +171,6 @@ const Admin = ({ role }) => {
                             </select>
                         </div>
                         <button className="admin-btn">Add User</button>
-                    </section>
-
-                    {/* Section 3: Content Management */}
-                    <section className="mb-4 admin-section">
-                        <div className="center">
-                            <h2>Order Management</h2>
-                        </div>
-                        <div className="mb-3">
-                            <label htmlFor="contentTitle">Content Title</label>
-                            <input
-                                type="text"
-                                className="form-control"
-                                id="contentTitle"
-                                placeholder="Content title"
-                            />
-                        </div>
-                        <div className="mb-3">
-                            <label htmlFor="contentDescription">Content Description</label>
-                            <textarea
-                                className="form-control"
-                                id="contentDescription"
-                                placeholder="Content description"
-                            ></textarea>
-                        </div>
-                        <div className="mb-3">
-                            <label htmlFor="contentFile">Upload Content File</label>
-                            <input
-                                type="file"
-                                className="form-control"
-                                id="contentFile"
-                                accept=".pdf, .doc, .txt"
-                            />
-                        </div>
-                        <button className="admin-btn">Add New Content</button>
                     </section>
                 </div>
             ) : (
