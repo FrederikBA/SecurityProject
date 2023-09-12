@@ -142,7 +142,7 @@ const Admin = ({ role }) => {
             });
             await getAllUsers();
         } catch (error) {
-            productDeletedError(error.response.data)
+            userDeletedError(error.response.data)
         }
     };
 
@@ -180,6 +180,10 @@ const Admin = ({ role }) => {
     };
 
     const userUpdatedError = (msg) => {
+        toast.error(msg, { position: toast.POSITION.BOTTOM_RIGHT });
+    };
+
+    const userDeletedError = (msg) => {
         toast.error(msg, { position: toast.POSITION.BOTTOM_RIGHT });
     };
 
