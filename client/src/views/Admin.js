@@ -135,6 +135,17 @@ const Admin = ({ role }) => {
         }
     }
 
+    const handleDeleteUser = async (userId) => {
+        try {
+            await apiUtils.getAxios().post(URL + '/deleteuser', {
+                id: userId
+            });
+            await getAllUsers();
+        } catch (error) {
+            productDeletedError(error.response.data)
+        }
+    };
+
     // Toast
     const productCreatedSuccess = () => {
         toast.success('Product created successfully', { position: toast.POSITION.BOTTOM_RIGHT });
@@ -340,6 +351,26 @@ const Admin = ({ role }) => {
                             </div>
                         </form>
                         <button className="admin-btn" onClick={updateUser}>Update user</button>
+
+                        <table className="table table-striped">
+                            <thead className="mt-head">
+                                <tr>
+                                    <th>ID</th>
+                                    <th>Username</th>
+                                    <th></th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                {users &&
+                                    users.map((user) => (
+                                        <tr key={user.user_id}>
+                                            <td>{user.user_id}</td>
+                                            <td>{user.username}</td>
+                                            <td>{<div onClick={() => handleDeleteUser(user.user_id)} className="product-remove">{deleteIcon}</div>}</td>
+                                        </tr>
+                                    ))}
+                            </tbody>
+                        </table>
                     </section>
                 </div>
             ) : (
