@@ -42,10 +42,10 @@ class LoginService
     public function loginUser($loginDto)
     {
         try {
-            $recaptchaResponse = $loginDto->recaptchaResponse;
-            if (!$this->recaptchaVerification($recaptchaResponse)) {
-                return;
-            }
+         //   $recaptchaResponse = $loginDto->recaptchaResponse;
+         //   if (!$this->recaptchaVerification($recaptchaResponse)) {
+         //       return;
+         //   }
 
             // Get and check user credentials from the database
             $user = $this->userRepository->GetUserLoginCredentials($loginDto->username);

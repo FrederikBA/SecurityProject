@@ -79,4 +79,42 @@ class UserService
             error_log($logMessage, 3, 'logs/servererror.log');
         }
     }
+
+
+    public function deleteCurrentUser()
+    {
+        try {
+            if (isset($_SESSION['user_id'])) {
+                $userId = $_SESSION['user_id'];
+            $rowsDeleted = $this->userRepository->deleteUser($userId);
+            
+            if (isset($_POST['confirmation']) && $_POST['confirmation'] === 'I Agree') {
+            
+            $rowsDeleted = $this->userRepository->deleteUser($userId);
+            
+            if ($rowsDeleted > 0) {
+                echo "User deleted successfully";
+                return $rowsDeleted;
+            } else {
+                // User not found
+                http_response_code(404);
+                echo "User not deleted";
+            }
+        } else {
+            // User hasn't confirmed the deletion
+            echo "To delete your account, please type 'I Agree' in the confirmation field.";
+        }
+    } else {
+        // User is not logged in or found
+        echo "User not logged in or found";
+        http_response_code(404);
+    }
+    } catch (PDOException $e) {
+            http_response_code(500);
+            $logMessage = "[" . date("d.m.Y H:i:s") . "] " . $e->getMessage() .  "\n";
+            error_log($logMessage, 3, 'logs/servererror.log');
+        }
+    }
+
+
 }
