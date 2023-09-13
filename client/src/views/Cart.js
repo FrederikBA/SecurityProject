@@ -5,7 +5,7 @@ import shirt from '../img/shirt.jpg';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { faRemove } from '@fortawesome/free-solid-svg-icons'
 
-const Cart = () => {
+const Cart = ({ csrf }) => {
     const [cart, setCart] = useState({ "cartLines": [] });
     const deleteIcon = <FontAwesomeIcon icon={faRemove} size="2x" />
     const navigate = useNavigate();
@@ -38,6 +38,7 @@ const Cart = () => {
             const formData = new FormData();
             formData.append('lines', cart.cartLines);
             await apiUtils.getAxios().post(URL + '/createorder', {
+                csrf: csrf,
                 lines: cart.cartLines
             });
             navigate('/receipt')

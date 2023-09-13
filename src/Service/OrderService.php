@@ -68,16 +68,30 @@ class OrderService
         }
     }
 
-    public function createOrder(CreateOrderDto $orderDto)
+    public function createOrder(CreateOrderDto $dto)
     {
         $cartService = new CartService();
 
         try {
+            // Check if a CSRF token exists in the session
+            if (!isset($_SESSION['csrf_token'])) {
+                echo "CSRF token not found";
+                http_response_code(403); // Forbidden
+                return;
+            }
+
+            // Validate the CSRF token sent with the request
+            if (!hash_equals($_SESSION['csrf_token'], $dto->csrf)) {
+                echo "Unauthorized Access";
+                http_response_code(403); // Forbidden
+                return;
+            }
+
             //Get user id from session
             if (isset($_SESSION['user_id'])) {
                 $userId = $_SESSION['user_id'];
 
-                $order = $this->orderRepository->createOrder($userId, $orderDto->lines);
+                $order = $this->orderRepository->createOrder($userId, $dto->lines);
                 if ($order) {
                     echo "Order created successfully";
                     //Clear cart on successful order
