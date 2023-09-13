@@ -14,7 +14,7 @@ const Header = ({ isLoggedIn, role, onLogout }) => {
             <nav>
                 <ul className='header'>
                     <li><NavLink to='/'>Shop</NavLink></li>
-                    <li><NavLink to='/profile'>Profile</NavLink></li>
+                    {isLoggedIn && <li><NavLink to='/profile'>Profile</NavLink></li>}
                     {!isLoggedIn && <li className="align-right login-nav"><NavLink to="/login">Log in</NavLink></li>}
                     {isLoggedIn && <li onClick={onClick} className='align-right login-nav'><NavLink to="/landing">Log out</NavLink></li>}
                     {role === 'admin' && (

@@ -69,7 +69,7 @@ const App = () => {
         <Route path="/receipt" element={<OrderConfirmation />} />
         <Route path="/landing" element={<LandingPage isLoggedIn={isLoggedIn} checkLogin={checkLogin} />} />
         <Route path="/admin" element={<Admin role={role} />} />
-        <Route path="/profile" element={<Profile  />} />
+        <Route path="/profile" element={<Profile onLogout={() => { setIsLoggedIn(false) }} />} />
         <Route path='*' element={<NoMatch />} />
       </Routes>
     </BrowserRouter>

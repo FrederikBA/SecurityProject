@@ -524,31 +524,31 @@ ul.header li a:hover:not(.active) {
 }
 
 
-/* CSS for styling the button */
 .delete-button {
-  background-color: #ccc; /* Default "off" color */
-  color: #fff; /* Text color */
+  background-color: #ccc;
+  color: #fff;
   border: none;
   border-radius: 5px;
   padding: 10px 20px;
   font-size: 16px;
   cursor: pointer;
-  transition: background-color 0.3s ease; /* Add a smooth transition effect */
+  transition: background-color 0.3s ease;
 }
 
-/* Style for the button when it's enabled */
 .delete-button.enabled {
-  background-color: #ff0000; /* Change to your desired "enabled" color */
+  background-color: #ff0000;
+  cursor: pointer;
 }
 
-/* Change the button background color on hover for both states */
-.delete-button:hover {
-  background-color: #ff3333; /* Change to a different color on hover */
+.delete-button {
+  cursor: not-allowed;
 }
-.delete-input {
-  flex: 1; /* Make the input field expand to fill available space */
+
+.confirmation-input {
+  flex: 1;
   padding: 10px;
   border: 1px solid #ccc;
-  border-radius: 5px; /* Add border radius for round corners */
+  border-radius: 5px;
   font-size: 16px;
+  width: 400px;
 }
