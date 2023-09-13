@@ -15,6 +15,7 @@ import LandingPage from "./views/LandingPage";
 import Cart from "./views/Cart";
 import OrderConfirmation from "./views/OrderConfirmation";
 import Admin from "./views/Admin";
+import Profile from "./views/Profile";
 
 
 const App = () => {
@@ -68,6 +69,7 @@ const App = () => {
         <Route path="/receipt" element={<OrderConfirmation />} />
         <Route path="/landing" element={<LandingPage isLoggedIn={isLoggedIn} checkLogin={checkLogin} />} />
         <Route path="/admin" element={<Admin role={role} />} />
+        <Route path="/profile" element={<Profile  />} />
         <Route path='*' element={<NoMatch />} />
       </Routes>
     </BrowserRouter>
