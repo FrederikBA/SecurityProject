@@ -57,7 +57,7 @@ const Admin = ({ role }) => {
         try {
             const formData = new FormData();
             formData.append('name', product.name);
-            formData.append('price', Number(product.price));
+            formData.append('price', product.price);
 
             const response = await apiUtils.getAxios().post(URL + '/createproduct', formData, {
                 headers: {
@@ -141,6 +141,17 @@ const Admin = ({ role }) => {
                 id: userId
             });
             await getAllUsers();
+        } catch (error) {
+            userDeletedError(error.response.data)
+        }
+    };
+
+    const handleDeleteOrder = async (orderId) => {
+        try {
+            await apiUtils.getAxios().post(URL + '/deleteorder', {
+                id: orderId
+            });
+            await getAllOrders();
         } catch (error) {
             userDeletedError(error.response.data)
         }
@@ -297,7 +308,7 @@ const Admin = ({ role }) => {
                             <h2>Order Management</h2>
                         </div>
                         <div className="mb-3">
-                            <label htmlFor="orderSelect">Select Order ID</label>
+                            <label htmlFor="orderSelect">Update Order Status</label>
                             <select
                                 className="form-select"
                                 id="orderSelect"
@@ -311,6 +322,28 @@ const Admin = ({ role }) => {
                                     </option>
                                 ))}
                             </select>
+
+                            <table className="table table-striped">
+                                <thead className="mt-head">
+                                    <tr>
+                                        <th>ID</th>
+                                        <th>Status</th>
+                                        <th>Created</th>
+                                        <th></th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    {orders &&
+                                        orders.map((order) => (
+                                            <tr key={order.order_id}>
+                                                <td>{order.order_id}</td>
+                                                <td>{order.order_status}</td>
+                                                <td>{order.created}</td>
+                                                <td>{<div onClick={() => handleDeleteOrder(order.order_id)} className="product-remove">{deleteIcon}</div>}</td>
+                                            </tr>
+                                        ))}
+                                </tbody>
+                            </table>
                         </div>
                         <button className="admin-btn" onClick={updateOrderStatus}>Complete order</button>
                     </section>

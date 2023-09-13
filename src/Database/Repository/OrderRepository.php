@@ -143,12 +143,30 @@ class OrderRepository extends Connector
     }
 
 
-    public function deleteOrder(int $id)
+    public function deleteOrder(string $id)
     {
-        $sql = "DELETE FROM order WHERE order_id = :id";
-        $stmt = $this->getConnection()->prepare($sql);
-        $stmt->bindParam(':id', $id, PDO::PARAM_INT);
-        $stmt->execute();
-        return $stmt->rowCount() > 0;
+        try {
+            $connection = $this->getConnection();
+            $connection->beginTransaction();
+
+            $deleteOrderLinesQuery = "DELETE FROM OrderLine WHERE order_id = :order_id";
+            $orderLinesStmt = $connection->prepare($deleteOrderLinesQuery);
+            $orderLinesStmt->bindParam(":order_id", $id, PDO::PARAM_STR);
+            $orderLinesStmt->execute();
+
+            $deleteOrderQuery = "DELETE FROM `Order` WHERE order_id = :order_id";
+            $orderStmt = $connection->prepare($deleteOrderQuery);
+            $orderStmt->bindParam(":order_id", $id, PDO::PARAM_STR);
+            $orderStmt->execute();
+
+            // Commit the transaction
+            $connection->commit();
+
+            return true; // Return true to indicate successful deletion
+        } catch (PDOException $e) {
+            // Rollback the transaction on error
+            $connection->rollback();
+            return false; // Return false to indicate deletion failure
+        }
     }
 }
