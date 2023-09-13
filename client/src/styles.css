@@ -522,3 +522,31 @@ ul.header li a:hover:not(.active) {
 .product-remove:hover {
   color: #090922;
 }
+
+
+/* CSS for styling the input field */
+.delete-input {
+  width: 15%; /* Adjust the width as needed */
+  padding: 10px;
+  margin-bottom: 10px;
+  border: 1px solid #ccc;
+  border-radius: 5px;
+  font-size: 16px;
+}
+
+/* CSS for styling the button */
+.delete-button {
+  background-color: #ff0000; /* Change to your desired background color */
+  color: #fff; /* Text color */
+  border: none;
+  border-radius: 5px;
+  padding: 10px 20px;
+  font-size: 16px;
+  cursor: pointer;
+  transition: background-color 0.3s ease; /* Add a smooth transition effect */
+}
+
+/* Change the button background color on hover */
+.delete-button:hover {
+  background-color: #ff3333; /* Change to a different color on hover */
+}

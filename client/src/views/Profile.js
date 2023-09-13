@@ -25,7 +25,7 @@ const Profile = () => {
       
           if (response.status === 200) {
             setDeleteStatus('User deleted successfully');
-          navigate("/landing")
+            navigate("/landing")
             
           }
         } catch (error) {
@@ -38,7 +38,7 @@ const Profile = () => {
       };
   
     return (
-      <div className="center">
+        <div className="center">
         <h1>User Profile</h1>
         <p>{deleteStatus}</p>
         <input
@@ -46,8 +46,9 @@ const Profile = () => {
           placeholder="Type 'I Agree' to delete your account"
           value={confirmation}
           onChange={(e) => setConfirmation(e.target.value)}
+          className="delete-input" // Add a class for styling
         />
-        <button onClick={handleDelete}>Delete Account</button>
+        <button onClick={handleDelete} className="delete-button">Delete Account</button>
       </div>
     );
   };
