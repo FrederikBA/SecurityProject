@@ -21,7 +21,20 @@ import Profile from "./views/Profile";
 const App = () => {
   const [isLoggedIn, setIsLoggedIn] = useState(false);
   const [role, setRole] = useState("user");
+  const [csrf, setCsrf] = useState("");
   const URL = apiUtils.getUrl()
+
+  const getToken = async () => {
+    try {
+      const response = await apiUtils.getAxios().get(apiUtils.getUrl() + '/token', {
+        withCredentials: true,
+      });
+      // If success, set token
+      setCsrf(response.data.csrf_token)
+    } catch (error) {
+      //Handle error
+    }
+  }
 
   const checkLogin = async () => {
     try {
@@ -55,6 +68,7 @@ const App = () => {
 
   useEffect(() => {
     checkLogin();
+    getToken();
   }, []);
 
   return (
@@ -65,10 +79,10 @@ const App = () => {
         <Route path="/product/:productId" element={<ProductPage />} />
         <Route path="/login" element={<Login />} />
         <Route path="/register" element={<Register />} />
-        <Route path="/cart" element={<Cart />} />
+        <Route path="/cart" element={<Cart csrf={csrf} />} />
         <Route path="/receipt" element={<OrderConfirmation />} />
-        <Route path="/landing" element={<LandingPage isLoggedIn={isLoggedIn} checkLogin={checkLogin} />} />
-        <Route path="/admin" element={<Admin role={role} />} />
+        <Route path="/landing" element={<LandingPage isLoggedIn={isLoggedIn} checkLogin={checkLogin} getToken={getToken} />} />
+        <Route path="/admin" element={<Admin role={role} csrf={csrf} />} />
         <Route path="/profile" element={<Profile onLogout={() => { setIsLoggedIn(false) }} />} />
         <Route path='*' element={<NoMatch />} />
       </Routes>

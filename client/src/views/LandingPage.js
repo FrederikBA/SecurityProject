@@ -2,12 +2,13 @@ import { useEffect } from "react";
 import { ToastContainer } from 'react-toastify';
 import { useNavigate } from "react-router-dom";
 
-const LandingPage = ({ isLoggedIn, checkLogin }) => {
+const LandingPage = ({ isLoggedIn, checkLogin, getToken }) => {
     const navigate = useNavigate()
 
     useEffect(() => {
         const timer = setTimeout(() => {
-            checkLogin()
+            checkLogin();
+            getToken();
         }, 100);
         return () => clearTimeout(timer);
     }, []);
