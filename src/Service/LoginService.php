@@ -42,10 +42,10 @@ class LoginService
     public function loginUser($loginDto)
     {
         try {
-           //  $recaptchaResponse = $loginDto->recaptchaResponse;
+            // $recaptchaResponse = $loginDto->recaptchaResponse;
             // if (!$this->recaptchaVerification($recaptchaResponse)) {
-           //      return;
-           //  }
+            //     return;
+            // }
 
             // Get and check user credentials from the database
             $user = $this->userRepository->GetUserLoginCredentials($loginDto->username);
@@ -55,6 +55,10 @@ class LoginService
                 // Password is correct, create the session variables for the user
                 $_SESSION['user_id'] = $user['user_id'];
                 $_SESSION['role_id'] = $user['role_id'];
+
+                //Create session variables for the CSRF token on login
+                $csrfToken = bin2hex(random_bytes(32));
+                $_SESSION['csrf_token'] = $csrfToken;
 
                 // Regenerate the session ID each login
                 session_regenerate_id(true);

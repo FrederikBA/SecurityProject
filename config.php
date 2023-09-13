@@ -19,6 +19,7 @@ session_set_cookie_params([
     'httponly' => true
 ]);
 
+//Start the session
 session_start();
 
-//session_regenerate_id(true); //TODO Do automatically after a certain amount of time
+//session_regenerate_id(true); //TODO Do automatically after a certain amount of time (this is also done on login)

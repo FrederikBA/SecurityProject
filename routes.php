@@ -11,6 +11,9 @@ header("Content-Type: application/json");
 
 //Endpoints
 
+//Token
+get('/security/token', 'src/Endpoints/CSRF/GetToken.php');
+
 //Create Product
 post('/security/createproduct', 'src/Endpoints/Product/CreateProduct.php');
 
