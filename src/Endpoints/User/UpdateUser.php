@@ -1,17 +1,25 @@
 <?php
 require_once 'src/Service/UserService.php';
 require_once 'src/Database/Repository/UserRepository.php';
+require_once 'src/Helpers/ValidationHelper.php';
+
 $userRepository = new UserRepository();
 $userService = new UserService($userRepository);
+$validationHelper = new ValidationHelper();
 
 // Get request body
 $inputData = file_get_contents("php://input");
 $data = json_decode($inputData, true);
 
-//TODO int typecast should be moved to validation
 if (isset($data['id'], $data['email'], $data['username'])) {
-    $userDto = new UserDto((int)$data['id'], $data['email'], $data['username']); // Create UserDto with just the ID 
-    $userService->updateUser($userDto); //Perform update
+    $validId = $validationHelper->validateIntegerId($data['id']);
+    $validEmail = $validationHelper->validateEmail($data['email']);
+    $validUsername = $validationHelper->validateUsername($data['username']);
+
+    if ($validId && $validEmail && $validUsername) {
+        $userDto = new UserDto($data['id'], $data['email'], $data['username']);
+        $userService->updateUser($userDto); //Perform update
+    }
 } else {
     http_response_code(400);
     echo "Invalid body";
