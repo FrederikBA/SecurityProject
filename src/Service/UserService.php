@@ -2,6 +2,9 @@
 
 require_once 'src/Model/Dto/UserDto.php';
 require_once 'src/Model/Dto/DeleteDto.php';
+require_once 'src/Model/Dto/DeleteCurrentDto.php';
+require_once 'src/Service/LoginService.php';
+require_once 'src/Database/Repository/UserRepository.php';
 
 
 class UserService
@@ -27,7 +30,7 @@ class UserService
             }
         } catch (PDOException $e) {
             http_response_code(500);
-            $logMessage = "[" . date("d.m.Y H:i:s") . "] " . $e->getMessage() .  "\n";
+            $logMessage = "[" . date("d.m.Y H:i:s") . "] " . $e->getMessage() . "\n";
             error_log($logMessage, 3, 'logs/servererror.log');
         }
     }
@@ -45,7 +48,7 @@ class UserService
             }
         } catch (PDOException $e) {
             http_response_code(500);
-            $logMessage = "[" . date("d.m.Y H:i:s") . "] " . $e->getMessage() .  "\n";
+            $logMessage = "[" . date("d.m.Y H:i:s") . "] " . $e->getMessage() . "\n";
             error_log($logMessage, 3, 'logs/servererror.log');
         }
     }
@@ -57,7 +60,7 @@ class UserService
             return $products;
         } catch (PDOException $e) {
             http_response_code(500);
-            $logMessage = "[" . date("d.m.Y H:i:s") . "] " . $e->getMessage() .  "\n";
+            $logMessage = "[" . date("d.m.Y H:i:s") . "] " . $e->getMessage() . "\n";
             error_log($logMessage, 3, 'logs/servererror.log');
         }
     }
@@ -75,46 +78,47 @@ class UserService
             }
         } catch (PDOException $e) {
             http_response_code(500);
-            $logMessage = "[" . date("d.m.Y H:i:s") . "] " . $e->getMessage() .  "\n";
+            $logMessage = "[" . date("d.m.Y H:i:s") . "] " . $e->getMessage() . "\n";
             error_log($logMessage, 3, 'logs/servererror.log');
         }
     }
 
 
-    public function deleteCurrentUser()
+    public function deleteCurrentUser($dto)
     {
+        $userRepository = new UserRepository();
+        $loginService = new LoginService($userRepository);
+
         try {
             if (isset($_SESSION['user_id'])) {
                 $userId = $_SESSION['user_id'];
-            $rowsDeleted = $this->userRepository->deleteUser($userId);
-            
-            if (isset($_POST['confirmation']) && $_POST['confirmation'] === 'I Agree') {
-            
-            $rowsDeleted = $this->userRepository->deleteUser($userId);
-            
-            if ($rowsDeleted > 0) {
-                echo "User deleted successfully";
-                return $rowsDeleted;
+                if ($dto->confirmation === 'I Agree') {
+                    $rowsDeleted = $this->userRepository->deleteUser($userId);
+                    if ($rowsDeleted > 0) {
+                        echo "User deleted successfully - ";
+
+                        //Do logout
+                        $loginService->logoutUser();
+
+                        return $rowsDeleted;
+                    } else {
+                        // User not found
+                        http_response_code(404);
+                        echo "User not deleted";
+                    }
+                } else {
+                    http_response_code(500);
+                    echo "Type 'I Agree' to delete";
+                }
             } else {
-                // User not found
+                // User is not logged in or found
+                echo "User not logged in or found";
                 http_response_code(404);
-                echo "User not deleted";
             }
-        } else {
-            // User hasn't confirmed the deletion
-            echo "To delete your account, please type 'I Agree' in the confirmation field.";
-        }
-    } else {
-        // User is not logged in or found
-        echo "User not logged in or found";
-        http_response_code(404);
-    }
-    } catch (PDOException $e) {
+        } catch (PDOException $e) {
             http_response_code(500);
-            $logMessage = "[" . date("d.m.Y H:i:s") . "] " . $e->getMessage() .  "\n";
+            $logMessage = "[" . date("d.m.Y H:i:s") . "] " . $e->getMessage() . "\n";
             error_log($logMessage, 3, 'logs/servererror.log');
         }
     }
-
-
 }

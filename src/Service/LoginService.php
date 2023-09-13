@@ -42,10 +42,10 @@ class LoginService
     public function loginUser($loginDto)
     {
         try {
-         //   $recaptchaResponse = $loginDto->recaptchaResponse;
-         //   if (!$this->recaptchaVerification($recaptchaResponse)) {
-         //       return;
-         //   }
+            $recaptchaResponse = $loginDto->recaptchaResponse;
+            if (!$this->recaptchaVerification($recaptchaResponse)) {
+                return;
+            }
 
             // Get and check user credentials from the database
             $user = $this->userRepository->GetUserLoginCredentials($loginDto->username);
@@ -107,7 +107,7 @@ class LoginService
                 session_unset();
                 session_destroy();
 
-                echo "Logout successful";
+                echo "You have been logged out.";
             } else {
                 http_response_code(500);
                 echo "You are not logged in.";

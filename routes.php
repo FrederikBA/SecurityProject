@@ -81,4 +81,4 @@ post('/security/removecartline', "src/Endpoints/Cart/RemoveCartLine.php");
 post('/security/clearcart', "src/Endpoints/Cart/ClearCart.php");
 
 //Remove current logged in user
-post('/security/deletecurrentuser', 'serc/Endpoints/User/DeleteCurrentUser.php');
+post('/security/deletecurrentuser', 'src/Endpoints/User/DeleteCurrentUser.php');
