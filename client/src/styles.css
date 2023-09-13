@@ -524,19 +524,9 @@ ul.header li a:hover:not(.active) {
 }
 
 
-/* CSS for styling the input field */
-.delete-input {
-  width: 15%; /* Adjust the width as needed */
-  padding: 10px;
-  margin-bottom: 10px;
-  border: 1px solid #ccc;
-  border-radius: 5px;
-  font-size: 16px;
-}
-
 /* CSS for styling the button */
 .delete-button {
-  background-color: #ff0000; /* Change to your desired background color */
+  background-color: #ccc; /* Default "off" color */
   color: #fff; /* Text color */
   border: none;
   border-radius: 5px;
@@ -546,7 +536,19 @@ ul.header li a:hover:not(.active) {
   transition: background-color 0.3s ease; /* Add a smooth transition effect */
 }
 
-/* Change the button background color on hover */
+/* Style for the button when it's enabled */
+.delete-button.enabled {
+  background-color: #ff0000; /* Change to your desired "enabled" color */
+}
+
+/* Change the button background color on hover for both states */
 .delete-button:hover {
   background-color: #ff3333; /* Change to a different color on hover */
+}
+.delete-input {
+  flex: 1; /* Make the input field expand to fill available space */
+  padding: 10px;
+  border: 1px solid #ccc;
+  border-radius: 5px; /* Add border radius for round corners */
+  font-size: 16px;
 }

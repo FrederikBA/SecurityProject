@@ -48,7 +48,13 @@ const Profile = () => {
           onChange={(e) => setConfirmation(e.target.value)}
           className="delete-input" // Add a class for styling
         />
-        <button onClick={handleDelete} className="delete-button">Delete Account</button>
+        <button
+      onClick={handleDelete}
+      className={`delete-button ${confirmation.trim() === 'I Agree' ? 'enabled' : ''}`}
+      disabled={confirmation.trim() !== 'I Agree'}
+    >
+      Delete Account
+    </button>
       </div>
     );
   };
