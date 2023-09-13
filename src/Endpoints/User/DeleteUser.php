@@ -8,6 +8,13 @@ $userRepository = new UserRepository();
 $userService = new UserService($userRepository);
 $validationHelper = new ValidationHelper();
 
+// Role protection, admin only
+if (!isset($_SESSION['role_id']) || $_SESSION['role_id'] !== 2) {
+    http_response_code(403);
+    echo "Access denied";
+    exit;
+}
+
 // Get request body
 $inputData = file_get_contents("php://input");
 $data = json_decode($inputData, true);

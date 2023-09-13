@@ -8,6 +8,13 @@ $productRepository = new ProductRepository();
 $productService = new ProductService($productRepository);
 $validationHelper = new ValidationHelper();
 
+// Role protection, admin only
+if (!isset($_SESSION['role_id']) || $_SESSION['role_id'] !== 2) {
+    http_response_code(403);
+    echo "Access denied";
+    exit;
+}
+
 if (isset($_POST['name'], $_POST['price'])) {
 
     $validName = $validationHelper->validateProductName($_POST['name']);
