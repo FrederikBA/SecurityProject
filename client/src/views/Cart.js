@@ -4,6 +4,8 @@ import apiUtils from "../utils/apiUtils";
 import shirt from '../img/shirt.jpg';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { faRemove } from '@fortawesome/free-solid-svg-icons'
+import { ToastContainer, toast } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
 
 const Cart = ({ csrf }) => {
     const [cart, setCart] = useState({ "cartLines": [] });
@@ -29,7 +31,8 @@ const Cart = ({ csrf }) => {
             });
             await getCart();
         } catch (error) {
-            console.error("Error removing cart line:", error);
+            removeCartlineError(error.response.data)
+
         }
     };
 
@@ -43,9 +46,19 @@ const Cart = ({ csrf }) => {
             });
             navigate('/receipt')
         } catch (error) {
-            console.log(error);
+            //Handle error
+            buyNotifyError(error.response.data)
         }
     }
+
+    //Toast
+    const buyNotifyError = (msg) => {
+        toast.error(msg, { position: toast.POSITION.BOTTOM_RIGHT });
+    };
+
+    const removeCartlineError = (msg) => {
+        toast.error(msg, { position: toast.POSITION.BOTTOM_RIGHT });
+    };
 
 
     return (
@@ -85,6 +98,7 @@ const Cart = ({ csrf }) => {
                     </div>
                 </>
             )}
+            <ToastContainer />
         </div>
     )
 }
